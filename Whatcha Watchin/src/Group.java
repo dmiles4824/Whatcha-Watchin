@@ -6,6 +6,7 @@ public class Group{
   private User admin;
   private ArrayList<Movie> groupList;
   private Hashtable<Movie,Integer> groupTable;
+  private int groupID;
   
   public Group(User groupLeader){
     this.addMember(groupLeader);
@@ -51,6 +52,11 @@ public class Group{
 		groupList.insert(i,currentMovie);
 	}
 	return groupList;
+  }
+  
+  public int getID()
+  {
+	  return groupID;
   }
   
   public void removeUser(User Noah){
