@@ -4,6 +4,7 @@ CREATE DATABASE wwdb DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE USER 'java'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL ON javabase.* TO 'java'@'localhost' IDENTIFIED BY 'password';
+USE wwdb
 
 CREATE TABLE user
 	(username	varchar(45),
@@ -29,10 +30,6 @@ CREATE TABLE member
 	gid		int,
 	primary key(username, gid));
 
-CREATE TABLE member
-	(username	varchar(45),
-	gid		int,
-	primary key(username, gid));
 
 CREATE TABLE admin
 	(username	varchar(45),
