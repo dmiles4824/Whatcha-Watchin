@@ -19,7 +19,7 @@ public class Group{
   
   //returns the list of members in the group
   public User[] getMembers(){
-	return //Danny code  
+	return null; //Danny code  
   }
   
   public ArrayList<Movie> getGroupList(){ //kauhrgiaer=

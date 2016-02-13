@@ -8,6 +8,12 @@ public class User
 	//user's name
 	private String username;
 	
+	//user's password
+	private String password;
+	
+	//user's email
+	private String email;
+	
 	//list to contain user's personal list of movies
 	private ArrayList<Movie> personalList;
 	
@@ -17,9 +23,11 @@ public class User
 	//list of watched movies
 	private ArrayList<Movie> watchedList;
 	
-	public User(String username)
+	public User(String username, String password, String email)
 	{
 		this.username = username;
+		this.password = password;
+		this.email = email;
 		this.personalList = new ArrayList<Movie>();
 		this.watchedList = new ArrayList<Movie>();
 		this.groupList = new ArrayList<Group>();
@@ -29,6 +37,18 @@ public class User
 	public String getUserName()
 	{
 		return username;
+	}
+	
+	//Get the user's password
+	public String getPassword()
+	{
+		return password;
+	}
+	
+	//Get the user's email
+	public String getEmail()
+	{
+		return email;
 	}
 	
 	//Get the user's personal list of movies
@@ -100,9 +120,16 @@ public class User
 		
 	}
 	
+	//Make a random movie suggestion for the user
+	public void suggestSelf()
+	{
+		int random = (int)(Math.random() * (this.getPersonalList().size()));
+		System.out.println("Your suggested movie is.....\n" + getPersonalList().get(random).getMovieInfo());
+	}
+	
 	public static void main(String[] args)
 	{
-		User kai = new User("Kaius");
+		User kai = new User("Kaius", "Blah", "kek");
 		Movie movie1 = new Movie("The First Movie");
 		Movie movie2 = new Movie("The Second Movie");
 		Movie movie3 = new Movie("The Third Movie");
@@ -111,6 +138,7 @@ public class User
 		kai.addMovie(kai.getPersonalList(), movie2);
 		kai.addMovie(kai.getPersonalList(), movie3);
 		
-		System.out.println(kai.getPersonalList());
+		kai.suggestSelf();
+			
 	}
 }

@@ -66,7 +66,7 @@ public class Movie
 	}
 	
 	//Get the genre of the movie
-	public String genre()
+	public String getGenre()
 	{
 		return genre;
 	}
@@ -81,5 +81,13 @@ public class Movie
 	public int getRuntime()
 	{
 		return runtime;
+	}
+	
+	//Return string containing all information about the movie
+	public String getMovieInfo()
+	{
+		return "Title: " + getTitle() + "\nYear Of Release: " + getYearOfRelease() + 
+				"\nGenre: " + getGenre() + "\nRuntime: " + getRuntime() + 
+				"\nDatabase ID: " + getID() + "\n";
 	}
 }
