@@ -11,10 +11,8 @@ public class User
 	//list to contain user's personal list of movies
 	private ArrayList<Movie> personalList;
 	
-	/*
 	//list of the groups that the user is in
-	private ArrayList<Groups> groupList;
-	*/
+	private ArrayList<Group> groupList;
 	
 	//list of watched movies
 	private ArrayList<Movie> watchedList;
@@ -22,6 +20,9 @@ public class User
 	public User(String username)
 	{
 		this.username = username;
+		this.personalList = new ArrayList<Movie>();
+		this.watchedList = new ArrayList<Movie>();
+		this.groupList = new ArrayList<Group>();
 	}
 	
 	//Get the username
@@ -42,12 +43,11 @@ public class User
 		return watchedList;
 	}
 	
-	/*Get the list of groups that the user belongs to
-	public ArrayList<Group> getGroups
+	//Get the list of groups that the user belongs to
+	public ArrayList<Group> getGroups()
 	{
 		return groupList;
 	}
-	*/
 	
 	//Adds a new movie to the user's list
 	public void addMovie(ArrayList<Movie> chosenList, Movie chosenMovie)
@@ -81,25 +81,36 @@ public class User
 			System.out.println("Movie is not in list");
 	}
 	
-	/*
 	//Remove a user from a selected group (Only works if user is the admin of the group)
 	public void removeMember(User selectedUser, Group selectedGroup)
 	{
 		
-	}*/
+	}
 	
-	/*
 	//Remove this current user from one of the selected groups that they are in
 	public void leaveGroup(Group selectedGroup)
 	{
 		
-	}*/
+	}
 	
-	/*
 	//Make a random movie suggestion for a group from its list of movies
 	public void suggest(Group selectedGroup)
 	{
 		int random;
 		
-	}*/
+	}
+	
+	public static void main(String[] args)
+	{
+		User kai = new User("Kaius");
+		Movie movie1 = new Movie("The First Movie");
+		Movie movie2 = new Movie("The Second Movie");
+		Movie movie3 = new Movie("The Third Movie");
+		
+		kai.addMovie(kai.getPersonalList(), movie1);
+		kai.addMovie(kai.getPersonalList(), movie2);
+		kai.addMovie(kai.getPersonalList(), movie3);
+		
+		System.out.println(kai.getPersonalList());
+	}
 }
