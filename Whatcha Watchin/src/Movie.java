@@ -23,6 +23,36 @@ public class Movie
 		this.title = title;
 	}
 	
+	public Movie(String title, String yearOfRelease)
+	{
+		this.title = title;
+		this.yearOfRelease = yearOfRelease;
+	}
+	
+	public Movie(String title, String yearOfRelease, String genre) 
+	{
+		this.title = title;
+		this.yearOfRelease = yearOfRelease;
+		this.genre = genre;
+	}
+
+	public Movie(String title, String yearOfRelease, String genre, int mID) 
+	{
+		this.title = title;
+		this.yearOfRelease = yearOfRelease;
+		this.genre = genre;
+		this.mID = mID;
+	}
+	
+	public Movie(String title, String yearOfRelease, String genre, int mID, int runtime) 
+	{
+		this.title = title;
+		this.yearOfRelease = yearOfRelease;
+		this.genre = genre;
+		this.mID = mID;
+		this.runtime = runtime;
+	}
+
 	//Get the title of this movie
 	public String getTitle()
 	{
