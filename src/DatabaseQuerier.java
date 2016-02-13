@@ -4,23 +4,59 @@ import java.sql.*;
 
 
 public class DatabaseQuerier {
+	
+	public static int dbWriteUser(String change, String username) {
+		try {
+			Connection conn = DriverManager.getConnection(
+					"jdbc:mysql/host", "user", "pass")
+					
+			Statement stmt = conn.createStatement();
+			
+			String strUpdate = "update WWDB set username = " + change + " where username = " + username;
+			System.out.println("The SQL query is: " + strUpdate);
+			int countUpdated = stmt.executeUpdate(strUpdate);
+			System.out.println(countUpdated + " records affected.");
+			
+			String strSelect = "select * from WWDB where username = " + change;
+			System.out.println("The SQL query is: " + strSelect);
+			ResultSet rset = stmt.executeQuery(strSelect);
+			while(rset.next()) {
+				System.out.println(rset.getString("username"));
+				}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 		
-	//DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver();
-	
-
-
-	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub	
+	
 		try {	
 			String host = "";
 			String uName = "Your_Username";
 			String pass = "Your_Pass";
 			Connection con = DriverManager.getConnection( "host", "username", "password" );
+			
+			Statement stmt = conn.createStatement();
+			
+			String srtSelect = "Select username from user";
+			System.out.println("The SQL query is: " + strSelect); //Echo for debugging :D
+			System.out.println();
+			
+			ResultSet rset = stmt.executeQuery(strSelect);
+			
+			System.out.println("The usernames selected are:");
+			int rowCount = 0;
+			while (rset.next()) {
+				String username = rset.getString("username");
+				System.out.println(username);
+				++rowCount;
+			}
+			System.out.println("Total number of users = " + rowCount);
 			}
 			catch (SQLException e) {
-				;
+				e.printStackTrace();
 			}
 	}
 }
