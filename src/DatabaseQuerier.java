@@ -8,7 +8,7 @@ public class DatabaseQuerier {
 	public static int dbWriteUser(String change, String username) {
 		try {
 			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql/host", "user", "pass")
+					"jdbc:mysql/host", "user", "pass");
 					
 			Statement stmt = conn.createStatement();
 			
@@ -27,6 +27,7 @@ public class DatabaseQuerier {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}
 		
 	
@@ -36,11 +37,11 @@ public class DatabaseQuerier {
 			String host = "";
 			String uName = "Your_Username";
 			String pass = "Your_Pass";
-			Connection con = DriverManager.getConnection( "host", "username", "password" );
+			Connection conn = DriverManager.getConnection( "host", "username", "password" );
 			
 			Statement stmt = conn.createStatement();
 			
-			String srtSelect = "Select username from user";
+			String strSelect = "Select username from user";
 			System.out.println("The SQL query is: " + strSelect); //Echo for debugging :D
 			System.out.println();
 			
