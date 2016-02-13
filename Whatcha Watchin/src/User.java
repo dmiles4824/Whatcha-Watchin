@@ -72,6 +72,7 @@ public class User
 	//Adds a new movie to the user's list
 	public void addMovie(ArrayList<Movie> chosenList, Movie chosenMovie)
 	{
+		//****Do something with database to update when adding a movie
 		chosenList.add(chosenMovie);
 	}
 	
@@ -94,6 +95,7 @@ public class User
 		//Only perform operations if we managed to find our movie/didn't go out of array bound
 		if(getPersonalList().get(index) != null)
 		{
+			//*****UPDATE DATABASE INFO
 			addMovie(getWatchedList(), selectedMovie);
 			removeMovie(getPersonalList(), selectedMovie);
 		}
@@ -104,13 +106,13 @@ public class User
 	//Remove a user from a selected group (Only works if user is the admin of the group)
 	public void removeMember(User selectedUser, Group selectedGroup)
 	{
-		
+		//****UPDATE GROUP MEMBER LIST IN DATABASE
 	}
 	
 	//Remove this current user from one of the selected groups that they are in
 	public void leaveGroup(Group selectedGroup)
 	{
-		
+		//*****UPDATE GROUP MEMBER LIST IN DATABASE;
 	}
 	
 	//Make a random movie suggestion for a group from its list of movies
