@@ -12,13 +12,13 @@ public class DatabaseQuerier {
 	 * @param password The new user's password. Whoa. 
 	 * @returns The number of elements added
 	 */
-	public static int addUser(String userName, String email, String password) {
+	public static int addUser(String userName, String password, String email) {
 		int countInserted = 0;
 
 		try {
 			Statement stmt = DatabaseQuerier.connector();
 			
-			String sqlInsert = "insert into user values ( " + userName + " " + password + " " + email + " )";
+			String sqlInsert = "insert into user values ( '" + userName + "','" + password + "','" + email + "' )";
 			System.out.println("The SQL query is: " + sqlInsert); //for debugging
 			countInserted = stmt.executeUpdate(sqlInsert);
 			System.out.println("User inserted.");
@@ -54,7 +54,7 @@ public class DatabaseQuerier {
 		try {
 			Statement stmt = DatabaseQuerier.connector();
 			
-			String sqlInsert = "insert into movie values ( " + mid + " " + title + " " + year + " " + genre + " " + rating + " )";
+			String sqlInsert = "insert into movie values ( '" + mid + "','" + title + "','" + year + "','" + genre + "','" + rating + "' )";
 			System.out.println("The SQL query is: " + sqlInsert);
 			countInserted = stmt.executeUpdate(sqlInsert);
 			System.out.println("Movie added.");
@@ -74,7 +74,7 @@ public class DatabaseQuerier {
 		try {
 			Statement stmt = DatabaseQuerier.connector();
 			
-			String sqlInsert = "insert into rates values ( " + username + " " + mid + " " + yn + " )";
+			String sqlInsert = "insert into rates values ( '" + username + "','" + mid + "','" + yn + "' )";
 			countInserted = stmt.executeUpdate(sqlInsert);
 			System.out.println("Rating added.");
 		}
@@ -95,7 +95,7 @@ public class DatabaseQuerier {
 		try {
 			Statement stmt = DatabaseQuerier.connector();
 			
-			String sqlInsert = "insert into group values ( " + v1 + " " + v2 + " )";
+			String sqlInsert = "insert into group values ( '" + v1 + "','" + v2 + "' )";
 			System.out.println("The SQL query is: " + sqlInsert);
 			countInserted = stmt.executeUpdate(sqlInsert);
 			System.out.println("Row inserted.");
@@ -112,7 +112,7 @@ public class DatabaseQuerier {
 		Connection conn;
 		try {
 			 conn = DriverManager.getConnection(
-					"jdbc:mysql\\localhost:3306/WWDB", "root", "M05sokker~");
+					"jdbc:mysql://localhost:3306/wwdb", "root", "pokemon25");
 			 
 		}
 		catch (SQLException e) {
@@ -124,34 +124,7 @@ public class DatabaseQuerier {
 		
 	
 	public static void main(String[] args) {
-	
-		try {	
-			String host = "";
-			String uName = "Your_Username";
-			String pass = "Your_Pass";
-
-			Connection conn = DriverManager.getConnection( "jdbc:mysql\\localhost:3306/WWDB", "root", "M05sokker~" );
-			
-			Statement stmt = conn.createStatement();
-			
-			String strSelect = "Select username from user";
-			System.out.println("The SQL query is: " + strSelect); //Echo for debugging :D
-			System.out.println();
-			
-			ResultSet rset = stmt.executeQuery(strSelect);
-			
-			System.out.println("The usernames selected are:");
-			int rowCount = 0;
-			while (rset.next()) {
-				String username = rset.getString("username");
-				System.out.println(username);
-				++rowCount;
-			}
-			System.out.println("Total number of users = " + rowCount);
-			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
+		;
 	}
 }
 
