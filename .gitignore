@@ -41,7 +41,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-#NEWLY ADDED IGNORES
-mysql-connector-java-5.1.38
+
+#the java-sql connector files
 .metadata
 .settings
+mysql-connector-java-5.1.38
