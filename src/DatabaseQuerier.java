@@ -14,6 +14,9 @@ public class DatabaseQuerier {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub	
 		try {	
+			String host = "";
+			String uName = "Your_Username";
+			String pass = "Your_Pass";
 			Connection con = DriverManager.getConnection( "host", "username", "password" );
 			}
 			catch (SQLException e) {

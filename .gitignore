@@ -42,7 +42,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-#the java-sql connector files
+# UHHH THIS IS JUST SO WE HAVE SOME LESS CRAP CLOGGING UP GIT
 .metadata
 .settings
-mysql-connector-java-5.1.38
+
