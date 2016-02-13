@@ -1,2 +1,2 @@
 # Whatcha-Watchin
-Now you know what movie you should watch today! Development began at hackCWRU 2016.
+Find a movie to watch with your friends and family! A hackCWRU 2016 project.
