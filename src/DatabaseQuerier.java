@@ -5,7 +5,6 @@ import java.sql.*;
 
 public class DatabaseQuerier {
 	
-	
 	/* Method for adding users to database.
 	 * @param username New user's username.
 	 * @param email The new user's email address.
@@ -112,17 +111,14 @@ public class DatabaseQuerier {
 		Connection conn;
 		try {
 			 conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/wwdb", "root", "pokemon25");
-			 
+					"jdbc:mysql://localhost:3306/wwdb", "root", "pokemon25"); 
 		}
 		catch (SQLException e) {
 			throw e;
 		}
 		return conn.createStatement();
-		
 	}
 		
-	
 	public static void main(String[] args) {
 		;
 	}
