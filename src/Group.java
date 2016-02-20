@@ -1,11 +1,12 @@
-import java.util.Hashtable;
-import java.util.ArrayList<E>
+import java.util.*;
 
 public class Group{
   private String groupName;
   private User[] members;
   private User admin;
   private ArrayList<Movie> groupList;
+  private Hashtable<Movie,Integer> groupTable;
+  private int groupID;
   
   public Group(User groupLeader){
     this.addMember(groupLeader);
@@ -18,27 +19,31 @@ public class Group{
   
   //returns the list of members in the group
   public User[] getMembers(){
-	return //Danny code  
+	return null; //Danny code  
   }
   
   public ArrayList<Movie> getGroupList(){ //kauhrgiaer=
 	members = getMembers();
 	groupTable = new Hashtable<Movie,Integer>();
-	for(i=0;i<members.length;i++){
-		ArrayList<Movie> memberList = members[i].getList();
-		for(j=0;j<memberList.length;j++){
-			if(groupTable.containsKey(memberList[j])){
-				groupTable.put(memberList[j],groupList.get(memberList[j])+1);
+	for(int i=0;i<members.length;i++)
+	{
+		ArrayList<Movie> memberList = members[i].getPersonalList();
+		for(int j=0;j<memberList.size();j++){
+			if(groupTable.containsKey(memberList.get(j)))
+			{
+				groupTable.put(memberList.get(j),groupList.get(memberList[j])+1);
 			}
-			else{
+			else
+			{
 				groupTable.put(memberList[j],1);
 			}	
 		}	
 	}
 	groupList = new ArrayList<Movie>();
-	set<Movie> movieList = groupTable.keySet();
+	Set<Movie> movieList = groupTable.keySet();
 	Iterator<Movie> movieListIterator = movieList.iterator();
-	while(movieListIterator.hasNext()){
+	while(movieListIterator.hasNext())
+	{
 		Movie currentMovie = movieListIterator.next();
 		i=0;
 		while(groupList.get(i)!=null || groupTable.get(groupList.get(i))<groupTable.get(currentMovie)){
@@ -49,13 +54,20 @@ public class Group{
 	return groupList;
   }
   
-  public removeUser(User Noah){
+  public int getID()
+  {
+	  return groupID;
+  }
+  
+  public void removeUser(User Noah){
 	  //
   }
   
-  public matchedMovie(Movie movie){
-	members = getMembers()  
-	for(i=0;i<members.length;i++){
+  public void matchedMovie(Movie movie)
+  {
+	members = getMembers();  
+	for(int i=0;i<members.length;i++)
+	{
 		members[i].watchedMovie(movie);
 	}
   }
