@@ -1,0 +1,51 @@
+##################### SAMPLE DATA ####################
+
+INSERT INTO user VALUES( 'username1', 'password1', 'email1' );
+
+INSERT INTO user VALUES( 'username2', 'password2', 'email2' );
+
+INSERT INTO user VALUES( 'username3', 'password3', 'email3' );
+
+
+
+INSERT INTO movie VALUES( 1, 'title1', 'year1', 'genre1', 'rating1' );
+
+INSERT INTO movie VALUES( 2, 'title2', 'year2', 'genre2', 'rating2' );
+
+INSERT INTO movie VALUES( 3, 'title3', 'year3', 'genre3', 'rating3' );
+
+
+INSERT INTO usergroup VALUES( 1, 'gname1');
+
+INSERT INTO usergroup VALUES( 2, 'gname2');
+
+
+INSERT INTO member VALUES( 'username1', 1);
+
+INSERT INTO member VALUES( 'username2', 1);
+
+INSERT INTO member VALUES( 'username3', 2);
+
+
+INSERT INTO admin VALUES( 'username1', 1);
+
+INSERT INTO admin VALUES( 'username3', 2);
+
+
+INSERT INTO rates VALUES( 'username1', 1, 1);
+
+INSERT INTO rates VALUES( 'username1', 2, 1);
+
+INSERT INTO rates VALUES( 'username1', 3, 1);
+
+INSERT INTO rates VALUES( 'username2', 1, 0);
+
+INSERT INTO rates VALUES( 'username2', 2, 0);.
+
+INSERT INTO rates VALUES( 'username2', 3, 0);
+
+INSERT INTO rates VALUES( 'username3', 1, 1);
+
+INSERT INTO rates VALUES( 'username3', 2, 0);
+
+INSERT INTO rates VALUES( 'username3', 3, 1);
