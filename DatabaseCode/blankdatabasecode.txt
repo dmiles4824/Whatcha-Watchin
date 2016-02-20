@@ -4,7 +4,6 @@ CREATE DATABASE wwdb DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 CREATE USER 'java'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL ON javabase.* TO 'java'@'localhost' IDENTIFIED BY 'password';
-USE wwdb
 
 CREATE TABLE user
 	(username	varchar(45),
@@ -28,28 +27,37 @@ CREATE TABLE movie
 CREATE TABLE member
 	(username	varchar(45),
 	gid		int,
-	primary key(username, gid));
-
+	primary key(username, gid),
+	foreign key(username) references user (username),
+	foreign key(gid) references usergroup (gid));
 
 CREATE TABLE admin
 	(username	varchar(45),
 	gid		int,
-	primary key(username, gid));
+	primary key(username, gid),
+	foreign key(username) references user (username),
+	foreign key(gid) references usergroup(gid));
 
 CREATE TABLE rates
 	(username	varchar(45),
 	mid		int,
 	yn		int,
-	primary key(username, mid));
+	primary key(username, mid),
+	foreign key(username) references user (username),
+	foreign key(mid) references movie (mid));
 
 CREATE TABLE uwatched
 	(username	varchar(45),
 	mid		int,
-	primary key(username, mid));
+	primary key(username, mid),
+	foreign key(username) references user (username),
+	foreign key(mid) references movie (mid));
 
 CREATE TABLE gwatched
 	(gid		int,
 	mid		int,
-	primary key(gid, mid));
+	primary key(gid, mid),
+	foreign key(gid) references usergroup (gid),
+	foreign key(mid) references movie (mid));
 
 
