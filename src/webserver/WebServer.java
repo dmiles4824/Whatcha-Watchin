@@ -22,37 +22,38 @@ import java.net.*;
  */
 public class WebServer {
 	
+	/*******Constants*******/
 	
-	ServerSocket welcomeSocket = new ServerSocket(proxyPort);
-	
-	
-	
-	while (true) {
-		
-		//block while waiting for next connection attempt
-		Socket connectionSocket = welcomeSocket.accept();
-
-		//Start thread to handle new connection
-		try {
-			
-			Thread t = new Thread(new ConnectionManager(connectionSocket, connectionSocket.getInputStream()));
-			t.start();
-			
-			
-
-		}
-		
-		//Could not extract inputstream
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-	}
+	public final int webPort = 80;
 	
 	
 	/*******Main*******/
 	
 	public static void main(String[] args){
+		
+		ServerSocket welcomeSocket = new ServerSocket(webPort);
+				
+		while (true) {
+			
+			//block while waiting for next connection attempt
+			Socket connectionSocket = welcomeSocket.accept();
+
+			//Start thread to handle new connection
+			try {
+				
+				Thread t = new Thread(new ConnectionManager(connectionSocket, connectionSocket.getInputStream()));
+				t.start();
+				
+				
+
+			}
+			
+			//Could not extract inputstream
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}
 		
 		
 	}
