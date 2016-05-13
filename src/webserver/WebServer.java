@@ -42,6 +42,7 @@ public class WebServer {
 			try {
 				
 				Thread t = new Thread(new ConnectionManager(connectionSocket));
+				System.out.println("Connection request received");
 				t.start();
 				
 				
