@@ -8,9 +8,9 @@ public class DatabaseTools {
 	
 	public static User getUser(String username){
 		
-		User user = new User(null);
+		//User user = new User(null);
 				
-		return user;
+		return null;
 	}
 	
 }

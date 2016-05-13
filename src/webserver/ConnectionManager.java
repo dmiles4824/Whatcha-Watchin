@@ -6,11 +6,10 @@ package webserver;
 
 /*******Imports*******/
 
-import java.io.*;
 import java.net.*;
 import webserver.webexception.*;
 
-public class ConnectionManager {
+public class ConnectionManager implements Runnable{
 	
 	/*******Constants*******/
 	public final long requestTimeoutMillis = 10000; 

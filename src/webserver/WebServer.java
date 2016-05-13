@@ -5,7 +5,7 @@
 
 /*******Package*******/
 
-package Whatcha-Watchin.webserver;
+package webserver;
 
 
 /*******Imports*******/
@@ -24,12 +24,12 @@ public class WebServer {
 	
 	/*******Constants*******/
 	
-	public final int webPort = 80;
+	public final static int webPort = 80;
 	
 	
 	/*******Main*******/
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws Exception{
 		
 		ServerSocket welcomeSocket = new ServerSocket(webPort);
 		System.out.println("Ready for connections");
@@ -56,7 +56,6 @@ public class WebServer {
 			}
 			
 		}
-		
 		
 	}
 	
