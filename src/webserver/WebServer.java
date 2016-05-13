@@ -41,7 +41,7 @@ public class WebServer {
 			//Start thread to handle new connection
 			try {
 				
-				Thread t = new Thread(new ConnectionManager(connectionSocket, connectionSocket.getInputStream()));
+				Thread t = new Thread(new ConnectionManager(connectionSocket));
 				t.start();
 				
 				
