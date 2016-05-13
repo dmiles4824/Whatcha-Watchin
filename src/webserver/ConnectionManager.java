@@ -8,8 +8,13 @@ package webserver;
 
 import java.io.*;
 import java.net.*;
+import webserver.webexception.*;
 
 public class ConnectionManager {
+	
+	/*******Constants*******/
+	public final long requestTimeoutMillis = 10000; 
+	public final int minimumHTTPByteLength = 16;
 	
 	/*******Member Fields*******/
 	
@@ -44,10 +49,34 @@ public class ConnectionManager {
 		
 		HTTPMessage msg;
 		
+		
 		try {
-			msg = ServerTools.parseHTTPMessage()
+			
+			long startTime = System.currentTimeMillis();
+			
+			//Wait until either request timeout, or there is data available on the client socket
+			while(		System.currentTimeMillis() - startTime < requestTimeoutMillis 
+						&& getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
+				Thread.sleep(100);
+			}
+			
+			//If data available, read HTTPMessage from socket
+			if(getClientSocket().getInputStream().available() >= minimumHTTPByteLength){
+				msg = ServerTools.parseHTTPMessage(clientSocket);
+			}
+			
+			//Otherwise, request must have timed out
+			else {
+				throw new RequestTimeoutException("Request timed out.");
+			}
 		}
-		catch(Exception e){					//Unrecognized exception
+		catch(RequestTimeoutException e){		//Initial request timed out
+			
+		}
+		catch(WebException e){					//Unrecognized WebException
+			
+		}
+		catch(Exception e){						//Unrecognized Exception
 			
 		}
 	}
