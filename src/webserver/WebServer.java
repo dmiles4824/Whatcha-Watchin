@@ -32,7 +32,7 @@ public class WebServer {
 	public static void main(String[] args) throws Exception{
 		
 		ServerSocket welcomeSocket = new ServerSocket(webPort);
-		System.out.println("Ready for connections");
+		System.out.println("Ready for connections!");
 		
 		while (true) {
 			
