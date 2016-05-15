@@ -1,5 +1,6 @@
 package webserver;
 
+import java.io.*;
 
 /**
  * Provides server tools specific to parsing an HTTP message
@@ -8,7 +9,10 @@ package webserver;
  */
 public class ParseTools extends ServerTools {
 	
-	
+	public static String[] extractHTTPHeaders(InputStream in) {
+		
+		return null;
+	}
 	
 	
 }

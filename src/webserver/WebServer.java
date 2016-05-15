@@ -32,9 +32,10 @@ public class WebServer {
 	public static void main(String[] args) throws Exception{
 		
 		ServerSocket welcomeSocket = new ServerSocket(webPort);
-		System.out.println("Ready for connections!!!!");
 		
 		while (true) {
+			
+			System.out.println("Ready for connections!!!!");
 			
 			//block while waiting for next connection attempt
 			Socket connectionSocket = welcomeSocket.accept();
