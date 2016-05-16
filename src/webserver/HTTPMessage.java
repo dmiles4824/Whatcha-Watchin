@@ -8,12 +8,13 @@ import java.net.*;
 
 public class HTTPMessage {
 
-	/*******Memnber fields*******/
+	/*******Member fields*******/
 	private InetAddress address;
 	private int port;
 	private String[] headers;
 	private byte[] message;
 	private String command;
+	private int contentLength;
 	private boolean isError;
 	
 	/*******Constructors*******/
@@ -30,6 +31,16 @@ public class HTTPMessage {
 		
 		this(address, port, message, isError);
 		this.headers = headers;
+		
+	}
+	
+	public HTTPMessage(InetAddress address, int port, String[] headers, byte[] message, String command, int contentLength, boolean isError){
+		
+		this(address, port, headers, message, isError);
+		this.message = message;
+		this.command = command;
+		this.contentLength = contentLength;
+		this.isError = isError;
 		
 	}
 	
@@ -84,6 +95,15 @@ public class HTTPMessage {
 		this.command = command;
 	}
 
+	
+	public int getContentLength() {
+		return contentLength;
+	}
+
+	public void setContentLength(int contentLength) {
+		this.contentLength = contentLength;
+	}
+
 	/**
 	 * Creates an HTTPMessage object representing the proper error.
 	 * @param version the HTTP version being used
@@ -96,7 +116,6 @@ public class HTTPMessage {
 	public static HTTPMessage error(String version, int code, String status, InetAddress address, int port) {
 		
 		StringBuilder builder = new StringBuilder();
-		String messageLine;
 		
 		String[] headers = new String[4];
 		headers[0] = version + " " + code + " " + status + "\r\n";

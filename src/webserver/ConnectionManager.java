@@ -62,6 +62,14 @@ public class ConnectionManager implements Runnable{
 			//If data available, read HTTPMessage from socket
 			if(getClientSocket().getInputStream().available() >= minimumHTTPByteLength){
 				msg = ServerTools.parseHTTPMessage(clientSocket);
+				
+				System.out.println("Succesful parse");
+				
+				System.out.println("Message: " );
+				for(int i = 0; i < msg.getHeaders().length; i++){
+					System.out.println(msg.getHeaders()[i]);
+				}
+				
 			}
 			
 			//Otherwise, request must have timed out

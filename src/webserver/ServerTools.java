@@ -6,7 +6,6 @@ package webserver;
 /*******Imports*******/
 
 import java.net.*;
-import webserver.webexception.*;
 
 public class ServerTools {
 	
@@ -30,35 +29,35 @@ public class ServerTools {
 		HTTPMessage message;
 		
 		
-		System.out.println("Finding IP address");
+		System.out.println("	Finding IP address");
 		//Find IP address of client
 		address = socket.getLocalAddress();
 		
-		System.out.println("Finding Port");
+		System.out.println("	Finding Port");
 		//Find port the client is using
 		port = socket.getPort();
 		
-		System.out.println("Extracting headers");
+		System.out.println("	Extracting headers");
 		//Extract headers
 		headers = ParseTools.extractHTTPHeaders(socket.getInputStream(), 1024);
 		
-		System.out.println("Parsing command");
+		System.out.println("	Parsing command");
 		//Find the command type of the message
 		command = ParseTools.findCommand(headers);
 		
-		System.out.println("Parsing content-length");
+		System.out.println("	Parsing content-length");
 		//Determine Content-Length
 		contentLength = ParseTools.findContentLength(headers, command);
 		
-		System.out.println("Reading body");
+		System.out.println("	Reading body");
 		//Read body of message
 		body = ParseTools.readBody(body, socket.getInputStream(), contentLength);
 		
-		System.out.println("Error?");
+		System.out.println("	Error?");
 		//Determine if error
 		isError = false;
 		
-		System.out.println("Creating HTTP message");
+		System.out.println("	Creating HTTP message");
 		//Create HTTPMessage
 		message = new HTTPMessage(address, port, headers, body, command, contentLength, isError);
 		
