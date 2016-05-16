@@ -22,10 +22,7 @@ public class ParseTools extends ServerTools {
 	 * @return
 	 * @throws WebException
 	 */
-	public static String[] extractHTTPHeaders(InputStream is, int headerBufferSize) throws WebException{
-		
-		//Create buffer to fill with headers
-		byte[] headerBuffer = new byte[headerBufferSize];
+	public static String[] extractHTTPHeaders(InputStream is, byte[] headerBuffer) throws WebException{
 		
 		//Read headers into buffer
 		headerBuffer = ParseTools.readUntilHeader(headerBuffer, is);

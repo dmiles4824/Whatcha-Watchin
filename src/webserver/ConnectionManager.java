@@ -55,7 +55,8 @@ public class ConnectionManager implements Runnable{
 			
 			//Wait until either request timeout, or there is data available on the client socket
 			while(		System.currentTimeMillis() - startTime < requestTimeoutMillis 
-						&& getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
+						&& getClientSocket().getInputStream().available() <= 0) {
+				System.out.println("Expected bytes available: " + getClientSocket().getInputStream().available());
 				Thread.sleep(100);
 			}
 			
@@ -66,15 +67,30 @@ public class ConnectionManager implements Runnable{
 				System.out.println("Succesful parse");
 				
 				System.out.println("Message: " );
+				
+				System.out.println("	IP Address: " + msg.getAddress().toString().replaceAll("/", ""));
+				System.out.println("	Port: " + msg.getPort());
+				System.out.println("	Headers: ");
 				for(int i = 0; i < msg.getHeaders().length; i++){
-					System.out.println(msg.getHeaders()[i]);
-				}
+					System.out.println("		" + msg.getHeaders()[i]);
+				}		
+				System.out.println("	Message: " + "Who really cares, amirite"); 
+				System.out.println("	Command: " + msg.getCommand());
+				System.out.println("	Content-Length: " + msg.getContentLength());
+				System.out.println("	isError: " + msg.isError()); 
+										
+				
 				
 			}
 			
-			//Otherwise, request must have timed out
+			//Message was too short
+			else if(getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
+				throw new MalformedHTTPRequestException("HTTP request method did not meet minimum length");
+			}
+			
+			//Else, request must have timed out
 			else {
-				throw new RequestTimeoutException("Request timed out.");
+				throw new RequestTimeoutException("HTTP request timed out.");
 			}
 		}
 //		catch(RequestTimeoutException e){		//Initial request timed out

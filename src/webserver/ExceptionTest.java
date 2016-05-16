@@ -17,7 +17,7 @@ public class ExceptionTest {
 			
 			System.out.println("Socket created");
 			
-			String httpMessage = "";
+			String httpMessage = "GET whatcha-watchin.com/index.html HTTP/1.1\r\n" + "\r\n";
 			
 			s.getOutputStream().write(httpMessage.getBytes());
 			
@@ -26,6 +26,7 @@ public class ExceptionTest {
 			s.close();
 			
 			System.out.print("Socket closed");
+			System.exit(0);
 			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block

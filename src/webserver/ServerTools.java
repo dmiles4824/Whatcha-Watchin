@@ -22,7 +22,8 @@ public class ServerTools {
 		InetAddress address;
 		int port;
 		String[] headers;
-		byte[] body = new byte[1024];
+		byte[] body = new byte[bodyBufferSize];
+		byte[] headerBuffer = new byte[headerBufferSize];
 		String command;
 		int contentLength;
 		boolean isError;
@@ -39,7 +40,7 @@ public class ServerTools {
 		
 		System.out.println("	Extracting headers");
 		//Extract headers
-		headers = ParseTools.extractHTTPHeaders(socket.getInputStream(), 1024);
+		headers = ParseTools.extractHTTPHeaders(socket.getInputStream(), headerBuffer);
 		
 		System.out.println("	Parsing command");
 		//Find the command type of the message
