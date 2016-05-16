@@ -13,6 +13,7 @@ public class HTTPMessage {
 	private int port;
 	private String[] headers;
 	private byte[] message;
+	private String command;
 	private boolean isError;
 	
 	/*******Constructors*******/
@@ -75,7 +76,14 @@ public class HTTPMessage {
 		this.isError = isError;
 	}
 
-	
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
 	/**
 	 * Creates an HTTPMessage object representing the proper error.
 	 * @param version the HTTP version being used

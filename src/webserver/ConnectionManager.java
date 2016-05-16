@@ -69,14 +69,14 @@ public class ConnectionManager implements Runnable{
 				throw new RequestTimeoutException("Request timed out.");
 			}
 		}
-		catch(RequestTimeoutException e){		//Initial request timed out
-			
-		}
-		catch(WebException e){					//Unrecognized WebException
-			
-		}
+//		catch(RequestTimeoutException e){		//Initial request timed out
+//			
+//		}
+//		catch(WebException e){					//Unrecognized WebException
+//			
+//		}
 		catch(Exception e){						//Unrecognized Exception
-			
+			e.printStackTrace();
 		}
 	}
 	
