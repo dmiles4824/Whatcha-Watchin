@@ -12,7 +12,8 @@ public class ExceptionTest {
 			
 			System.out.println("In try block");
 			
-			Socket s = new Socket(InetAddress.getByName("192.168.1.21"), 80, InetAddress.getByName("192.168.1.23"), 80);
+			//Socket s = new Socket(InetAddress.getByName("192.168.1.21"), 80, InetAddress.getByName("192.168.1.23"), 80);
+			Socket s = new Socket(InetAddress.getByName("Brian-LT"), 80, InetAddress.getByName("Brian-RP"), 80);
 			
 			System.out.println("Socket created");
 			
