@@ -109,18 +109,18 @@ public class HTTPMessage {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		builder.append("Message: " );
+		builder.append("Message: \r\n" );
 		
-		builder.append("	IP Address: " + this.getAddress().toString().replaceAll("/", ""));
-		builder.append("	Port: " + this.getPort());
-		builder.append("	Headers: ");
+		builder.append("	IP Address: " + this.getAddress().toString().replaceAll("/", "") + "\r\n");
+		builder.append("	Port: " + this.getPort() + "\r\n");
+		builder.append("	Headers: " + "\r\n");
 		for(int i = 0; i < this.getHeaders().length; i++){
 			builder.append("		" + this.getHeaders()[i]);
 		}		
-		builder.append("	Message: " + "Who really cares, amirite"); 
-		builder.append("	Command: " + this.getCommand());
-		builder.append("	Content-Length: " + this.getContentLength());
-		builder.append("	isError: " + this.isError()); 
+		builder.append("	Message: " + "Who really cares, amirite\r\n"); 
+		builder.append("	Command: " + this.getCommand() + "\r\n");
+		builder.append("	Content-Length: " + this.getContentLength() + "\r\n");
+		builder.append("	isError: " + this.isError() + "\r\n"); 
 		
 		return builder.toString();
 	}
