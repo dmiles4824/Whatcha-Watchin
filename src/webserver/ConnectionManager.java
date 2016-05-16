@@ -12,7 +12,7 @@ import webserver.webexception.*;
 public class ConnectionManager implements Runnable{
 	
 	/*******Constants*******/
-	public final long requestTimeoutMillis = 10000; 
+	public final long requestTimeoutMillis = 100000; 
 	public final int minimumHTTPByteLength = 16;
 	
 	/*******Member Fields*******/

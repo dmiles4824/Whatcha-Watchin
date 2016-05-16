@@ -12,7 +12,7 @@ public class ExceptionTest {
 			
 			System.out.println("In try block");
 			
-			Socket s = new Socket("192.168.1.21", 80);
+			Socket s = new Socket("192.168.1.23", 80);
 			
 			System.out.println("Socket created");
 			
