@@ -66,19 +66,7 @@ public class ConnectionManager implements Runnable{
 				
 				System.out.println("Succesful parse");
 				
-				System.out.println("Message: " );
-				
-				System.out.println("	IP Address: " + msg.getAddress().toString().replaceAll("/", ""));
-				System.out.println("	Port: " + msg.getPort());
-				System.out.println("	Headers: ");
-				for(int i = 0; i < msg.getHeaders().length; i++){
-					System.out.println("		" + msg.getHeaders()[i]);
-				}		
-				System.out.println("	Message: " + "Who really cares, amirite"); 
-				System.out.println("	Command: " + msg.getCommand());
-				System.out.println("	Content-Length: " + msg.getContentLength());
-				System.out.println("	isError: " + msg.isError()); 
-										
+				System.out.println(msg.toString());
 				
 				
 			}

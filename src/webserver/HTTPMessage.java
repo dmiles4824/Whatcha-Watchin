@@ -104,6 +104,30 @@ public class HTTPMessage {
 		this.contentLength = contentLength;
 	}
 
+	@Override
+	public String toString(){
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Message: " );
+		
+		builder.append("	IP Address: " + this.getAddress().toString().replaceAll("/", ""));
+		builder.append("	Port: " + this.getPort());
+		builder.append("	Headers: ");
+		for(int i = 0; i < this.getHeaders().length; i++){
+			builder.append("		" + this.getHeaders()[i]);
+		}		
+		builder.append("	Message: " + "Who really cares, amirite"); 
+		builder.append("	Command: " + this.getCommand());
+		builder.append("	Content-Length: " + this.getContentLength());
+		builder.append("	isError: " + this.isError()); 
+		
+		return builder.toString();
+	}
+	
+	
+	/*******Static methods*******/
+	
 	/**
 	 * Creates an HTTPMessage object representing the proper error.
 	 * @param version the HTTP version being used
