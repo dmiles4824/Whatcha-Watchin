@@ -12,7 +12,7 @@ public class ExceptionTest {
 			
 			System.out.println("In try block");
 			
-			Socket s = new Socket("192.168.1.21", 80);
+			Socket s = new Socket(InetAddress.getByName("192.168.1.21"), 80, InetAddress.getByName("192.168.1.23"), 80);
 			
 			System.out.println("Socket created");
 			
@@ -21,6 +21,11 @@ public class ExceptionTest {
 			s.getOutputStream().write(httpMessage.getBytes());
 			
 			System.out.println("Message written");
+			
+			s.close();
+			
+			System.out.print("Socket closed");
+			
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
