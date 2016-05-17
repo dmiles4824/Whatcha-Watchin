@@ -15,7 +15,7 @@ public class ConnectionManager implements Runnable{
 	public final static long requestTimeoutMillis = 100000; 
 	public final static int minimumHTTPByteLength = 16;
 	
-	public final static String webPageAddress = "~/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
