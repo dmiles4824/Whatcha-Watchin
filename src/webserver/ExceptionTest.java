@@ -1,7 +1,11 @@
 package webserver;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.net.*;
+
 import webserver.webexception.*;
 
 public class ExceptionTest {
@@ -17,7 +21,7 @@ public class ExceptionTest {
 			
 			System.out.println("Socket created");
 			
-			String httpMessage = "GET whatcha-watchin.com/index.html HTTP/1.1\r\n" + "\r\n";
+			String httpMessage = "GET / HTTP/1.1\r\n" + "\r\n";
 			
 			s.getOutputStream().write(httpMessage.getBytes());
 			
@@ -34,8 +38,18 @@ public class ExceptionTest {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
+		}
+
+//		try {
+//			File f = new File("D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html");
+//			Path p = Paths.get(f.getAbsolutePath());
+//			byte[] htmlBytes = ParseTools.readBytesFromFile(p);
+//			HTTPResponse response = ServerTools.formHTMLResponse("D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html");
+//			System.out.println(response.toString());
+//		}
+//		catch(WebException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 }

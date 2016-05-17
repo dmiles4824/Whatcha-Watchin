@@ -12,8 +12,10 @@ import webserver.webexception.*;
 public class ConnectionManager implements Runnable{
 	
 	/*******Constants*******/
-	public final long requestTimeoutMillis = 100000; 
-	public final int minimumHTTPByteLength = 16;
+	public final static long requestTimeoutMillis = 100000; 
+	public final static int minimumHTTPByteLength = 16;
+	
+	public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
@@ -46,7 +48,8 @@ public class ConnectionManager implements Runnable{
 	 */
 	public void run(){
 		
-		HTTPMessage msg;
+		HTTPRequest msgIn;
+		HTTPResponse msgOut;
 		
 		
 		try {
@@ -54,22 +57,45 @@ public class ConnectionManager implements Runnable{
 			long startTime = System.currentTimeMillis();
 			
 			//Wait until either request timeout, or there is data available on the client socket
-			while(		System.currentTimeMillis() - startTime < requestTimeoutMillis 
+			while(		System.currentTimeMillis() - startTime < ConnectionManager.requestTimeoutMillis 
 						&& getClientSocket().getInputStream().available() <= 0) {
 				System.out.println("Expected bytes available: " + getClientSocket().getInputStream().available());
 				Thread.sleep(100);
 			}
 			
 			//If data available, read HTTPMessage from socket
-			if(getClientSocket().getInputStream().available() >= minimumHTTPByteLength){
-				msg = ServerTools.parseHTTPMessage(clientSocket);
+			if(getClientSocket().getInputStream().available() >= ConnectionManager.minimumHTTPByteLength){
 				
+				//Attempt to read incoming HTTP message
+				msgIn = ServerTools.parseHTTPRequest(this.getClientSocket());
+				
+				
+				//View parsed message
 				System.out.println("Succesful parse");
 				
-				System.out.println(msg.toString());
+				System.out.println(msgIn.toString());
 				
+				//Form appropriate message to return
+				
+				//For now, if it is a get than that is enough to say, send the file
+				if(msgIn.getCommand().equalsIgnoreCase("GET") && msgIn.getUrl().equalsIgnoreCase("/")){
+					
+					//Send index.html
+					msgOut = ServerTools.formHTMLResponse(webPageAddress);
+					System.out.println("Message to send:");
+					System.out.println(msgOut.toString());
+					ServerTools.sendHTTPMessage(msgOut, getClientSocket());
+					
+					//Close client socket
+					getClientSocket().close();
+					
+					//Mission accomplished
+					
+				}
 				
 			}
+			
+			//Errors from reading the message
 			
 			//Message was too short
 			else if(getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
@@ -81,6 +107,10 @@ public class ConnectionManager implements Runnable{
 				throw new RequestTimeoutException("HTTP request timed out.");
 			}
 		}
+		
+		//Errors from what the message contained
+		
+		
 //		catch(RequestTimeoutException e){		//Initial request timed out
 //			
 //		}

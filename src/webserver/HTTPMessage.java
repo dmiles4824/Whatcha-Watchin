@@ -3,66 +3,43 @@
 package webserver;
 
 /*******Imports*******/
-import java.net.*;
 
 
 public class HTTPMessage {
 
 	/*******Member fields*******/
-	private InetAddress address;
-	private int port;
 	private String[] headers;
 	private byte[] message;
-	private String command;
 	private int contentLength;
 	private boolean isError;
+	private String version;
 	
 	/*******Constructors*******/
-	public HTTPMessage(InetAddress address, int port, byte[] message, boolean isError) {
-		
-		this.address = address;
-		this.port = port;
+	public HTTPMessage(byte[] message, boolean isError) {
 		this.message = message;
 		this.isError = isError;
 		
 	}
 	
-	public HTTPMessage(InetAddress address, int port, String[] headers, byte[] message, boolean isError) {
+	public HTTPMessage(String[] headers, byte[] message, boolean isError) {
 		
-		this(address, port, message, isError);
+		this(message, isError);
 		this.headers = headers;
 		
 	}
 	
-	public HTTPMessage(InetAddress address, int port, String[] headers, byte[] message, String command, int contentLength, boolean isError){
+	public HTTPMessage(String[] headers, byte[] message, int contentLength, boolean isError, String version){
 		
-		this(address, port, headers, message, isError);
+		this(headers, message, isError);
 		this.message = message;
-		this.command = command;
 		this.contentLength = contentLength;
 		this.isError = isError;
-		
+		this.version = version;
 	}
 	
 	
 	/*******Get/Set Methods*******/
-	
-	public InetAddress getAddress() {
-		return address;
-	}
 
-	public void setAddress(InetAddress address) {
-		this.address = address;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-	
 	public String[] getHeaders() {
 		return headers;
 	}
@@ -87,21 +64,20 @@ public class HTTPMessage {
 		this.isError = isError;
 	}
 
-	public String getCommand() {
-		return command;
-	}
-
-	public void setCommand(String command) {
-		this.command = command;
-	}
-
-	
 	public int getContentLength() {
 		return contentLength;
 	}
 
 	public void setContentLength(int contentLength) {
 		this.contentLength = contentLength;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	@Override
@@ -111,16 +87,14 @@ public class HTTPMessage {
 		
 		builder.append("Message: \r\n" );
 		
-		builder.append("	IP Address: " + this.getAddress().toString().replaceAll("/", "") + "\r\n");
-		builder.append("	Port: " + this.getPort() + "\r\n");
 		builder.append("	Headers: " + "\r\n");
 		for(int i = 0; i < this.getHeaders().length; i++){
 			builder.append("		" + this.getHeaders()[i]);
 		}		
 		builder.append("	Message: " + "Who really cares, amirite\r\n"); 
-		builder.append("	Command: " + this.getCommand() + "\r\n");
 		builder.append("	Content-Length: " + this.getContentLength() + "\r\n");
 		builder.append("	isError: " + this.isError() + "\r\n"); 
+		builder.append("	Version: " + this.getVersion() + "\r\n");
 		
 		return builder.toString();
 	}
@@ -137,7 +111,7 @@ public class HTTPMessage {
 	 * @param port port to send error to
 	 * @return a fully formed HTTP message, ready to send
 	 */
-	public static HTTPMessage error(String version, int code, String status, InetAddress address, int port) {
+	public static HTTPMessage error(String version, int code, String status) {
 		
 		StringBuilder builder = new StringBuilder();
 		
@@ -154,7 +128,7 @@ public class HTTPMessage {
 		byte[] byteMessage = builder.toString().getBytes();
 		
 		
-		HTTPMessage message = new HTTPMessage(address, port, headers, byteMessage, true);	
+		HTTPMessage message = new HTTPMessage(headers, byteMessage, true);	
 				
 		return message;
 	}

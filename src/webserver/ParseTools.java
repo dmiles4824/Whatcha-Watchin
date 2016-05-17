@@ -3,7 +3,12 @@ package webserver;
 
 /*******Imports*******/
 import java.io.*;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import webserver.webexception.*;
 
 
@@ -278,6 +283,122 @@ public class ParseTools extends ServerTools {
 		
 		return bodyBuffer;
 	}
+	
+	/**
+	 * Extracts URL from request line
+	 * @param requestLine
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	protected static String parseURL(String requestLine) {
+		
+		Scanner scanner;
+		ArrayList<String> words = new ArrayList<String>();
+		
+		//Determine number of "words" in requestLine
+		scanner = new Scanner(requestLine);
+		while(scanner.hasNext()){
+			words.add(scanner.next());
+		}
+		scanner.close();
+		
+		//If request has three "words"
+		if(words.size() == 3){
+			return words.get(1);
+		}
+		return "/";
+	}
+	
+	/**
+	 * Extracts version from request line
+	 * @param requestLine
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	protected static String parseVersion(String requestLine) {
+		
+		Scanner scanner;
+		ArrayList<String> words = new ArrayList<String>();
+		
+		//Determine number of "words" in requestLine
+		scanner = new Scanner(requestLine);
+		while(scanner.hasNext()){
+			words.add(scanner.next());
+		}
+		scanner.close();
+		
+		//If request has three "words"
+		if(words.size() == 3){
+			return words.get(2);
+		}
+		return "HTTP/1.1";
+	}
+	
+	/**
+	 * Reads all bytes from a file exactly as they are.
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	protected static byte[] readBytesFromFile(Path path) throws WebException{
+		byte[] encoded;
+		try {
+			encoded = Files.readAllBytes(path); 
+		}
+		catch (IOException e){
+			throw new HTMLReadException("Could not read " + path);
+		}
+		return encoded;
+	}
 
+	/**
+	 * Returns byte array holding the value of a String array,
+	 * with each element in the String array pasted in byte form
+	 * into the byte array in the order it was in the String array.
+	 * @param headers
+	 * @return byte array of the input
+	 */
+	protected static byte[] stringArrayToByteArray(String[] sarray){
+		
+		byte[] allBytes = null;
+		
+		if(sarray != null) {
+			
+			//Extract header bytes
+			
+			StringBuilder builder = new StringBuilder();
+			for(String s : sarray){
+				builder.append(s);
+			}
+			allBytes = builder.toString().getBytes();
+		}
+		return allBytes;
+	}
+
+	/**
+	 * Merges two byte arrays into one.
+	 * @param headerBytes
+	 * @param bodyBytes
+	 * @return
+	 */
+	protected static byte[] combineByteArrays(byte[] a, byte[] b){
+		
+		byte[] whole = null;
+		
+		if(a != null && b != null) {
+			
+			whole = new byte[a.length + b.length];
+			
+			for(int i = 0; i < a.length; i++){
+				whole[i] = a[i];
+			}
+			for(int i = 0; i < b.length; i++){
+				whole[i + a.length] = b[i];
+			}
+		}
+		return whole;
+	}
 	
 }
+
+
