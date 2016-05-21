@@ -15,7 +15,11 @@ public class ConnectionManager implements Runnable{
 	public final static long requestTimeoutMillis = 100000; 
 	public final static int minimumHTTPByteLength = 16;
 	
-	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	//Brian-RP
+	//public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	
+	//Brian-LT
+	public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
@@ -50,7 +54,7 @@ public class ConnectionManager implements Runnable{
 		
 		HTTPRequest msgIn;
 		HTTPResponse msgOut;
-		
+		RequestType requestType;
 		
 		try {
 			
@@ -75,23 +79,29 @@ public class ConnectionManager implements Runnable{
 				
 				System.out.println(msgIn.toString());
 				
-				//Form appropriate message to return
+				//Identify request type
+				requestType = ServerTools.parseRequestType(msgIn);
 				
-				//For now, if it is a get than that is enough to say, send the file
-				if(msgIn.getCommand().equalsIgnoreCase("GET") && msgIn.getUrl().equalsIgnoreCase("/")){
-					
-					//Send index.html
+				//Respond to request
+				switch(requestType){
+				
+				case INDEX_REQ:
 					msgOut = ServerTools.formHTMLResponse(webPageAddress);
 					System.out.println("Message to send:");
 					System.out.println(msgOut.toString());
 					ServerTools.sendHTTPMessage(msgOut, getClientSocket());
-					
-					//Close client socket
-					getClientSocket().close();
-					
-					//Mission accomplished
-					
+					break;
+				
+				case OTHER_REQ:
+					break;
+				
+				default:
+					break;
+									
 				}
+				
+				//Close client socket
+				getClientSocket().close();
 				
 			}
 			
@@ -107,8 +117,6 @@ public class ConnectionManager implements Runnable{
 				throw new RequestTimeoutException("HTTP request timed out.");
 			}
 		}
-		
-		//Errors from what the message contained
 		
 		
 //		catch(RequestTimeoutException e){		//Initial request timed out

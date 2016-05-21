@@ -80,7 +80,6 @@ public class ServerTools {
 		
 	}
 	
-	
 	public static HTTPResponse formHTMLResponse(String htmlLocation) throws WebException{
 		
 		//Body retrieval
@@ -141,4 +140,19 @@ public class ServerTools {
 		
 	}
 	
+	/**
+	 * Reads an HTTPRequest and determines what the purpose of the request is.
+	 * @param msg the HTTPRequest to be parsed
+	 * @return a RequestType specifying the purpose of the request
+	 */
+	public static RequestType parseRequestType(HTTPRequest msg) {
+		
+		RequestType requestType = RequestType.OTHER_REQ;
+		
+		if(msg.getCommand().equalsIgnoreCase("GET") && msg.getUrl().equalsIgnoreCase("/")){
+			requestType = RequestType.INDEX_REQ;
+		}
+		
+		return requestType;
+	}
 }
