@@ -2,10 +2,16 @@
 Find a movie to watch with your friends and family! A hackCWRU 2016 project.
 
 
+# WARNINGS
+
+Please, please run the server from the root directory. Otherwise, it will only work on my laptop (i think). Just don't do it!
+
+
 # Things to do
 
 /general/
 
+Fix up README
 Add more documentation
 
 /webserver/
