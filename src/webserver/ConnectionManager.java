@@ -19,10 +19,10 @@ public class ConnectionManager implements Runnable{
 	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
 	//Brian-RP
-	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index";
+	public final static String indexAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index";
 	
 	//Brian-LT
-	//public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
+	//public final static String indexAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
@@ -91,6 +91,11 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
+					msgOut = ServerTools.formHTMLResponse(ConnectionManager.indexAddress);
+					break;
+				
+				//Send index.html to the client socket
+				case URL_REQ:
 					msgOut = ServerTools.formHTMLResponse(msgIn.getUrl());
 					break;
 				
@@ -162,7 +167,7 @@ public class ConnectionManager implements Runnable{
 		
 		//Couldn't read resource file
 		catch(HTMLReadException e){
-			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 404, e.getMessage());
 		}		
 		
 		//Couldn't send response

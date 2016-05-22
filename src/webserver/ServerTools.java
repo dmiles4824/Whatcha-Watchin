@@ -153,7 +153,7 @@ public class ServerTools {
 		}
 		
 		else if(msg.getCommand().equalsIgnoreCase("GET")){
-			requestType = RequestType.UNKNOWN_URL_REQ;
+			requestType = RequestType.URL_REQ;
 		}
 		
 		return requestType;
