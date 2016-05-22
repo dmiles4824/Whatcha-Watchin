@@ -188,6 +188,8 @@ public class ConnectionManager implements Runnable{
 			
 			//
 			System.out.println("Succesful response");
+			System.out.println("	Error?: " + msgOut.isError());
+			System.out.println("	First line of response: " + msgOut.getHeaders()[0]);
 		}
 		catch(IOException e){
 			System.out.println("Could not close socket");
