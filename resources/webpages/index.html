@@ -1,9 +1,70 @@
+<!DOCTYPE html>
 <HTML>
 	<HEAD>
 		<TITLE> Whatcha-Watchin </TITLE>
+		
+		<script src="../javascript/index.js"></script>
+		
+		<style type = "text/css">
+		
+			textarea {
+				border-style: none;
+				border-color: Transparent;
+				overflow: auto;
+				resize: none;
+			}
+		
+		</style>
+		
+		<style>
+			
+			print {
+				rows: auto;
+				columns: auto;
+				resize: none;
+				color: white;
+				border: none;
+			}
+			
+			console-print {
+				
+				width: 500px;
+				
+			}
+			
+			
+			div.print {
+				border: 2px solid black;
+				margin: 30px;
+				padding: 10px;
+				width: 800px;
+				height: 250px;
+			}
+			
+			div.type {
+				border: 2px solid black;
+				margin: 30px;
+				padding: 10px;
+				width: 800px;
+			}
+			
+		</style>
+		
 	</HEAD>
 	
 	<BODY>
-		Test for the homepage.
+		
+		<div class = "print">
+			<p id="console-print">
+				<textarea id="print" rows="15" cols="100" readonly>
+				</textarea>
+			</p>
+		</div>
+		
+		<div class = "type">
+			<input size="100" type="text" id="input" onkeypress="return changeText(event)"/><br>
+		</form>
+		</div>
+		
 	</BODY>
 </HTML>
