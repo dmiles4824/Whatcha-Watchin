@@ -95,9 +95,16 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
+					
+					//Method one: 
 					Path currentRelativePath = Paths.get("");
 					String s = currentRelativePath.toAbsolutePath().toString();
 					System.out.println("Current relative path is: " + s);
+					
+					//Method two:
+					
+					System.out.println("Current project directory: " + System.getProperty("user.dir"));
+					
 					msgOut = ServerTools.formHTMLResponse(ConnectionManager.indexAddress);
 					break;
 				
