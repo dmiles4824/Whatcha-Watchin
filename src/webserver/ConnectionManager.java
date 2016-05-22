@@ -19,10 +19,10 @@ public class ConnectionManager implements Runnable{
 	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
 	//Brian-RP
-	//public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
 	
 	//Brian-LT
-	public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
+	//public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
