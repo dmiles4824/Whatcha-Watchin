@@ -9,8 +9,6 @@ import java.io.IOException;
 /*******Imports*******/
 
 import java.net.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import webserver.webexception.*;
 
@@ -101,7 +99,7 @@ public class ConnectionManager implements Runnable{
 				//Send index.html to the client socket
 				case URL_REQ:
 					System.out.println(" URL requested: " + msgIn.getUrl());
-					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/" + msgIn.getUrl());
+					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/webpages/" + msgIn.getUrl());
 					break;
 				
 				//Valid HTTP message, but unknown URL
