@@ -9,6 +9,9 @@ import java.io.IOException;
 /*******Imports*******/
 
 import java.net.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import webserver.webexception.*;
 
 public class ConnectionManager implements Runnable{
@@ -92,6 +95,9 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
+					Path currentRelativePath = Paths.get("");
+					String s = currentRelativePath.toAbsolutePath().toString();
+					System.out.println("Current relative path is: " + s);
 					msgOut = ServerTools.formHTMLResponse(ConnectionManager.indexAddress);
 					break;
 				
