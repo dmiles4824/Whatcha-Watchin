@@ -85,6 +85,7 @@ public class ConnectionManager implements Runnable{
 				
 				//Identify request type
 				requestType = ServerTools.parseRequestType(msgIn);
+				System.out.println(requestType.toString());
 				
 				//Respond to request
 				switch(requestType){
