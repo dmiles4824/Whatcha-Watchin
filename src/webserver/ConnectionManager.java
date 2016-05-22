@@ -95,7 +95,7 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
-					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "resources/webpages/index.html");
+					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/webpages/index.html");
 					break;
 				
 				//Send index.html to the client socket
