@@ -152,7 +152,7 @@ public class ServerTools {
 			requestType = RequestType.INDEX_REQ;
 		}
 		
-		if(msg.getCommand().equalsIgnoreCase("GET")){
+		else if(msg.getCommand().equalsIgnoreCase("GET")){
 			requestType = RequestType.UNKNOWN_URL_REQ;
 		}
 		

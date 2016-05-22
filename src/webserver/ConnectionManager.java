@@ -4,6 +4,8 @@
 package webserver;
 
 
+import java.io.IOException;
+
 /*******Imports*******/
 
 import java.net.*;
@@ -17,10 +19,10 @@ public class ConnectionManager implements Runnable{
 	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
 	//Brian-RP
-	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	//public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
 	
 	//Brian-LT
-	//public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
+	public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
 	
 	/*******Member Fields*******/
 	
@@ -90,7 +92,6 @@ public class ConnectionManager implements Runnable{
 				//Send index.html to the client socket
 				case INDEX_REQ:
 					msgOut = ServerTools.formHTMLResponse(webPageAddress);
-					ServerTools.sendHTTPMessage(msgOut, getClientSocket());
 					break;
 				
 				//Valid HTTP message, but unknown URL
@@ -107,10 +108,6 @@ public class ConnectionManager implements Runnable{
 					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, "Unknown error");
 					break;
 				}
-				
-				//Close client socket
-				getClientSocket().close();
-				
 			}
 			
 			//Errors from receiving the message
@@ -180,8 +177,25 @@ public class ConnectionManager implements Runnable{
 		catch(Exception e){						//Unrecognized Exception
 			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
 		}
+		
+		//Send the message to the client socket
+		try {
+			//Send message 
+			ServerTools.sendHTTPMessage(msgOut, getClientSocket());
+			
+			//Close client socket
+			getClientSocket().close();
+			
+			//
+			System.out.println("Succesful response");
+		}
+		catch(IOException e){
+			System.out.println("Could not close socket");
+			e.printStackTrace();
+		}
+		catch(WebException e){
+			System.out.println("Could not respond to client.");
+			e.printStackTrace();
+		}
 	}
-	
-	
-	
 }
