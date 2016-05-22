@@ -100,7 +100,7 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case URL_REQ:
-					msgOut = ServerTools.formHTMLResponse(msgIn.getUrl());
+					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/" + msgIn.getUrl());
 					break;
 				
 				//Valid HTTP message, but unknown URL
