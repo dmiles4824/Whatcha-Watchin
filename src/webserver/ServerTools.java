@@ -4,6 +4,7 @@ package webserver;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /*******Imports*******/
 
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import webserver.webexception.InputStreamUnavailableException;
 import webserver.webexception.ResponseIOException;
 import webserver.webexception.WebException;
 
@@ -23,7 +25,7 @@ public class ServerTools {
 	public final static int defaultBodyBufferSize = 1024;		//Default body buffer size, in bytes
 	
 	
-	public static HTTPRequest parseHTTPRequest(Socket socket, int headerBufferSize, int bodyBufferSize) throws Exception{
+	public static HTTPRequest parseHTTPRequest(Socket socket, int headerBufferSize, int bodyBufferSize) throws WebException{
 		
 		System.out.println("Attempting to parse");
 		
@@ -38,9 +40,17 @@ public class ServerTools {
 		String version;
 		HTTPRequest request;
 		
-		
+		//Extract data stream
+		InputStream is;
+		try {
+			is = socket.getInputStream();
+		}
+		catch(IOException e){
+			throw new InputStreamUnavailableException("Could not extract input stream from socket");
+		}
+			
 		//Extract headers
-		headers = ParseTools.extractHTTPHeaders(socket.getInputStream(), headerBuffer);
+		headers = ParseTools.extractHTTPHeaders(is, headerBuffer);
 		
 		//Find the command type of the message
 		command = ParseTools.findCommand(headers);
@@ -52,7 +62,7 @@ public class ServerTools {
 		contentLength = ParseTools.findContentLength(headers, command);
 		
 		//Read body of message
-		body = ParseTools.readBody(body, socket.getInputStream(), contentLength);
+		body = ParseTools.readBody(body, is, contentLength);
 		
 		//Determine if error
 		isError = false;
@@ -118,10 +128,7 @@ public class ServerTools {
 
 	public static void sendHTTPMessage(HTTPMessage msg, Socket sock) throws WebException{
 		
-		byte[] headerBytes = ParseTools.stringArrayToByteArray(msg.getHeaders());
-		byte[] bodyBytes = msg.getMessage();
-		
-		byte[] allBytes = ParseTools.combineByteArrays(headerBytes, bodyBytes);
+		byte[] allBytes = ParseTools.combineByteArrays(msg.getHeaderBytes(), msg.getMessage());
 		
 		try {
 			sock.getOutputStream().write(allBytes);

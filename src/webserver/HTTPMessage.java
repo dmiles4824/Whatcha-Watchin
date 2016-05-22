@@ -101,6 +101,33 @@ public class HTTPMessage {
 	}
 	
 	
+	/*******Member methods*******/
+	
+	/**
+	 * Returns byte array holding the value of a String array,
+	 * with each element in the String array pasted in byte form
+	 * into the byte array in the order it was in the String array.
+	 * @param headers
+	 * @return byte array of the input
+	 */
+	public byte[] getHeaderBytes(){
+		
+		byte[] allBytes = null;
+		
+		if(getHeaders() != null) {
+			
+			//Extract header bytes
+			
+			StringBuilder builder = new StringBuilder();
+			for(String s : getHeaders()){
+				builder.append(s);
+			}
+			allBytes = builder.toString().getBytes();
+		}
+		return allBytes;
+	}
+	
+	
 	/*******Static methods*******/
 	
 	/**
@@ -133,6 +160,7 @@ public class HTTPMessage {
 				
 		return message;
 	}
+	
 	
 	
 }

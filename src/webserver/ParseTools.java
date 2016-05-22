@@ -351,29 +351,7 @@ public class ParseTools extends ServerTools {
 		return encoded;
 	}
 
-	/**
-	 * Returns byte array holding the value of a String array,
-	 * with each element in the String array pasted in byte form
-	 * into the byte array in the order it was in the String array.
-	 * @param headers
-	 * @return byte array of the input
-	 */
-	protected static byte[] stringArrayToByteArray(String[] sarray){
-		
-		byte[] allBytes = null;
-		
-		if(sarray != null) {
-			
-			//Extract header bytes
-			
-			StringBuilder builder = new StringBuilder();
-			for(String s : sarray){
-				builder.append(s);
-			}
-			allBytes = builder.toString().getBytes();
-		}
-		return allBytes;
-	}
+
 
 	/**
 	 * Merges two byte arrays into one.

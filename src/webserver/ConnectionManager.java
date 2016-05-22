@@ -104,8 +104,8 @@ public class ConnectionManager implements Runnable{
 					break;
 				
 				default:
+					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, "Unknown error");
 					break;
-									
 				}
 				
 				//Close client socket
@@ -128,14 +128,57 @@ public class ConnectionManager implements Runnable{
 		
 		//Errors from reading the message
 		
+		//Malformed request
+		catch(MalformedHTTPRequestException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 400, e.getMessage());
+		}
+		
+		//Timed out waiting for client to send data
 		catch(RequestTimeoutException e){		//Initial request timed out
-			
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 408, e.getMessage());
 		}
+		
+		//Could not extract InputStream from client socket
+		catch(InputStreamUnavailableException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
+		}
+		
+		//Could not read request message headers
+		catch(HeaderIOException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 400, e.getMessage());
+		}
+		
+		//Socket closed before message could be read
+		catch(SocketClosedException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 408, e.getMessage());
+		}
+		
+		//Buffer overflow
+		catch(BufferOverflow e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 507, e.getMessage());
+		}
+		
+		//Missing content length on a message type that requires it
+		catch(MissingContentLengthException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 411, e.getMessage());
+		}
+		
+		//Couldn't read resource file
+		catch(HTMLReadException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
+		}		
+		
+		//Couldn't send response
+		catch(ResponseIOException e){
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
+		}		
+		
 		catch(WebException e){					//Unrecognized WebException
-			
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
 		}
+		
 		catch(Exception e){						//Unrecognized Exception
-			e.printStackTrace();
+			msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, e.getMessage());
 		}
 	}
 	

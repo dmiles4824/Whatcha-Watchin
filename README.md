@@ -12,5 +12,6 @@ Fix .gitignore weird stuff
 /webserver/
 
 Add WebException handling
-RequestType parser
 Configuration file
+Hash map for HTTP Messages
+Remove null stuff in ParseTools (change solely to WebExceptions)
