@@ -100,6 +100,7 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case URL_REQ:
+					System.out.println(" URL requested: " + msgIn.getUrl());
 					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/" + msgIn.getUrl());
 					break;
 				
