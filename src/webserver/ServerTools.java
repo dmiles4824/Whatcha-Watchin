@@ -39,35 +39,27 @@ public class ServerTools {
 		HTTPRequest request;
 		
 		
-		System.out.println("	Extracting headers");
 		//Extract headers
 		headers = ParseTools.extractHTTPHeaders(socket.getInputStream(), headerBuffer);
 		
-		System.out.println("	Parsing command");
 		//Find the command type of the message
 		command = ParseTools.findCommand(headers);
 		
-		System.out.println("	Parsing URL");
 		//Find the requested URL
 		url = ParseTools.parseURL(headers[0]);
 		
-		System.out.println("	Parsing content-length");
 		//Determine Content-Length
 		contentLength = ParseTools.findContentLength(headers, command);
 		
-		System.out.println("	Reading body");
 		//Read body of message
 		body = ParseTools.readBody(body, socket.getInputStream(), contentLength);
 		
-		System.out.println("	Error?");
 		//Determine if error
 		isError = false;
 		
-		System.out.println("	Parsing version");
 		//Determine version
 		version = ParseTools.parseVersion(headers[0]);
 		
-		System.out.println("	Creating HTTP message");
 		//Create HTTPMessage
 		request = new HTTPRequest(headers, body, command, contentLength, url, isError, version);
 		
@@ -151,6 +143,10 @@ public class ServerTools {
 		
 		if(msg.getCommand().equalsIgnoreCase("GET") && msg.getUrl().equalsIgnoreCase("/")){
 			requestType = RequestType.INDEX_REQ;
+		}
+		
+		if(msg.getCommand().equalsIgnoreCase("GET")){
+			requestType = RequestType.UNKNOWN_URL_REQ;
 		}
 		
 		return requestType;

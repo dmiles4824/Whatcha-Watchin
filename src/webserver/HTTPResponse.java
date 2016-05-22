@@ -62,7 +62,31 @@ public class HTTPResponse extends HTTPMessage {
 		return builder.toString();
 	}
 
-
+	/**
+	 * Creates an HTTPResponse object representing the proper error.
+	 * @param version the HTTP version being used
+	 * @param code error code
+	 * @param status status message
+	 * @param address address to send error to
+	 * @param port port to send error to
+	 * @return a fully formed HTTP message, ready to send
+	 */
+	public static HTTPResponse error(String version, int code, String status) {
+		
+		byte[] bodyBytes = new byte[0];
+		int contentL = bodyBytes.length;
+		boolean isError = true;
+		
+		String[] headers = new String[4];
+		headers[0] = version + " " + code + " " + status + "\r\n";
+		headers[1] = "Connection: close\r\n";
+		headers[2] = "Content-length: " + contentL + "\r\n";
+		headers[3] = "\r\n";
+		
+		HTTPResponse message = new HTTPResponse(headers, bodyBytes, status, contentL, code, isError, version);	
+				
+		return message;
+	}
 
 	
 }

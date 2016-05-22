@@ -14,6 +14,7 @@ public class ConnectionManager implements Runnable{
 	/*******Constants*******/
 	public final static long requestTimeoutMillis = 100000; 
 	public final static int minimumHTTPByteLength = 16;
+	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
 	//Brian-RP
 	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
@@ -52,12 +53,15 @@ public class ConnectionManager implements Runnable{
 	 */
 	public void run(){
 		
-		HTTPRequest msgIn;
-		HTTPResponse msgOut;
-		RequestType requestType;
+		//Declare variables
+		
+		HTTPRequest msgIn;				//The message read from the client socket
+		HTTPResponse msgOut;			//The message to form and send to the client socket
+		RequestType requestType;		//The type of the request - tells us what to send back
 		
 		try {
 			
+			//Record current system time, to test for timeout
 			long startTime = System.currentTimeMillis();
 			
 			//Wait until either request timeout, or there is data available on the client socket
@@ -73,11 +77,9 @@ public class ConnectionManager implements Runnable{
 				//Attempt to read incoming HTTP message
 				msgIn = ServerTools.parseHTTPRequest(this.getClientSocket());
 				
-				
-				//View parsed message
-				System.out.println("Succesful parse");
-				
-				System.out.println(msgIn.toString());
+				//View connection info
+				System.out.println("	Client IP: " + this.getClientSocket().getLocalAddress().toString());
+				System.out.println("	First line of request: " + msgIn.getHeaders()[0]);
 				
 				//Identify request type
 				requestType = ServerTools.parseRequestType(msgIn);
@@ -85,14 +87,20 @@ public class ConnectionManager implements Runnable{
 				//Respond to request
 				switch(requestType){
 				
+				//Send index.html to the client socket
 				case INDEX_REQ:
 					msgOut = ServerTools.formHTMLResponse(webPageAddress);
-					System.out.println("Message to send:");
-					System.out.println(msgOut.toString());
 					ServerTools.sendHTTPMessage(msgOut, getClientSocket());
 					break;
 				
+				//Valid HTTP message, but unknown URL
+				case UNKNOWN_URL_REQ:
+					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 404, "Not Found");
+					break;
+				
+				//Valid HTTP message, unknown problem
 				case OTHER_REQ:
+					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, "Unknown error");
 					break;
 				
 				default:
@@ -105,7 +113,7 @@ public class ConnectionManager implements Runnable{
 				
 			}
 			
-			//Errors from reading the message
+			//Errors from receiving the message
 			
 			//Message was too short
 			else if(getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
@@ -118,13 +126,14 @@ public class ConnectionManager implements Runnable{
 			}
 		}
 		
+		//Errors from reading the message
 		
-//		catch(RequestTimeoutException e){		//Initial request timed out
-//			
-//		}
-//		catch(WebException e){					//Unrecognized WebException
-//			
-//		}
+		catch(RequestTimeoutException e){		//Initial request timed out
+			
+		}
+		catch(WebException e){					//Unrecognized WebException
+			
+		}
 		catch(Exception e){						//Unrecognized Exception
 			e.printStackTrace();
 		}
