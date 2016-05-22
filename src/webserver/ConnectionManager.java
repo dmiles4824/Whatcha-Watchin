@@ -19,7 +19,7 @@ public class ConnectionManager implements Runnable{
 	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
 	//Brian-RP
-	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index.html";
+	public final static String webPageAddress = "/home/pi/Documents/Whatcha-Watchin/resources/webpages/index";
 	
 	//Brian-LT
 	//public final static String webPageAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
@@ -91,7 +91,7 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
-					msgOut = ServerTools.formHTMLResponse(webPageAddress);
+					msgOut = ServerTools.formHTMLResponse(msgIn.getUrl());
 					break;
 				
 				//Valid HTTP message, but unknown URL
