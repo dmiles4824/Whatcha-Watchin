@@ -106,6 +106,7 @@ public class ConnectionManager implements Runnable{
 				case JS_REQ:
 					System.out.println(" Javascript request");
 					msgOut = ServerTools.formResponse(("Received. Capitalized: " + Arrays.toString(msgIn.getMessage()).toUpperCase()).getBytes(), "text/plain");
+					break;
 					
 				//Valid HTTP message, but unknown URL
 				case UNKNOWN_URL_REQ:
