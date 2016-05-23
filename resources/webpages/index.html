@@ -3,7 +3,7 @@
 	<HEAD>
 		<TITLE> Whatcha-Watchin </TITLE>
 		
-		<script src="index.js"></script>
+		<script src="javascript/index.js"></script>
 		
 		<style type = "text/css">
 		
@@ -62,7 +62,7 @@
 		</div>
 		
 		<div class = "type">
-			<input size="100" type="text" id="input" onkeypress="return changeText(event)"/><br>
+			<input size="100" type="text" id="input" onkeypress='return update(event, this, getElementById("print"))'/><br>
 		</form>
 		</div>
 		
