@@ -2,23 +2,21 @@ var makeAlert = function() {
 	alert("Attempting to change text");
 }
 
-var keyPress = function(e){
-	if(e.keyCode == 13 || e.which == 13) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 
 var update = function(e, sourceElement, targetElement) {
+	
 	if(keyPress(e)){
 		
-		targetElement.innerHTML = targetElement.innerHTML + "\nYou said: " + sourceElement.value;
-		targetElement.scrollTop = targetElement.scrollHeight;
+		//Save input text
+		var inputText = readText(sourceElement);
 		
+		//Write text to output and clear input
+		appendText(targetElement, "You said: " + inputText);
+		writeText(sourceElement, "");
 		
-		sourceElement.value = "";
+		//Send text to server
+		sendText(inputText);
+		
 		
 		return false;
 	}
