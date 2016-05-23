@@ -2,7 +2,7 @@ var sendText = function(text){
 	
 	var request = new XMLHttpRequest();
 	
-	request.open('POST', "127.0.0.1/", true);
+	request.open('POST', "/", true);
 	request.send(text);
 	request.addEventListener("readystatechange", processSendText, true);
 	 

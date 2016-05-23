@@ -10,6 +10,7 @@ public enum RequestType {
 	
 	INDEX_REQ,
 	URL_REQ,
+	JS_REQ,
 	UNKNOWN_URL_REQ,
 	OTHER_REQ;
 }

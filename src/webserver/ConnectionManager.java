@@ -9,6 +9,7 @@ import java.io.IOException;
 /*******Imports*******/
 
 import java.net.*;
+import java.util.Arrays;
 
 import webserver.webexception.*;
 
@@ -93,15 +94,19 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
-					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/webpages/index.html");
+					msgOut = ServerTools.formResponse(System.getProperty("user.dir") + "/resources/webpages/index.html", "text/html");
 					break;
 				
 				//Send index.html to the client socket
 				case URL_REQ:
 					System.out.println(" URL requested: " + msgIn.getUrl());
-					msgOut = ServerTools.formHTMLResponse(System.getProperty("user.dir") + "/resources/webpages/" + msgIn.getUrl());
+					msgOut = ServerTools.formResponse(System.getProperty("user.dir") + "/resources/webpages/" + msgIn.getUrl(), "text/html");
 					break;
-				
+					
+				case JS_REQ:
+					System.out.println(" Javascript request");
+					msgOut = ServerTools.formResponse(("Received. Capitalized: " + Arrays.toString(msgIn.getMessage()).toUpperCase()).getBytes(), "text/plain");
+					
 				//Valid HTTP message, but unknown URL
 				case UNKNOWN_URL_REQ:
 					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 404, "Not Found");

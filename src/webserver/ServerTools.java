@@ -82,10 +82,18 @@ public class ServerTools {
 		
 	}
 	
-	public static HTTPResponse formHTMLResponse(String htmlLocation) throws WebException{
+	public static HTTPResponse formResponse(String messageLocation, String contentType) throws WebException{
+		
+		byte[] body = ParseTools.readBytesFromFile(Paths.get(messageLocation));
+		
+		return formResponse(body, contentType);
+		
+	}
+	
+	public static HTTPResponse formResponse(byte[] message, String contentTypeString) throws WebException{
 		
 		//Body retrieval
-		byte[] body = ParseTools.readBytesFromFile(Paths.get(htmlLocation));
+		byte[] body = message;
 		
 		//contentLength
 		int contentL = body.length;
@@ -105,7 +113,7 @@ public class ServerTools {
 		//Headers
 		String statusLine = version + " " + code + " "  + status + "\r\n";
 		String date = "Date: " + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + "\r\n";
-		String contentType = "Content-Type: text/html\r\n";
+		String contentType = "Content-Type: " + contentTypeString + "\r\n";
 		String contentLength = "Content-Length: " + contentL + "\r\n";
 		String connection = "Connection: close\r\n";
 		String end = "\r\n";
@@ -126,6 +134,7 @@ public class ServerTools {
 		return response;
 	}
 
+	
 	public static void sendHTTPMessage(HTTPMessage msg, Socket sock) throws WebException{
 		
 		byte[] allBytes = ParseTools.combineByteArrays(msg.getHeaderBytes(), msg.getMessage());
@@ -156,6 +165,18 @@ public class ServerTools {
 			requestType = RequestType.URL_REQ;
 		}
 		
+		else if(msg.getCommand().equalsIgnoreCase("POST")){
+			requestType = RequestType.JS_REQ;
+		}
+		
 		return requestType;
 	}
+
+
+	public static HTTPResponse handleJSRequest(HTTPRequest msg){
+		
+		
+		return null;
+	}
+
 }
