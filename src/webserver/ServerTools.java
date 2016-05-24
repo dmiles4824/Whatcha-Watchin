@@ -181,18 +181,18 @@ public class ServerTools {
 	}
 
 	
-	public static HTTPResponse handleHTMLRequest(HTTPRequest request) throws WebException{
+	public static HTTPResponse handleHTMLRequest(HTTPRequest request, String textEncoding) throws WebException{
 		
 		HTTPResponse response;
 		
 		String messageLocation = System.getProperty("user.dir") + "/resources/webpages/" + request.getUrl();
 		
-		response = ServerTools.formResponse(messageLocation, "text/html");
+		response = ServerTools.formResponse(messageLocation, textEncoding);
 		
 		return response;
 	}
 	
-	public static HTTPResponse handleJSRequest(HTTPRequest request) throws WebException{
+	public static HTTPResponse handleJSRequest(HTTPRequest request, String textEncoding) throws WebException{
 		
 		JSRequest jsRequest;
 		JSResponse jsResponse = null;
@@ -203,11 +203,8 @@ public class ServerTools {
 			//Parse Javascript request
 			jsRequest = JSTools.parseJSRequest(request.getBodyString()); 
 			
-			//Determine request type
-			JSRequestType jsRequestType = JSTools.parseJSRequestType(jsRequest);
-			
 			//Handle each type of request
-			switch(jsRequestType){
+			switch(jsRequest.getCommand()){
 			
 			case CAPITALIZE_JSREQ:
 				jsResponse = JSTools.capitalize(jsRequest);
@@ -226,11 +223,11 @@ public class ServerTools {
 				break;
 				
 			case UNKNOWN_JSREQ:
-				jsResponse = JSResponse.jsError("Unknown JS error");
+				jsResponse = JSResponse.jsError(jsRequest.getCommand(), "Unknown JS error");
 				break;
 			
 			default :
-				jsResponse = JSResponse.jsError("Unknown JS error");
+				jsResponse = JSResponse.jsError(jsRequest.getCommand(), "Unknown JS error");
 				break;
 			
 			}
@@ -238,14 +235,14 @@ public class ServerTools {
 		
 		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
 		catch(JSException e){
-			jsResponse = JSResponse.jsError(e.getMessage());
+			jsResponse = JSResponse.jsError(e.getCommand(), e.getMessage());
 		}
 		
 		//In the end, we have to make a response
 		finally{
 			
 			//Create HTTPResponse from JS response
-			response = formResponse(jsResponse.getResponseBytes(), "text/plain");
+			response = formResponse(jsResponse.getResponseBytes(), textEncoding);
 			
 		}
 		

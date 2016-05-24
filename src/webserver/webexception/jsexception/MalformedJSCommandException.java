@@ -1,5 +1,7 @@
 package webserver.webexception.jsexception;
 
+import webserver.JSRequestType;
+
 public class MalformedJSCommandException extends JSException {
 
 	public static final long serialVersionUID = 13L; 
@@ -24,4 +26,9 @@ public class MalformedJSCommandException extends JSException {
         super(message, cause);
     }
 	
+    public MalformedJSCommandException(String message, JSRequestType command){
+    	super(message, command);
+    }
+
+    
 }

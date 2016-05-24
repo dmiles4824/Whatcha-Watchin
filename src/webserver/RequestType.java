@@ -8,9 +8,28 @@ public enum RequestType {
 	
 	/*******Request types*******/
 	
-	INDEX_REQ,
-	URL_REQ,
-	JS_REQ,
-	UNKNOWN_URL_REQ,
-	OTHER_REQ;
+	INDEX_REQ			("text/html"),
+	URL_REQ				("text/html"),
+	JS_REQ				("text/plain"),
+	UNKNOWN_URL_REQ		("text/plain"),
+	OTHER_REQ			("text/plan");
+
+	/*******Member fields*******/
+	
+	private final String textEncoding;
+	
+	
+	/*******Constructors*******/
+	
+	RequestType(String textEncoding) {
+		this.textEncoding = textEncoding;
+	}
+	
+	
+	/*******Get/Set Methods*******/
+	
+	public String getTextEncoding() {
+		return textEncoding;
+	}
 }
+

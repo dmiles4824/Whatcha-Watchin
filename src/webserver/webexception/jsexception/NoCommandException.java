@@ -1,6 +1,7 @@
 /*******Package*******/
 package webserver.webexception.jsexception;
 
+import webserver.JSRequestType;
 
 public class NoCommandException extends JSException {
 
@@ -26,5 +27,8 @@ public class NoCommandException extends JSException {
         super(message, cause);
     }
 	
+    public NoCommandException(String message, JSRequestType command){
+    	super(message, command);
+    }
 	
 }

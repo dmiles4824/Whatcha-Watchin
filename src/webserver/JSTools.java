@@ -24,7 +24,8 @@ public class JSTools extends ServerTools {
 	public static JSRequest parseJSRequest(String requestString) throws JSException{
 		
 		JSRequest request;
-		String command;
+		String commandString;
+		JSRequestType command;
 		ArrayList<String> arguments = new ArrayList<String>();
 		
 		
@@ -48,7 +49,7 @@ public class JSTools extends ServerTools {
 		}
 		
 		//If the command has spaces, invalid command syntax
-		else if( (command = requestString.substring(0, firstIndex)).indexOf(' ') != -1 ){
+		else if( (commandString = requestString.substring(0, firstIndex)).indexOf(' ') != -1 ){
 			throw new MalformedJSCommandException("Invalid command syntax");
 		}
 		
@@ -64,26 +65,29 @@ public class JSTools extends ServerTools {
 			
 		}
 		
+		//Determine command type
+		command = JSTools.parseJSRequestType(commandString);
+		
 		//Form request
 		request = new JSRequest(command, arguments);
 		
 		return request;
 	}
 	
-	public static JSRequestType parseJSRequestType(JSRequest request){
+	public static JSRequestType parseJSRequestType(String command){
 		
 		JSRequestType jsRequestType;
 		
-		if(request.getCommand().equalsIgnoreCase("capitalize")){
+		if(command.equalsIgnoreCase("capitalize")){
 			jsRequestType = JSRequestType.CAPITALIZE_JSREQ;
 		}
-		else if(request.getCommand().equalsIgnoreCase("echo")){
+		else if(command.equalsIgnoreCase("echo")){
 			jsRequestType = JSRequestType.ECHO_JSREQ;
 		}
-		else if(request.getCommand().equalsIgnoreCase("help")){
+		else if(command.equalsIgnoreCase("help")){
 			jsRequestType = JSRequestType.HELP_JSREQ;
 		}
-		else if(request.getCommand().equalsIgnoreCase("hello")){
+		else if(command.equalsIgnoreCase("hello")){
 			jsRequestType = JSRequestType.HELLO_JSREQ;
 		}
 		else {
@@ -105,10 +109,10 @@ public class JSTools extends ServerTools {
 			Date date = new Date();
 			String dateString = dateFormat.format(date);
 			
-			response = new JSResponse("Received at " + dateString + ". Capitalized: " + args.get(0).toUpperCase());
+			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Capitalized: " + args.get(0).toUpperCase());
 		}
 		else{
-			response = JSResponse.jsError("Improper arguments");
+			response = JSResponse.jsError(request.getCommand(), "Improper arguments");
 		}
 		
 		return response;
@@ -126,10 +130,10 @@ public class JSTools extends ServerTools {
 			Date date = new Date();
 			String dateString = dateFormat.format(date);
 			
-			response = new JSResponse("Received at " + dateString + ". Echo: " + args.get(0));
+			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Echo: " + args.get(0));
 		}
 		else{
-			response = JSResponse.jsError("Improper arguments");
+			response = JSResponse.jsError(request.getCommand(), "Improper arguments");
 		}
 		
 		return response;
@@ -143,7 +147,7 @@ public class JSTools extends ServerTools {
 		Date date = new Date();
 		String dateString = dateFormat.format(date);
 		
-		response = new JSResponse("Received at " + dateString + ". You smell nice, client");
+		response = new JSResponse(request.getCommand(), "Received at " + dateString + ". You smell nice, client");
 		
 		return response;
 	}
@@ -168,7 +172,7 @@ public class JSTools extends ServerTools {
 		}
 		
 		//Format response
-		response = new JSResponse(builder.toString());
+		response = new JSResponse(request.getCommand(), builder.toString());
 				
 		return response;
 	}

@@ -14,6 +14,7 @@ import java.io.IOException;
 public class ConnectionManager implements Runnable{
 	
 	/*******Constants*******/
+	//s 
 	public final static long requestTimeoutMillis = 10000; 
 	public final static int minimumHTTPByteLength = 16;
 	public final static String defaultHTTPVersion = "HTTP/1.1";
@@ -23,6 +24,7 @@ public class ConnectionManager implements Runnable{
 	
 	//Brian-LT
 	//public final static String indexAddress = "D:/Documents/Projects/Watcha-Watchin/Whatcha-Watchin/resources/webpages/index.html";
+	//e
 	
 	/*******Member Fields*******/
 	
@@ -112,19 +114,19 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case INDEX_REQ:
-					msgOut = ServerTools.formResponse(System.getProperty("user.dir") + "/resources/webpages/index.html", "text/html");
+					msgOut = ServerTools.formResponse(System.getProperty("user.dir") + "/resources/webpages/index.html", requestType.getTextEncoding());
 					break;
 				
 				//Send index.html to the client socket
 				case URL_REQ:
 					System.out.println(" URL requested: " + msgIn.getUrl());
-					msgOut = ServerTools.handleHTMLRequest(msgIn);
+					msgOut = ServerTools.handleHTMLRequest(msgIn, requestType.getTextEncoding());
 					break;
 				
 				//Request is from a client Javascript instance
 				case JS_REQ:
 					System.out.println(" Javascript request");
-					msgOut = ServerTools.handleJSRequest(msgIn);
+					msgOut = ServerTools.handleJSRequest(msgIn, requestType.getTextEncoding());
 					break;
 					
 				//Valid HTTP message, but unknown URL

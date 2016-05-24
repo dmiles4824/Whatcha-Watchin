@@ -22,14 +22,17 @@ Hash map for HTTP headers
 Remove null stuff in ParseTools (change solely to WebExceptions)
 Add login/authentication
 Create Response interface
-make enum for reply type that knows the encoding required
 
 /webserver/js/
 
 CSV stuff
-Add javascript error handling on client side (better than just print out string error)
 Proper JS response encoding (with type and error status) so it can easily be reconstituted on client side (Also help with help() method!!!)
 
+
+/javascript/
+
+Store buffer of previous responses
+Add javascript error handling on client side (better than just print out string error)
 
 /sqlserver/
 

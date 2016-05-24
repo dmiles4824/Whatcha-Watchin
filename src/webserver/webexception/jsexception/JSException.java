@@ -1,11 +1,19 @@
 package webserver.webexception.jsexception;
 
+import webserver.JSRequestType;
 import webserver.webexception.WebException;
 
 public class JSException extends WebException {
 	
-	public static final long serialVersionUID = 0L; 
+	/*******Constants*******/
 	
+	public static final long serialVersionUID = 0L;
+	
+	
+	/*******Member fields*******/
+	
+	private JSRequestType command;
+		
 	
 	/*******Constructors*******/
     public JSException(){
@@ -25,5 +33,21 @@ public class JSException extends WebException {
     public JSException(String message, Throwable cause) {
         super(message, cause);
     }
+    
+    public JSException(String message, JSRequestType command){
+    	super(message);
+    	this.command = command;
+    }
+
+    
+    /*******Get/Set methods*******/
+    
+	public JSRequestType getCommand() {
+		return command;
+	}
+
+	public void setCommand(JSRequestType command) {
+		this.command = command;
+	}
 	
 }

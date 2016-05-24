@@ -4,16 +4,17 @@ package webserver.js;
 
 /*******Imports*******/
 import java.util.ArrayList;
+import webserver.JSRequestType;
 
 public class JSRequest{
 	
 	/*******Member fields********/
-	private String command;
+	private JSRequestType command;
 	private ArrayList<String> arguments;
 	
 	
 	/*******Constructors*******/
-	public JSRequest(String command, ArrayList<String> arguments){
+	public JSRequest(JSRequestType command, ArrayList<String> arguments){
 		this.command = command;
 		this.arguments = arguments;
 		
@@ -22,10 +23,10 @@ public class JSRequest{
 	
 	/*******Get/Set methods*******/
 	
-	public String getCommand() {
+	public JSRequestType getCommand() {
 		return command;
 	}
-	public void setCommand(String command) {
+	public void setCommand(JSRequestType command) {
 		this.command = command;
 	}
 	public ArrayList<String> getArguments() {
