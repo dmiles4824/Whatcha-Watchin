@@ -4,25 +4,41 @@ var sendText = function(text){
 	
 	request.open('POST', "/", true);
 	request.send(text);
-	request.addEventListener("readystatechange", processSendText, true);
+	request.addEventListener("readystatechange", function(){ processCommand(request); }, false);
 	 
 }
 
-var processSendText = function(e){
+var capitalize = function(text){
+	
+	var request = new XMLHttpRequest();
+	
+	request.open('POST', "/", true);
+	request.send("capitalize(" + text + ")");
+	request.addEventListener("readystatechange", function(){ processCommand(request);}, false);
+
+	
+}
+
+
+var processCommand = function(e){
+	
+	var targetElement = document.getElementById("print");
 	
 	//Check if HTTP response has been fully downloaded
-	if(request.readyState == 4){
+	if(e.readyState == 4){
 		
 		//Check if all good
-		if(request.status == 200){
+		if(e.status == 200){
 			
-			appendText(getElementById("print"), "Response: " + request.responseText);
+			console.log("Received response");
+			appendText(targetElement, "Response: " + e.responseText);
 			
 		}
 		
 		//Response indicates error
 		else {
-			appendText(getElementById("print"), "Error!: " + request.responseText);
+			console.log("Received error");
+			appendText(targetElement, "Error!: " + e.responseText);
 		}
 		
 	}

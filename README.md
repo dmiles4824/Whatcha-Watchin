@@ -17,11 +17,17 @@ Add more documentation
 /webserver/
 
 Configuration file
-Hash map for HTTP Messages
+Hash map for HTTP headers
 Remove null stuff in ParseTools (change solely to WebExceptions)
 Add login/authentication
+Create Response interface
+
+/webserver/js/
+
+CSV stuff
+Add javascript error handling on client side (better than just print out string error)
 
 /sqlserver/
 
-Create sqlserver
+Create sqlserver package
 Download sql on RPi

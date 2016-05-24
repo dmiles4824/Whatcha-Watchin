@@ -351,7 +351,29 @@ public class ParseTools extends ServerTools {
 		return encoded;
 	}
 
-
+	/**
+	 * Takes a buffer array of a fixed length and returns a byte
+	 * array of the first length items.
+	 * @param buffer
+	 * @param length
+	 * @return
+	 */
+	protected static byte[] trimByteArray(byte[] buffer, int length) {
+		
+		byte[] trimmed = null;
+		
+		if(buffer != null){
+			
+			trimmed = new byte[length];
+			
+			for(int i = 0; i < buffer.length && i < length; i++){				
+				trimmed[i] = buffer[i];
+			}
+			
+		}
+		return trimmed;
+	}
+	
 
 	/**
 	 * Merges two byte arrays into one.

@@ -14,10 +14,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import webserver.js.JSRequest;
+import webserver.js.JSResponse;
 import webserver.webexception.InputStreamUnavailableException;
 import webserver.webexception.ResponseIOException;
 import webserver.webexception.WebException;
+import webserver.webexception.jsexception.JSException;
 
+/**
+ * The primary helper class for the java server
+ * @author Brian
+ *
+ */
 public class ServerTools {
 	
 	/*******Constants*******/
@@ -172,11 +180,61 @@ public class ServerTools {
 		return requestType;
 	}
 
-
-	public static HTTPResponse handleJSRequest(HTTPRequest msg){
+	
+	public static HTTPResponse handleHTMLRequest(HTTPRequest request) throws WebException{
 		
+		HTTPResponse response;
 		
-		return null;
+		String messageLocation = System.getProperty("user.dir") + "/resources/webpages/" + request.getUrl();
+		
+		response = ServerTools.formResponse(messageLocation, "text/html");
+		
+		return response;
+	}
+	
+	public static HTTPResponse handleJSRequest(HTTPRequest request) throws WebException{
+		
+		JSRequest jsRequest;
+		JSResponse jsResponse;
+		HTTPResponse response = null;
+		
+		try{
+		
+			//Parse Javascript request
+			jsRequest = JSTools.parseJSRequest(request.getBodyString()); 
+			
+			//Determine request type
+			JSRequestType jsRequestType = JSTools.parseJSRequestType(jsRequest);
+			
+			//Handle each type of request
+			switch(jsRequestType){
+			
+			case CAPITALIZE_JSREQ:
+				jsResponse = JSTools.capitalize(jsRequest);
+				break;
+			
+			case UNKNOWN_JSREQ:
+				jsResponse = JSResponse.jsError("Unknown JS error");
+				break;
+			
+			default :
+				jsResponse = JSResponse.jsError("Unknown JS error");
+				break;
+			
+			}
+			
+			//Create HTTPResponse from JS response
+			response = formResponse(jsResponse.getResponseBytes(), "text/plain");
+		
+		}
+		
+		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
+		catch(JSException e){
+			response = formResponse(JSResponse.jsError(e.getMessage()).getResponseString().getBytes(), "text/plain");
+			
+		}
+		
+		return response;
 	}
 
 }

@@ -14,9 +14,8 @@ var update = function(e, sourceElement, targetElement) {
 		appendText(targetElement, "You said: " + inputText);
 		writeText(sourceElement, "");
 		
-		//Send text to server
+		//Send capitalize text and write it
 		sendText(inputText);
-		
 		
 		return false;
 	}

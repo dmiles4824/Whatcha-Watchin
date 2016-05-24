@@ -127,6 +127,15 @@ public class HTTPMessage {
 		return allBytes;
 	}
 	
+	/**
+	 * Gets the body in string form
+	 * @return
+	 */
+	public String getBodyString(){
+		
+		return new String(this.getMessage());
+		
+	}
 	
 	/*******Static methods*******/
 	

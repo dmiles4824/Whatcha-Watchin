@@ -47,3 +47,10 @@ var appendText = function(element, text){
 var readText = function(element){
 	return element.value;
 }
+
+var updateText = function(sourceElement, targetElement, text){
+	
+	writeText(sourceElement, "");
+	appendText(targetElement, text);
+	
+}
