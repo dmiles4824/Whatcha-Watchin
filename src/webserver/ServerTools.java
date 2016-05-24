@@ -195,7 +195,7 @@ public class ServerTools {
 	public static HTTPResponse handleJSRequest(HTTPRequest request) throws WebException{
 		
 		JSRequest jsRequest;
-		JSResponse jsResponse;
+		JSResponse jsResponse = null;
 		HTTPResponse response = null;
 		
 		try{
@@ -234,15 +234,18 @@ public class ServerTools {
 				break;
 			
 			}
-			
-			//Create HTTPResponse from JS response
-			response = formResponse(jsResponse.getResponseBytes(), "text/plain");
-		
 		}
 		
 		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
 		catch(JSException e){
-			response = formResponse(JSResponse.jsError(e.getMessage()).getResponseString().getBytes(), "text/plain");
+			jsResponse = JSResponse.jsError(e.getMessage());
+		}
+		
+		//In the end, we have to make a response
+		finally{
+			
+			//Create HTTPResponse from JS response
+			response = formResponse(jsResponse.getResponseBytes(), "text/plain");
 			
 		}
 		
