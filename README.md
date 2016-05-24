@@ -16,6 +16,7 @@ Add more documentation
 
 /webserver/
 
+Way to close down server safely
 Configuration file
 Hash map for HTTP headers
 Remove null stuff in ParseTools (change solely to WebExceptions)

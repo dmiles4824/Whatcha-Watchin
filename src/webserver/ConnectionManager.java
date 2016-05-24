@@ -4,18 +4,17 @@
 package webserver;
 
 
-import java.io.IOException;
-
 /*******Imports*******/
 
 import java.net.*;
-
 import webserver.webexception.*;
+import java.io.IOException;
+
 
 public class ConnectionManager implements Runnable{
 	
 	/*******Constants*******/
-	public final static long requestTimeoutMillis = 100000; 
+	public final static long requestTimeoutMillis = 10000; 
 	public final static int minimumHTTPByteLength = 16;
 	public final static String defaultHTTPVersion = "HTTP/1.1";
 	
@@ -27,11 +26,13 @@ public class ConnectionManager implements Runnable{
 	
 	/*******Member Fields*******/
 	
+	//Socket connected to requesting person
 	private Socket clientSocket;
 	
 	
 	/*******Get/Set Methods*******/
 	
+	//s
 	public Socket getClientSocket() {
 		return clientSocket;
 	}
@@ -39,13 +40,19 @@ public class ConnectionManager implements Runnable{
 	public void setClientSocket(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 	}
-
+	//e
 	
 	/*******Constructors*******/
+	
+	//s
+	/**
+	 * Single argument constructor.
+	 * @param clientSocket Java stream socket to requesting process
+	 */
 	public ConnectionManager(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 	}
-	
+	//e
 	
 	/*******Member Methods*******/
 	
@@ -69,13 +76,24 @@ public class ConnectionManager implements Runnable{
 			long startTime = System.currentTimeMillis();
 			
 			//Wait until either request timeout, or there is data available on the client socket
-			while(		System.currentTimeMillis() - startTime < ConnectionManager.requestTimeoutMillis 
+			//s
+			while(		
+						//Determines whether the elapsed time exceeds a preset constant
+						System.currentTimeMillis() - startTime < ConnectionManager.requestTimeoutMillis 
+						
+						//Checks if number of available bytes exceeds minimum to start parsing an HTTP message, 
+						//because we have to get at least Content-Length to know if we need to keep waiting for a body
 						&& getClientSocket().getInputStream().available() <= 0) {
-				System.out.println("Expected bytes available: " + getClientSocket().getInputStream().available());
+				
+				
+				System.out.println("Expected bytes available: " + getClientSocket().getInputStream().available());		
+				System.out.println("Wait Time: " + (System.currentTimeMillis() - startTime));
 				Thread.sleep(100);
 			}
+			//e
 			
 			//If data available, read HTTPMessage from socket
+			//s
 			if(getClientSocket().getInputStream().available() >= ConnectionManager.minimumHTTPByteLength){
 				
 				//Attempt to read incoming HTTP message
@@ -89,7 +107,7 @@ public class ConnectionManager implements Runnable{
 				requestType = ServerTools.parseRequestType(msgIn);
 				System.out.println(requestType.toString());
 				
-				//Respond to request
+				//Respond to request. Switch on RequestType
 				switch(requestType){
 				
 				//Send index.html to the client socket
@@ -102,7 +120,8 @@ public class ConnectionManager implements Runnable{
 					System.out.println(" URL requested: " + msgIn.getUrl());
 					msgOut = ServerTools.handleHTMLRequest(msgIn);
 					break;
-					
+				
+				//Request is from a client Javascript instance
 				case JS_REQ:
 					System.out.println(" Javascript request");
 					msgOut = ServerTools.handleJSRequest(msgIn);
@@ -118,39 +137,44 @@ public class ConnectionManager implements Runnable{
 					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, "Unknown error");
 					break;
 				
+				//Who knows
 				default:
 					msgOut = HTTPResponse.error(ConnectionManager.defaultHTTPVersion, 500, "Unknown error");
 					break;
 				}
 			}
-			
-			//Errors from receiving the message
+			//e
 			
 			//Message was too short
+			//s
 			else if(getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
 				throw new MalformedHTTPRequestException("HTTP request method did not meet minimum length");
 			}
+			//e
 			
 			//Else, request must have timed out
+			//s
 			else {
 				throw new RequestTimeoutException("HTTP request timed out.");
 			}
+			//e
 		}
 		
 		
 		
 		//Handle errors from receiving or reading the message
+		//s
 		catch(WebException e){
 			msgOut = ExceptionHandler.handleWebException(e);
 		}
 		catch(Exception e){
 			msgOut = ExceptionHandler.handleException(e);
 		}
-		
-		
+		//e
 		
 		
 		//Send the message to the client socket
+		//s
 		try {
 			//Send message 
 			ServerTools.sendHTTPMessage(msgOut, getClientSocket());
@@ -158,18 +182,27 @@ public class ConnectionManager implements Runnable{
 			//Close client socket
 			getClientSocket().close();
 			
-			//
+			//View info
 			System.out.println("Succesful response");
 			System.out.println("	Error?: " + msgOut.isError());
 			System.out.println("	First line of response: " + msgOut.getHeaders()[0]);
 		}
+		
+		//These errors can't be resolved with sending a msg to client, because
+		//they are the errors encountered when trying to send a message back
+		//Just print to console, and figure it out
+		
+		//Attempted to close socket, found error
 		catch(IOException e){
 			System.out.println("Could not close socket");
 			e.printStackTrace();
 		}
+		
+		//Clear all on error sending response
 		catch(WebException e){
 			System.out.println("Could not respond to client.");
 			e.printStackTrace();
 		}
+		//e
 	}
 }

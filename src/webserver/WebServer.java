@@ -31,8 +31,10 @@ public class WebServer {
 	
 	public static void main(String[] args) throws Exception{
 		
+		//Socket to accept incoming TCP connections
 		ServerSocket welcomeSocket = new ServerSocket(webPort);
 		
+		//Server stays on forever, ftm
 		while (true) {
 			
 			System.out.println("Ready for connections!!!!");
@@ -41,23 +43,9 @@ public class WebServer {
 			Socket connectionSocket = welcomeSocket.accept();
 
 			//Start thread to handle new connection
-			try {
-				
-				Thread t = new Thread(new ConnectionManager(connectionSocket));
-				System.out.println("Connection request received");
-				t.start();
-				
-				
-
-			}
-			
-			//Could not extract inputstream
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
-		}
-		
+			Thread t = new Thread(new ConnectionManager(connectionSocket));
+			System.out.println("Connection request received");
+			t.start();
+		}		
 	}
-	
 }
