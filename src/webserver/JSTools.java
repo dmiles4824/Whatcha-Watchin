@@ -154,7 +154,7 @@ public class JSTools extends ServerTools {
 		
 		//Replace this with some config file data
 		StringBuilder builder = new StringBuilder();
-		builder.append("Welcome to Whatcha-Watchin! The following are a list of valid Javascript commands: \n"); 
+		builder.append("Welcome to Whatcha-Watchin! The following are a list of valid Javascript commands. Don't forget to use quotes for strings!!! \n"); 
 		
 		//Retrieve all declared methods
 		Method[] allMethods = JSTools.class.getDeclaredMethods();
@@ -162,7 +162,7 @@ public class JSTools extends ServerTools {
 		//If it has a JSResponse return type, it must be a command, so we will describe it
 		for(Method m : allMethods){
 			if(m.getReturnType().equals(JSResponse.class)){
-				builder.append(m.toGenericString() + "\n");
+				builder.append(m.getName() + "()\n");
 			}
 			
 		}

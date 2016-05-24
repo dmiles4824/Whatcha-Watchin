@@ -27,7 +27,7 @@ make enum for reply type that knows the encoding required
 
 CSV stuff
 Add javascript error handling on client side (better than just print out string error)
-Proper JS response encoding (with type and error status) so it can easily be reconstituted on client side
+Proper JS response encoding (with type and error status) so it can easily be reconstituted on client side (Also help with help() method!!!)
 
 
 /sqlserver/

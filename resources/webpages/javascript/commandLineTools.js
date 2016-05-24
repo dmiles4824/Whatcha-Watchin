@@ -39,6 +39,7 @@ var writeText = function(element, text){
 var appendText = function(element, text){
 	
 	element.value += "\n" + text;
+	element.scrollTop = element.scrollHeight;
 }
 
 /**
