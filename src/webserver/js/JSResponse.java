@@ -1,26 +1,29 @@
 package webserver.js;
 
 import webserver.JSRequestType;
+import webserver.webexception.jsexception.JSException;
+import webserver.webexception.jsexception.NoErrorException;
 
 public class JSResponse {
 	
 	/*******Member fields*******/
 	private String responseString;
 	private JSRequestType command;
-	private boolean isError;
+	private JSException error;
 	
 	
 	/*******Constructors*******/
-	public JSResponse(JSRequestType command, String responseString, boolean isError){		
+	
+	public JSResponse(JSRequestType command, String responseString, JSException error){		
 		this.command = command;
 		this.responseString = responseString;
-		this.isError = isError;
+		this.error = error;
 	}
 	
 	public JSResponse(JSRequestType command, String responseString){		
 		this.command = command;
 		this.responseString = responseString;
-		this.isError = false;
+		this.error = new NoErrorException();
 	}
 	
 	/*******Get/Set methods*******/
@@ -42,15 +45,16 @@ public class JSResponse {
 		this.command = command;
 	}
 
-	public boolean isError() {
-		return isError;
+	
+	public JSException getError() {
+		return error;
 	}
 
-	public void setError(boolean isError) {
-		this.isError = isError;
+	public void setError(JSException error) {
+		this.error = error;
 	}
 	//e
-	
+
 	/*******Member methods*******/
 	
 	public byte[] getResponseBytes(){
@@ -58,7 +62,7 @@ public class JSResponse {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(this.getCommand().getCommandString() + '\n');
-		builder.append(this.isError() + "\n");
+		builder.append(this.getError().getName() + "\n");
 		builder.append(this.getResponseString());
 		
 		String totalString = builder.toString();
@@ -70,8 +74,8 @@ public class JSResponse {
 	
 	/*******Static methods*******/
 	
-	public static JSResponse jsError(JSRequestType command, String errorMessage){
-		return new JSResponse(command, errorMessage, true);
+	public static JSResponse jsError(JSRequestType command, JSException error){
+		return new JSResponse(command, error.getMessage(), error);
 	}
 	
 }

@@ -42,6 +42,10 @@ public class JSException extends WebException {
     
     /*******Get/Set methods*******/
     
+	public String getName() {
+		return this.getClass().getName();
+	}
+
 	public JSRequestType getCommand() {
 		return command;
 	}
@@ -49,5 +53,6 @@ public class JSException extends WebException {
 	public void setCommand(JSRequestType command) {
 		this.command = command;
 	}
+	
 	
 }

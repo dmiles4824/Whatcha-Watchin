@@ -147,13 +147,6 @@ public class ConnectionManager implements Runnable{
 			}
 			//e
 			
-			//Message was too short
-			//s
-			else if(getClientSocket().getInputStream().available() < minimumHTTPByteLength) {
-				throw new MalformedHTTPRequestException("HTTP request method did not meet minimum length");
-			}
-			//e
-			
 			//Else, request must have timed out
 			//s
 			else {

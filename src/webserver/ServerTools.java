@@ -223,11 +223,11 @@ public class ServerTools {
 				break;
 				
 			case UNKNOWN_JSREQ:
-				jsResponse = JSResponse.jsError(jsRequest.getCommand(), "Unknown JS error");
+				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;
 			
 			default :
-				jsResponse = JSResponse.jsError(jsRequest.getCommand(), "Unknown JS error");
+				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;
 			
 			}
@@ -235,7 +235,7 @@ public class ServerTools {
 		
 		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
 		catch(JSException e){
-			jsResponse = JSResponse.jsError(e.getCommand(), e.getMessage());
+			jsResponse = JSResponse.jsError(e.getCommand(), e);
 		}
 		
 		//In the end, we have to make a response

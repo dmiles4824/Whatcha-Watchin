@@ -112,7 +112,7 @@ public class JSTools extends ServerTools {
 			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Capitalized: " + args.get(0).toUpperCase());
 		}
 		else{
-			response = JSResponse.jsError(request.getCommand(), "Improper arguments");
+			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
 		}
 		
 		return response;
@@ -133,7 +133,7 @@ public class JSTools extends ServerTools {
 			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Echo: " + args.get(0));
 		}
 		else{
-			response = JSResponse.jsError(request.getCommand(), "Improper arguments");
+			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
 		}
 		
 		return response;
