@@ -51,8 +51,9 @@ public class ConnectionManager implements Runnable{
 	
 	/**
 	 * Method called when ConnectionManager thread created to handle a new connection
-	 * (after authentication). It's job is basically to ensure that the client browser
-	 * successfully downloads the applet.
+	 * (after authentication). This method should ensure that a request is received,
+	 * understood, and fully responded to. It manages the connection from birth through
+	 * death
 	 */
 	public void run(){
 		

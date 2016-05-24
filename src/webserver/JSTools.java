@@ -6,17 +6,12 @@ package webserver;
 import webserver.js.*;
 import webserver.webexception.jsexception.*;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-//import java.util.NoSuchElementException;
-//import java.util.StringTokenizer;
-
-import com.opencsv.CSVReader;
 
 /**
  * This class extends ServerTools to provide that class with the tools it needs to 
@@ -37,25 +32,39 @@ public class JSTools extends ServerTools {
 		int lastIndex = requestString.lastIndexOf(')');
 		
 		
-		
+		//If no open parenthesis is found, can't parse command
 		if(firstIndex == -1) {
 			throw new NoCommandException("No command given");
 		}
-		else if(lastIndex != requestString.length()-1){
-			System.out.println(lastIndex);
-			System.out.println(requestString.length()-1);
-			throw new JSException("Characters after ending )"); 
+		
+		//If no close parenthesis found, can't parse command
+		else if(lastIndex == -1){
+			throw new MalformedJSCommandException("No closing parenthesis");
 		}
+		
+		//If a closing parenthesis is not the last character, problem
+		else if(lastIndex != requestString.length()-1){
+			throw new MalformedJSCommandException("Characters after ending )"); 
+		}
+		
+		//If the command has spaces, invalid command syntax
+		else if( (command = requestString.substring(0, firstIndex)).indexOf(' ') != -1 ){
+			throw new MalformedJSCommandException("Invalid command syntax");
+		}
+		
+		//Else, parse the message
 		else {
-			command = requestString.substring(0, firstIndex);
 			
+			//Read all characters between outer open and close parentheses
 			String args = requestString.substring(firstIndex+1, lastIndex);			
 			
+			//Fancy regex to tokenize as CSV accounting for quotes
 	        String[] tokens = args.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
 	        arguments = new ArrayList<String>(Arrays.asList(tokens));
 			
 		}
 		
+		//Form request
 		request = new JSRequest(command, arguments);
 		
 		return request;
@@ -67,6 +76,15 @@ public class JSTools extends ServerTools {
 		
 		if(request.getCommand().equalsIgnoreCase("capitalize")){
 			jsRequestType = JSRequestType.CAPITALIZE_JSREQ;
+		}
+		else if(request.getCommand().equalsIgnoreCase("echo")){
+			jsRequestType = JSRequestType.ECHO_JSREQ;
+		}
+		else if(request.getCommand().equalsIgnoreCase("help")){
+			jsRequestType = JSRequestType.HELP_JSREQ;
+		}
+		else if(request.getCommand().equalsIgnoreCase("hello")){
+			jsRequestType = JSRequestType.HELLO_JSREQ;
 		}
 		else {
 			jsRequestType = JSRequestType.UNKNOWN_JSREQ;
@@ -96,4 +114,64 @@ public class JSTools extends ServerTools {
 		return response;
 	}
 	
+	public static JSResponse echo(JSRequest request){
+		
+		JSResponse response;
+		
+		ArrayList<String> args = request.getArguments();
+		
+		if(args.size() == 1){
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			String dateString = dateFormat.format(date);
+			
+			response = new JSResponse("Received at " + dateString + ". Echo: " + args.get(0));
+		}
+		else{
+			response = JSResponse.jsError("Improper arguments");
+		}
+		
+		return response;
+	}
+	
+	public static JSResponse hello(JSRequest request){
+		
+		JSResponse response;
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		String dateString = dateFormat.format(date);
+		
+		response = new JSResponse("Received at " + dateString + ". You smell nice, client");
+		
+		return response;
+	}
+
+	public static JSResponse help(JSRequest request){
+		
+		JSResponse response;
+		
+		//Replace this with some config file data
+		StringBuilder builder = new StringBuilder();
+		builder.append("Welcome to Whatcha-Watchin! The following are a list of valid Javascript commands: \n"); 
+		
+		//Retrieve all declared methods
+		Method[] allMethods = JSTools.class.getDeclaredMethods();
+		
+		//If it has a JSResponse return type, it must be a command, so we will describe it
+		for(Method m : allMethods){
+			if(m.getGenericReturnType() instanceof JSResponse){
+				builder.append(m.toGenericString() + "\n");
+			}
+			
+		}
+		
+		//Format response
+		response = new JSResponse(builder.toString());
+				
+		return response;
+	}
+
+
 }

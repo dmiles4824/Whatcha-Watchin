@@ -70,7 +70,7 @@ public class ServerTools {
 		contentLength = ParseTools.findContentLength(headers, command);
 		
 		//Read body of message
-		body = ParseTools.readBody(body, is, contentLength);
+		body = ParseTools.trimByteArray(ParseTools.readBody(body, is, contentLength), contentLength);
 		
 		//Determine if error
 		isError = false;
@@ -213,6 +213,18 @@ public class ServerTools {
 				jsResponse = JSTools.capitalize(jsRequest);
 				break;
 			
+			case ECHO_JSREQ:
+				jsResponse = JSTools.echo(jsRequest);
+				break;
+				
+			case HELLO_JSREQ:
+				jsResponse = JSTools.hello(jsRequest);
+				break;
+				
+			case HELP_JSREQ:
+				jsResponse = JSTools.hello(jsRequest);
+				break;
+				
 			case UNKNOWN_JSREQ:
 				jsResponse = JSResponse.jsError("Unknown JS error");
 				break;

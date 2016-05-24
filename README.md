@@ -21,6 +21,7 @@ Hash map for HTTP headers
 Remove null stuff in ParseTools (change solely to WebExceptions)
 Add login/authentication
 Create Response interface
+make enum for reply type that knows the encoding required
 
 /webserver/js/
 
