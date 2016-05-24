@@ -161,7 +161,7 @@ public class JSTools extends ServerTools {
 		
 		//If it has a JSResponse return type, it must be a command, so we will describe it
 		for(Method m : allMethods){
-			if(m.getGenericReturnType() instanceof JSResponse){
+			if(m.getReturnType().equals(JSResponse.class)){
 				builder.append(m.toGenericString() + "\n");
 			}
 			
