@@ -20,10 +20,6 @@ public class JSException extends WebException {
 
     }
 
-    public JSException(String message){
-        super(message);
-    }
-
     public JSException(Throwable cause){
 
         super(cause);
@@ -37,6 +33,10 @@ public class JSException extends WebException {
     public JSException(String message, JSRequestType command){
     	super(message);
     	this.command = command;
+    }
+    
+    public JSException(String message){
+        this(message, JSRequestType.UNKNOWN_JSREQ);
     }
 
     

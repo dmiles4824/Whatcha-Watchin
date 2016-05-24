@@ -65,7 +65,7 @@ public class JSTools extends ServerTools {
 			
 		}
 		
-		//Determine command type
+		//Determine command
 		command = JSTools.parseJSRequestType(commandString);
 		
 		//Form request
