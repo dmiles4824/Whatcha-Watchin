@@ -222,7 +222,7 @@ public class ServerTools {
 				break;
 				
 			case HELP_JSREQ:
-				jsResponse = JSTools.hello(jsRequest);
+				jsResponse = JSTools.help(jsRequest);
 				break;
 				
 			case UNKNOWN_JSREQ:
