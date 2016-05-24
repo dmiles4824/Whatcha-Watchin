@@ -1,6 +1,7 @@
 package webserver.js;
 
 import webserver.JSRequestType;
+import webserver.ParseTools;
 import webserver.webexception.jsexception.JSException;
 import webserver.webexception.jsexception.NoErrorException;
 
@@ -62,7 +63,7 @@ public class JSResponse {
 		StringBuilder builder = new StringBuilder();
 		
 		builder.append(this.getCommand().getCommandString() + '\n');
-		builder.append(this.getError().getName() + "\n");
+		builder.append(ParseTools.getLastWordInPackageName(this.getError().getName()) + "\n");
 		builder.append(this.getResponseString());
 		
 		String totalString = builder.toString();

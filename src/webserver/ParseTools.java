@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import webserver.webexception.*;
 
@@ -48,7 +49,7 @@ public class ParseTools extends ServerTools {
 	 * @param buffer
 	 * @return
 	 */
-	protected static boolean endOfHeader(byte[] buffer, int lastValue) {
+	public static boolean endOfHeader(byte[] buffer, int lastValue) {
 		
 		if(lastValue >= 3 && lastValue < buffer.length) {									//If less than four values in buffer, can't have reached end
 			if(		buffer[lastValue    ] == '\n' &&
@@ -68,7 +69,7 @@ public class ParseTools extends ServerTools {
 	 * @return a byte buffer containing the HTTP header
 	 * @throws WebException IO error on reading header into buffer
 	 */
-	protected static byte[] readUntilHeader(byte[] buffer, InputStream is) throws WebException{
+	public static byte[] readUntilHeader(byte[] buffer, InputStream is) throws WebException{
 		
 		int numRead = 0;
 		int startIndex = 0;
@@ -106,7 +107,7 @@ public class ParseTools extends ServerTools {
 	 * @param buffer
 	 * @return string holding the whole buffer
 	 */
-	protected static String readHeaderString(byte[] buffer){
+	public static String readHeaderString(byte[] buffer){
 		
 		int i = 0;
 		
@@ -128,7 +129,7 @@ public class ParseTools extends ServerTools {
 	 * @param wholeHeader
 	 * @return String array of headers
 	 */
-	protected static String[] parseHeaders(String wholeHeader){
+	public static String[] parseHeaders(String wholeHeader){
 		
 		String[] headers = null;
 		
@@ -167,7 +168,7 @@ public class ParseTools extends ServerTools {
 	 * @param headers
 	 * @return 
 	 */
-	protected static String findCommand(String[] headers){
+	public static String findCommand(String[] headers){
 		
 		String command = null;
 		
@@ -196,7 +197,7 @@ public class ParseTools extends ServerTools {
 	 * @param headers
 	 * @return
 	 */
-	protected static int findContentLength(String[] headers, String command) throws WebException{
+	public static int findContentLength(String[] headers, String command) throws WebException{
 		
 		int contentLength = -1;
 		
@@ -252,7 +253,7 @@ public class ParseTools extends ServerTools {
 	 * @param contentLength
 	 * @return message body as byte[] buffer
 	 */
-	protected static byte[] readBody(byte[] bodyBuffer, InputStream is, long contentLength) throws WebException{
+	public static byte[] readBody(byte[] bodyBuffer, InputStream is, long contentLength) throws WebException{
 		
 		int numRead = 0;
 		int startIndex = 0;
@@ -290,7 +291,7 @@ public class ParseTools extends ServerTools {
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	protected static String parseURL(String requestLine) {
+	public static String parseURL(String requestLine) {
 		
 		Scanner scanner;
 		ArrayList<String> words = new ArrayList<String>();
@@ -315,7 +316,7 @@ public class ParseTools extends ServerTools {
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	protected static String parseVersion(String requestLine) {
+	public static String parseVersion(String requestLine) {
 		
 		Scanner scanner;
 		ArrayList<String> words = new ArrayList<String>();
@@ -340,7 +341,7 @@ public class ParseTools extends ServerTools {
 	 * @return
 	 * @throws IOException
 	 */
-	protected static byte[] readBytesFromFile(Path path) throws WebException{
+	public static byte[] readBytesFromFile(Path path) throws WebException{
 		byte[] encoded;
 		try {
 			encoded = Files.readAllBytes(path); 
@@ -358,7 +359,7 @@ public class ParseTools extends ServerTools {
 	 * @param length
 	 * @return
 	 */
-	protected static byte[] trimByteArray(byte[] buffer, int length) {
+	public static byte[] trimByteArray(byte[] buffer, int length) {
 		
 		byte[] trimmed = null;
 		
@@ -381,7 +382,7 @@ public class ParseTools extends ServerTools {
 	 * @param bodyBytes
 	 * @return
 	 */
-	protected static byte[] combineByteArrays(byte[] a, byte[] b){
+	public static byte[] combineByteArrays(byte[] a, byte[] b){
 		
 		byte[] whole = null;
 		
@@ -397,6 +398,15 @@ public class ParseTools extends ServerTools {
 			}
 		}
 		return whole;
+	}
+	
+	public static String getLastWordInPackageName(String fullName){
+		StringTokenizer st = new StringTokenizer(fullName, ".");
+		String lastName = "";
+		while(st.hasMoreTokens()){
+			lastName = st.nextToken();
+		}
+		return lastName;
 	}
 	
 }
