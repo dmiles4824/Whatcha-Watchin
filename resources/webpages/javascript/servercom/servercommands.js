@@ -18,9 +18,7 @@ var processCommand = function(request, actionMethod, actionArgs){
 		if(request.status == 200){
 			
 			//Add the response object to actionArgs
-			//REPLACE WITH ACTUAL REQUEST OBJECT ONCE THEY EXIST
-			//right now just sending plain text
-			actionArgs.unshift(request.responseText)
+			actionArgs.unshift(parseJSResponse(request.responseText));
 			
 			//Run whatever action method
 			actionMethod(actionArgs);

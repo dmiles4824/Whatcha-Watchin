@@ -4,10 +4,10 @@
  */
 var writeTextFromServer = function(args) {
 	
-	var text = args[0];
+	var response = args[0];
 	var element = args[1];
 	
-	appendText(element, text);
+	appendText(element, response.message);
 	
 	
 }
