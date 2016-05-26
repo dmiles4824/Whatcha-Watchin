@@ -1,0 +1,13 @@
+/**
+ * @arg[0] the JSResponse object received from server
+ * @arg[1] the target element
+ */
+var writeTextFromServer = function(args) {
+	
+	var text = args[0];
+	var element = args[1];
+	
+	appendText(element, text);
+	
+	
+}

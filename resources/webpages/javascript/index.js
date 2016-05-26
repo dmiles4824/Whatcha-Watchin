@@ -1,3 +1,6 @@
+
+
+
 /**
  * Process:
  * 
@@ -38,37 +41,33 @@
  * 
  * WHAT THE JS CLIENT SHOULD CONTAIN
  * per page js file: 
- * 		these files provide direct user interaction
- * some set up of client-side logic js files:
- * 		methods called by per page files after the per page files have decided what user input requires the client to do
- * 		any other helper methods needed to respond to user input
- * 		includes any necessary calls to prepare()
+ * 		these files provide direct user interaction. They have response methods that listen to user input, parse input
+ * 		errors, decide if they need to communicate with the server, and call the action methods OR use prepare()
  * set of action methods:
  * 		methods called using by prepare() that tell the client what to do with a JSResponse
  * 		contain error handling
  * 
  */
 
-
-
-var makeAlert = function() {
-	alert("Attempting to change text");
-}
-
-
-var update = function(e, sourceElement, targetElement) {
+var sendTextAndUpdate = function(e, sourceElement, targetElement) {
 	
 	if(keyPress(e)){
 		
 		//Save input text
 		var inputText = readText(sourceElement);
 		
+		console.log(inputText);
+		
 		//Write text to output and clear input
 		appendText(targetElement, "You said: " + inputText);
 		writeText(sourceElement, "");
 		
-		//Send capitalize text and write it
-		sendText(inputText);
+		//Make prepare arguments
+		var serverArgs = [inputText];
+		var actionArgs = [targetElement];
+		
+		//Prepare for server response
+		prepare(sendText, serverArgs, writeTextFromServer, actionArgs);
 		
 		return false;
 	}

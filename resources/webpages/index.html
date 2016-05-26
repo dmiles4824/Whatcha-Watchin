@@ -5,7 +5,9 @@
 		
 		<script src="javascript/index.js"></script>
 		<script src="javascript/servercom/servercommands.js"></script>
-		<script src="javascript/commandLineTools.js"></script>
+		<script src="javascript/servercom/serverrequests.js"></script>
+		<script src="javascript/helpers/commandLineTools.js"></script>
+		<script src="javascript/actionmethods/indexActionMethods.js"></script>
 		
 		<style type = "text/css">
 		
@@ -64,7 +66,7 @@
 		</div>
 		
 		<div class = "type">
-			<input size="100" type="text" id="input" onkeypress='return update(event, this, getElementById("print"))' autofocus/><br>
+			<input size="100" type="text" id="input" onkeypress='return sendTextAndUpdate(event, this, getElementById("print"))' autofocus/><br>
 		</form>
 		</div>
 		
