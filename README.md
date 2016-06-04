@@ -26,13 +26,11 @@ Create Response interface
 /webserver/js/
 
 CSV stuff
-Proper JS response encoding (with type and error status) so it can easily be reconstituted on client side (Also help with help() method!!!)
 
 
 /javascript/
 
 Store buffer of previous responses
-Add javascript error handling on client side (better than just print out string error)
 
 /sqlserver/
 
