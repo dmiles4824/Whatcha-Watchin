@@ -47,14 +47,14 @@ public class SQLQueries {
 	 * @throws SQLException */
 	private static Statement connector() throws SQLException {
 		
-		Connection conn;
+		Connection conn = null;
 		
 		try {
 			 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~"); 
 		}
 		
 		catch (SQLException e) {
-			throw e;
+			e.printStackTrace();
 		}
 		
 		return conn.createStatement();
