@@ -37,7 +37,7 @@ public class WebServer {
 		//Server stays on forever, ftm
 		while (true) {
 			
-			System.out.println("Ready for connections!!!!");
+			System.out.println("Ready for connections!!!");
 			
 			//block while waiting for next connection attempt
 			Socket connectionSocket = welcomeSocket.accept();
