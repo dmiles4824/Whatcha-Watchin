@@ -22,6 +22,20 @@ public class SQLTest {
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
+		try {
+			String brianString = SQLQueryWrapper.getUsersGroups("brian");
+			
+			System.out.println("Resutls:");
+			System.out.println(brianString);
+		}
+		
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 }
