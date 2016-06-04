@@ -50,10 +50,15 @@ public class SQLQueries {
 		Connection conn = null;
 		
 		try {
-			 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~"); 
+			Class.forName("com.mysql.jdbc.Driver"); 
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~"); 
 		}
 		
 		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		catch(Exception e){
 			e.printStackTrace();
 		}
 		
