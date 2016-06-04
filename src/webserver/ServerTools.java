@@ -222,6 +222,10 @@ public class ServerTools {
 				jsResponse = JSTools.help(jsRequest);
 				break;
 				
+			case GETUSERSGROUPS_JSREQ:
+				jsResponse = JSTools.getUsersGroups(jsRequest);
+				break;
+				
 			case UNKNOWN_JSREQ:
 				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;

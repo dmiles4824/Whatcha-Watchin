@@ -4,11 +4,12 @@ public enum JSRequestType {
 	
 	/*******JS Request Types*******/
 	
-	CAPITALIZE_JSREQ 	(1, new String[]{"String"}, "capitalize"),
-	ECHO_JSREQ			(1, new String[]{"String"}, "echo"),
-	HELP_JSREQ			(0, new String[]{""}, "help"),
-	HELLO_JSREQ			(0, new String[]{""}, "hello"),
-	UNKNOWN_JSREQ		(0, new String[]{""}, "unrecognized command");
+	CAPITALIZE_JSREQ 		(1, new String[]{"String"}, "capitalize"),
+	ECHO_JSREQ				(1, new String[]{"String"}, "echo"),
+	HELP_JSREQ				(0, new String[]{""}, "help"),
+	HELLO_JSREQ				(0, new String[]{""}, "hello"),
+	GETUSERSGROUPS_JSREQ	(1, new String[]{"String"}, "getUsersGroups"),
+	UNKNOWN_JSREQ			(0, new String[]{""}, "unrecognized command");
 	
 	
 	/*******Member fields*******/

@@ -7,11 +7,14 @@ import webserver.js.*;
 import webserver.webexception.jsexception.*;
 
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
+import sqlserver.SQLQueryWrapper;
 
 /**
  * This class extends ServerTools to provide that class with the tools it needs to 
@@ -176,6 +179,33 @@ public class JSTools extends ServerTools {
 				
 		return response;
 	}
-
+	
+	public static JSResponse getUsersGroups(JSRequest request) {
+		
+		JSResponse response;
+		String stringResponse;
+		
+		//Arguments
+		String username = request.getArguments().get(0);
+		
+		try {
+				
+			stringResponse = SQLQueryWrapper.getUsersGroups(username);
+			response = new JSResponse(request.getCommand(), stringResponse);
+			
+		}
+		
+		//If the SQL query throws an SQLException
+		catch(SQLException e){
+			
+			stringResponse = "SQL Access Error";
+			response = new JSResponse(request.getCommand(), stringResponse, new UnderlyingErrorException("Error accessing SQL database"));
+			
+		}
+		
+		
+		return response;
+	}
+	
 
 }

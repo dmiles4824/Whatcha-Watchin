@@ -26,6 +26,8 @@ public class SQLQueries {
 						+ ";"
 						;
 		
+		System.out.println("Query is:\n" + query);
+		
 		//Execute query
 		ResultSet rs = stmt.executeQuery(query);
 		
