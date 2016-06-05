@@ -16,8 +16,14 @@ public class SQLQueryWrapper {
 		ArrayList<String> list = SQLQueries.getUsersGroups(username);
 		
 		StringBuilder builder = new StringBuilder();
-		for(String s : list){
-			builder.append(s + "\n");
+		
+		if(list.size() == 0){
+			builder.append("User is not in any groups.");
+		}
+		else {
+			for(String s : list){
+				builder.append(s + "\n");
+			}
 		}
 		
 		return builder.toString();
