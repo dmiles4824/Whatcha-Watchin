@@ -197,8 +197,13 @@ public class JSTools extends ServerTools {
 		//Arguments
 		String username = request.getArguments().get(0);
 		
-		stringResponse = SQLQueryWrapper.getUsersGroups(username);
-		response = new JSResponse(request.getCommand(), stringResponse);
+		if(request.getArguments().size() == 1){
+			stringResponse = SQLQueryWrapper.getUsersGroups(username);
+			response = new JSResponse(request.getCommand(), stringResponse);
+		}
+		else {
+			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+		}
 		
 		return response;
 	}
@@ -213,19 +218,33 @@ public class JSTools extends ServerTools {
 		String password = request.getArguments().get(1);
 		JSRequestType command = request.getCommand();
 		
-		stringResponse = SQLQueryWrapper.addUser(username, password);
-		response = new JSResponse(command, stringResponse);
+		if(request.getArguments().size() == 2){
+			stringResponse = SQLQueryWrapper.addUser(username, password);
+			response = new JSResponse(command, stringResponse);
+		}
+		else {
+			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+		}
+		
 		
 		return response;
 	}
 	
 	public static JSResponse removeUser(JSRequest request) throws SQLException{
 		
+		String stringResponse;
+		JSResponse response;
+		
 		String username = request.getArguments().get(0);
 		JSRequestType command = request.getCommand();
 		
-		String stringResponse = SQLQueryWrapper.removeUser(username);
-		JSResponse response = new JSResponse(command, stringResponse);
+		if(request.getArguments().size() == 1){
+			stringResponse = SQLQueryWrapper.removeUser(username);
+			response = new JSResponse(command, stringResponse);
+		}
+		else {
+			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+		}
 		
 		return response;
 	}
