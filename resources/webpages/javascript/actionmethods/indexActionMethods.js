@@ -11,3 +11,12 @@ var writeTextFromServer = function(args) {
 	
 	
 }
+
+var writeUsersGroups = function(args) {
+	
+	var response = args[0];
+	var element = args[1];
+	
+	append(element, response.message);
+	
+}

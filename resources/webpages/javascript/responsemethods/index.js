@@ -73,3 +73,25 @@ var sendTextAndUpdate = function(e, sourceElement, targetElement) {
 	}
 	return true;
 }
+
+
+var getUsersGroupsAndUpdate = function(e, sourceElement, targetElement) {
+	
+	if(keyPress(e)){
+		
+		//Save user input
+		var inputText = readText(sourceElement);
+		
+		//Write what we can to the target
+		appendText(targetElement, "Groups of " + inputText);
+		writeText(sourceElement, "");
+		
+		//Make prepare arguments
+		var serverArgs = [inputText];
+		var actionArgs = [targetElement];
+		
+		//Prepare for server response
+		prepare(getUsersGroups, serverArgs, writeUsersGroups, actionArgs);	
+	}
+}
+
