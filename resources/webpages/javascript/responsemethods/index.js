@@ -91,7 +91,7 @@ var getUsersGroupsAndUpdate = function(e, sourceElement, targetElement) {
 		var actionArgs = [targetElement];
 		
 		//Prepare for server response
-		prepare(getUsersGroups, serverArgs, writeUsersGroups, actionArgs);	
+		prepare(getUsersGroups, serverArgs, writeTextFromServer, actionArgs);	
 	}
 }
 

@@ -17,7 +17,7 @@ var processCommand = function(request, actionMethod, actionArgs){
 		//Check if all good
 		if(request.status == 200){
 			
-			//Add the response object to actionArgs
+			//Add the response object to the front of actionArgs
 			actionArgs.unshift(parseJSResponse(request.responseText));
 			
 			//Run whatever action method
