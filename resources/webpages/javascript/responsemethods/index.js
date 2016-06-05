@@ -83,7 +83,7 @@ var getUsersGroupsAndUpdate = function(e, sourceElement, targetElement) {
 		var inputText = readText(sourceElement);
 		
 		//Write what we can to the target
-		appendText(targetElement, "Groups of " + inputText);
+		writeText(targetElement, "Groups of " + inputText);
 		writeText(sourceElement, "");
 		
 		//Make prepare arguments
