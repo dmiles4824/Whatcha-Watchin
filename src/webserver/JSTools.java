@@ -96,6 +96,12 @@ public class JSTools extends ServerTools {
 		else if(command.equalsIgnoreCase("getUsersGroups")){
 			jsRequestType = JSRequestType.GETUSERSGROUPS_JSREQ;
 		}
+		else if(command.equalsIgnoreCase("addUser")){
+			jsRequestType = JSRequestType.ADDUSER_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("removeUser")){
+			jsRequestType = JSRequestType.REMOVEUSER_JSREQ;
+		}
 		else {
 			jsRequestType = JSRequestType.UNKNOWN_JSREQ;
 		}
@@ -183,7 +189,7 @@ public class JSTools extends ServerTools {
 		return response;
 	}
 	
-	public static JSResponse getUsersGroups(JSRequest request) {
+	public static JSResponse getUsersGroups(JSRequest request) throws SQLException{
 		
 		JSResponse response;
 		String stringResponse;
@@ -191,24 +197,37 @@ public class JSTools extends ServerTools {
 		//Arguments
 		String username = request.getArguments().get(0);
 		
-		try {
-				
-			stringResponse = SQLQueryWrapper.getUsersGroups(username);
-			response = new JSResponse(request.getCommand(), stringResponse);
-			
-		}
-		
-		//If the SQL query throws an SQLException
-		catch(SQLException e){
-			
-			stringResponse = "SQL Access Error";
-			response = new JSResponse(request.getCommand(), stringResponse, new UnderlyingErrorException("Error accessing SQL database"));
-			
-		}
-		
+		stringResponse = SQLQueryWrapper.getUsersGroups(username);
+		response = new JSResponse(request.getCommand(), stringResponse);
 		
 		return response;
 	}
 	
+	public static JSResponse addUser(JSRequest request) throws SQLException{
+		
+		JSResponse response;
+		String stringResponse;
+		
+		//Arguments
+		String username = request.getArguments().get(0);
+		String password = request.getArguments().get(1);
+		JSRequestType command = request.getCommand();
+		
+		stringResponse = SQLQueryWrapper.addUser(username, password);
+		response = new JSResponse(command, stringResponse);
+		
+		return response;
+	}
+	
+	public static JSResponse removeUser(JSRequest request) throws SQLException{
+		
+		String username = request.getArguments().get(0);
+		JSRequestType command = request.getCommand();
+		
+		String stringResponse = SQLQueryWrapper.removeUser(username);
+		JSResponse response = new JSResponse(command, stringResponse);
+		
+		return response;
+	}
 
 }

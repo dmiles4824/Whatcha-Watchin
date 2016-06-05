@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import java.net.*;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import webserver.webexception.InputStreamUnavailableException;
 import webserver.webexception.ResponseIOException;
 import webserver.webexception.WebException;
 import webserver.webexception.jsexception.JSException;
+import webserver.webexception.jsexception.UnderlyingErrorException;
 
 /**
  * The primary helper class for the java server. ConnectionManager's job is to take care
@@ -362,6 +364,12 @@ public class ServerTools {
 				jsResponse = JSTools.getUsersGroups(jsRequest);
 				break;
 				
+			case ADDUSER_JSREQ:
+				jsResponse = JSTools.addUser(jsRequest);
+				
+			case REMOVEUSER_JSREQ:
+				jsResponse = JSTools.removeUser(jsRequest);
+				
 			case UNKNOWN_JSREQ:
 				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;
@@ -376,6 +384,10 @@ public class ServerTools {
 		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
 		catch(JSException e){
 			jsResponse = JSResponse.jsError(e.getCommand(), e);
+		}
+		
+		catch(SQLException e){
+			jsResponse = JSResponse.jsError(JSRequestType.UNKNOWN_JSREQ, new UnderlyingErrorException("SQL Access Error"));
 		}
 		
 		//In the end, we have to make a response

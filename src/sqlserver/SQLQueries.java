@@ -13,10 +13,10 @@ public class SQLQueries {
 	
 	/*******Static methods*******/
 	
+	
+	//Queries
+	
 	public static ArrayList<String> getUsersGroups(String username) throws SQLException{
-		
-		//Retrieve a connection
-		Statement stmt = connector();
 		
 		//Form query
 		String query = 	"select `group_name` "
@@ -26,50 +26,40 @@ public class SQLQueries {
 						+ ";"
 						;
 		
-		System.out.println("Query is:\n" + query);
-		
-		//Execute query
-		ResultSet rs = stmt.executeQuery(query);
-		
-		//Prepare to read results
-		ArrayList<String> list = new ArrayList<String>();
-		
-		//Read Results
-		while(rs.next()){
-			list.add(rs.getString(1));
-		}
-		
-		return list;
+		return SQLTools.oneDQuery(query);
 	}
 	
 	
-	/* Helper method that connects the program to the SQL database.
-	 * @throws SQLException */
-	private static Statement connector() throws SQLException {
+	//Updates
+	
+	
+	//	User
+	
+	public static int addUser(String username, String password) throws SQLException{
 		
-		Connection conn = null;
+		String query = "insert into `User` (`username`, `password`) values ('"
+						+ username
+						+ "', '"
+						+ password
+						+ "')"
+						+ ";"
+						;
 		
-		try {
-			Class.forName("com.mysql.jdbc.Driver"); 
-			
-			//Brian-RP
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~");
-			
-			//Brian-LT
-			//conn = DriverManager.getConnection("jdbc:mysql://192.168.1.24:3306/wwschema", "javabrianroot", "biscotti");
-			 
-		}
-		
-		catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return conn.createStatement();
+		return SQLTools.voidUpdate(query);
 	}
 	
+	public static int removeUser(String username) throws SQLException {
+		
+		String query = 	  "delete from `User`"
+						+ "where `username` = "
+						+ username
+						+ " limit 1"
+						+ ";"
+						;
+		
+		return SQLTools.voidUpdate(query);
+	}
+	
+	//public static void addGroup(String group_name) throws SQLException
 	
 }
