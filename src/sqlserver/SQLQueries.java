@@ -23,7 +23,7 @@ public class SQLQueries {
 		String query = 	"select `group_name` "
 						+ "from `Group` G, `Member` M "
 						+ "where G.`group_id` = M.`group_id` AND "
-						+		"M.username = " + username
+						+		"M.username = '" + username + "'"
 						+ ";"
 						;
 		
