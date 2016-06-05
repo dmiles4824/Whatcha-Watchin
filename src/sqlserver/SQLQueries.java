@@ -6,7 +6,6 @@ package sqlserver;
 /*******Imports*******/
 import java.sql.*;
 import java.util.ArrayList;
-import com.mysql.jdbc.Driver;
 
 public class SQLQueries {
 	
@@ -52,7 +51,13 @@ public class SQLQueries {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~"); 
+			
+			//Brian-RP
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/wwschema", "root", "M05sokker~");
+			
+			//Brian-LT
+			//conn = DriverManager.getConnection("jdbc:mysql://192.168.1.24:3306/wwschema", "javabrianroot", "biscotti");
+			 
 		}
 		
 		catch (SQLException e) {
