@@ -341,7 +341,7 @@ public class ParseTools extends ServerTools {
 	 * @return
 	 * @throws IOException
 	 */
-	public static byte[] readBytesFromFile(Path path) throws WebException{
+	public static byte[] readBytesFromFile(Path path) throws HTMLReadException{
 		byte[] encoded;
 		try {
 			encoded = Files.readAllBytes(path); 

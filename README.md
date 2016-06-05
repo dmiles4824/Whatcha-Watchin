@@ -34,5 +34,3 @@ Store buffer of previous responses
 
 /sqlserver/
 
-Create sqlserver package
-Download sql on RPi
