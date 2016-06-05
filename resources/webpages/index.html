@@ -54,6 +54,13 @@
 				width: 800px;
 			}
 			
+			div.usersgroups {
+				border: 2px solid black;
+				margin: 30px;
+				padding: 10px;
+				width: 800px;
+			}
+			
 		</style>
 		
 	</HEAD>
@@ -69,7 +76,14 @@
 		
 		<div class = "type">
 			<input size="100" type="text" id="input" onkeypress='return sendTextAndUpdate(event, this, getElementById("print"))' autofocus/><br>
-		</form>
+		</div>
+		
+		<div class = "usersgroups">
+			<input size="100" type="text" id="uginput" onkeypress='getUsersGroupsAndUpdate(event, this, getElementById("ugresults"))'/><br>
+			
+			<p id="ugresults">
+			</p>
+			
 		</div>
 		
 	</BODY>
