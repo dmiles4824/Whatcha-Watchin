@@ -93,6 +93,9 @@ public class JSTools extends ServerTools {
 		else if(command.equalsIgnoreCase("hello")){
 			jsRequestType = JSRequestType.HELLO_JSREQ;
 		}
+		else if(command.equalsIgnoreCase("getUsersGroups")){
+			jsRequestType = JSRequestType.GETUSERSGROUPS_JSREQ;
+		}
 		else {
 			jsRequestType = JSRequestType.UNKNOWN_JSREQ;
 		}

@@ -13,13 +13,13 @@ var sendText = function(args){
 	return request;
 }
 
-var capitalize = function(text){
+var getUsersGroups = function(args) {
 	
 	var request = new XMLHttpRequest();
 	
 	request.open('POST', "/", true);
-	request.send("capitalize(" + text + ")");
-	request.addEventListener("readystatechange", function(){ processCommand(request);}, false);
-
+	request.send("getUsersGroups(" + args[0] + ")");
+	
+	return request;
 	
 }
