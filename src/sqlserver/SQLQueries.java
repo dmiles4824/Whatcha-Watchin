@@ -36,7 +36,7 @@ public class SQLQueries {
 		
 		//Read Results
 		while(rs.next()){
-			list.add(rs.getString(0));
+			list.add(rs.getString(1));
 		}
 		
 		return list;
