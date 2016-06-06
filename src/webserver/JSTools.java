@@ -179,7 +179,7 @@ public class JSTools extends ServerTools {
 				for(int i = 0; i < req.getParamTypes().length - 1; i++){
 					builder.append(req.getParamTypes()[i] + ", ");
 				}
-				builder.append(req.getParamTypes().length - 1);
+				builder.append(req.getParamTypes()[req.getParamTypes().length - 1]);
 				builder.append(")\n");
 			}
 		}
