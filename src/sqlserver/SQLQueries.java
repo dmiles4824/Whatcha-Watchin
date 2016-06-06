@@ -50,10 +50,10 @@ public class SQLQueries {
 	
 	public static int removeUser(String username) throws SQLException {
 		
-		String query = 	  "delete from `User`"
-						+ "where `username` = "
+		String query = 	  "delete from `User` "
+						+ "where `username` = '"
 						+ username
-						+ " limit 1"
+						+ "' limit 1"
 						+ ";"
 						;
 		
