@@ -366,9 +366,11 @@ public class ServerTools {
 				
 			case ADDUSER_JSREQ:
 				jsResponse = JSTools.addUser(jsRequest);
+				break;
 				
 			case REMOVEUSER_JSREQ:
 				jsResponse = JSTools.removeUser(jsRequest);
+				break;
 				
 			case UNKNOWN_JSREQ:
 				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
