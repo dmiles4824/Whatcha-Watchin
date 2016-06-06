@@ -176,8 +176,11 @@ public class JSTools extends ServerTools {
 			if(req != JSRequestType.UNKNOWN_JSREQ){
 				builder.append(req.getCommandString());
 				builder.append("(");
-				builder.append(req.getParamTypes());
-				builder.append(")");
+				for(int i = 0; i < req.getParamTypes().length - 1; i++){
+					builder.append(req.getParamTypes()[i] + ", ");
+				}
+				builder.append(req.getParamTypes().length - 1);
+				builder.append(")\n");
 			}
 		}
 		
