@@ -6,7 +6,6 @@ package webserver;
 import webserver.js.*;
 import webserver.webexception.jsexception.*;
 
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -172,15 +171,14 @@ public class JSTools extends ServerTools {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Welcome to Whatcha-Watchin! The following are a list of valid Javascript commands. Don't forget to use quotes for strings!!! \n"); 
 		
-		//Retrieve all declared methods
-		Method[] allMethods = JSTools.class.getDeclaredMethods();
-		
 		//If it has a JSResponse return type, it must be a command, so we will describe it
-		for(Method m : allMethods){
-			if(m.getReturnType().equals(JSResponse.class)){
-				builder.append(m.getName() + "()\n");
+		for(JSRequestType req : JSRequestType.values()){
+			if(req != JSRequestType.UNKNOWN_JSREQ){
+				builder.append(req.getCommandString());
+				builder.append("(");
+				builder.append(req.getParamTypes());
+				builder.append(")");
 			}
-			
 		}
 		
 		//Format response
