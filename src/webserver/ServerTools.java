@@ -360,16 +360,36 @@ public class ServerTools {
 				jsResponse = JSTools.help(jsRequest);
 				break;
 				
-			case GETUSERSGROUPS_JSREQ:
-				jsResponse = JSTools.getUsersGroups(jsRequest);
-				break;
-				
 			case ADDUSER_JSREQ:
 				jsResponse = JSTools.addUser(jsRequest);
 				break;
 				
 			case REMOVEUSER_JSREQ:
 				jsResponse = JSTools.removeUser(jsRequest);
+				break;
+				
+			case ADDGROUP_JSREQ:
+				jsResponse = JSTools.addGroup(jsRequest);
+				break;
+				
+			case REMOVEGROUP_JSREQ:
+				jsResponse = JSTools.removeGroup(jsRequest);
+				break;
+				
+			case ADDMOVIE_JSREQ:
+				jsResponse = JSTools.addMovie(jsRequest);
+				break;
+				
+			case REMOVEMOVIE_JSREQ:
+				jsResponse = JSTools.removeMovie(jsRequest);
+				break;
+				
+			case ADDUSERTOGROUP_JSREQ:
+				jsResponse = JSTools.addUserToGroup(jsRequest);
+				break;
+				
+			case GETUSERSINGROUP_JSREQ:
+				jsResponse = JSTools.getUsersInGroup(jsRequest);
 				break;
 				
 			case UNKNOWN_JSREQ:

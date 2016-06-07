@@ -98,14 +98,32 @@ public class JSTools extends ServerTools {
 		else if(command.equalsIgnoreCase("hello")){
 			jsRequestType = JSRequestType.HELLO_JSREQ;
 		}
-		else if(command.equalsIgnoreCase("getUsersGroups")){
-			jsRequestType = JSRequestType.GETUSERSGROUPS_JSREQ;
-		}
 		else if(command.equalsIgnoreCase("addUser")){
 			jsRequestType = JSRequestType.ADDUSER_JSREQ;
 		}
 		else if(command.equalsIgnoreCase("removeUser")){
 			jsRequestType = JSRequestType.REMOVEUSER_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("addGroup")){
+			jsRequestType = JSRequestType.ADDGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("removeGroup")){
+			jsRequestType = JSRequestType.REMOVEGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("addMovie")){
+			jsRequestType = JSRequestType.ADDMOVIE_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("removeMovie")){
+			jsRequestType = JSRequestType.REMOVEMOVIE_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("getUsersGroups")){
+			jsRequestType = JSRequestType.GETUSERSGROUPS_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("addUserToGroup")){
+			jsRequestType = JSRequestType.ADDUSERTOGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("getUsersInGroup")){
+			jsRequestType = JSRequestType.GETUSERSINGROUP_JSREQ;
 		}
 		else {
 			jsRequestType = JSRequestType.UNKNOWN_JSREQ;
@@ -211,54 +229,6 @@ public class JSTools extends ServerTools {
 		return response;
 	}
 	
-	public static JSResponse getUsersGroups(JSRequest request) throws SQLException{
-		
-		//Declarations
-		JSResponse response;
-		String stringResponse = "";
-		String status = "";
-		JSRequestType command = request.getCommand();
-		
-		//Arguments - assume correct number
-		String username = request.getArguments().get(0);
-		System.out.println("Arguments extracted");
-		
-		//Create wrapper
-		SQLQueryWrapper wrapper = new SQLQueryWrapper();
-		System.out.println("Wrapper built");
-		
-		//Logic
-		
-		//If user exists
-		if(wrapper.findUser(username)){
-			
-			System.out.println("User found");
-			
-			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
-			
-			System.out.println("query run");
-			
-			if(list.size() == 0){
-				System.out.println("No groups");
-				status = "NoGroups";
-			}
-			else {
-				System.out.println("Success");
-				status = "OK";
-				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
-			}
-		}
-		else {
-			System.out.println("No user found");
-			status = "NoSuchUser";
-		}
-		
-		response = new JSResponse(command, stringResponse, status);
-		System.out.println("response made");
-		
-		return response;
-	}
-	
 	public static JSResponse addUser(JSRequest request) throws SQLException{
 		
 		//Declarations
@@ -324,5 +294,278 @@ public class JSTools extends ServerTools {
 		
 		return response;
 	}
+	
+	public static JSResponse addGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		String group_name = request.getArguments().get(0);
+		
+		//Build wrapper
+		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		
+		//Logic
+		
+		if(wrapper.addGroup(group_name)){
+			status =  "OK";
+			stringResponse = "Group" + group_name + " succesfully added.";
+		}
+		else {
+			status = "AddError";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse removeGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		try {
+			int group_id = Integer.parseInt(request.getArguments().get(0));
+			
+			//Build wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			
+			if(!wrapper.findGroup(group_id)){
+				status = "NoSuchUser";
+			}
+			else {
+				if(wrapper.removeGroup(group_id)){
+					status = "OK";
+					stringResponse = "Group " + wrapper.getGroupName(group_id) + " succesfully removed.";
+				}
+			}
+		}
+		catch(NumberFormatException e) {
+			status = "BadArgFormat";
+		}
+			
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse addMovie(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		try {
+			String title = request.getArguments().get(0);
+			int year = Integer.parseInt(request.getArguments().get(1));
+			
+			//Build wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			if(wrapper.findMovie(title, year)){
+				status = "MovieAlreadyExists";
+			}
+			else {
+				if(wrapper.addMovie(title, year)){
+					status =  "OK";
+					stringResponse = "Movie" + title + ", " + year + " succesfully added.";
+				}
+				else {
+					status = "AddError";
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse removeMovie(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		try {
+			String title = request.getArguments().get(0);
+			int year = Integer.parseInt(request.getArguments().get(0));
+			
+			//Build wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			
+			if(!wrapper.findMovie(title, year)){
+				status = "NoSuchMovie";
+			}
+			else {
+				if(wrapper.removeMovie(title, year)){
+					status = "OK";
+					stringResponse = "Movie " + title + ", " + year + " succesfully removed.";
+				}
+				else {
+					status = "RemoveError";
+				}
+			}
+		}
+		catch(NumberFormatException e) {
+			status = "BadArgFormat";
+		}
+			
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse getUsersGroups(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		String username = request.getArguments().get(0);
+		
+		//Create wrapper
+		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		
+		//Logic
+		
+		//If user exists
+		if(wrapper.findUser(username)){
+
+			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
+			
+			if(list.size() == 0){
+				status = "NoGroups";
+			}
+			else {
+				status = "OK";
+				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
+			}
+		}
+		else {
+			status = "NoSuchUser";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		System.out.println("response made");
+		
+		return response;
+	}
+
+	public static JSResponse addUserToGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		try {
+			String username = request.getArguments().get(0);
+			int group_id = Integer.parseInt(request.getArguments().get(1));
+			
+			//Create wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			
+			if(!wrapper.findUser(username)){
+				status = "NoSuchUser";
+			}
+			else if(!wrapper.findGroup(group_id)){
+				status = "NoSuchGroup";
+			}
+			else {
+				if(wrapper.addMember(username, group_id)){
+					status = "OK";
+					stringResponse = username + " successfully added to " + wrapper.getGroupName(group_id);
+				}
+				else {
+					status = "AddError";
+				}
+			}
+			
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		System.out.println("response made");
+		
+		return response;
+	}
+	
+	public static JSResponse getUsersInGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		try {
+			int group_id = Integer.parseInt(request.getArguments().get(0));
+			
+			//Create wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			
+			
+			if(!wrapper.findGroup(group_id)){
+				status = "NoSuchGroup";
+			}
+			else {
+				ArrayList<String> list = wrapper.getUsersInGroup(group_id);				
+				if(list.size() == 0){
+					status = "NoUsers";
+				}
+				else {
+					status = "OK";
+					stringResponse = ParseTools.breakdownArrayListByLine(list);
+				}
+			}
+			
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+
+
+
 
 }

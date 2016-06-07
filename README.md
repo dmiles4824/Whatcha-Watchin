@@ -34,3 +34,4 @@ Store buffer of previous responses
 
 /sqlserver/
 
+Tighten up all the insertions and deletions (less repetition)

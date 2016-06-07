@@ -8,9 +8,15 @@ public enum JSRequestType {
 	ECHO_JSREQ				(1, 	new String[]{"String"}, 						"echo"),
 	HELP_JSREQ				(0, 	new String[]{""}, 								"help"),
 	HELLO_JSREQ				(0, 	new String[]{""}, 								"hello"),
-	GETUSERSGROUPS_JSREQ	(1, 	new String[]{"String"}, 						"getUsersGroups"),
 	ADDUSER_JSREQ			(2, 	new String[]{"String", "String"},				"addUser"),
 	REMOVEUSER_JSREQ		(1, 	new String[]{"String"},							"removeUser"),
+	ADDGROUP_JSREQ			(1,		new String[]{"String"},							"addGroup"),
+	REMOVEGROUP_JSREQ		(1,		new String[]{"int"},							"removeGroup"),
+	ADDMOVIE_JSREQ			(2,		new String[]{"String", "int"},					"addMovie"),
+	REMOVEMOVIE_JSREQ		(2,		new String[]{"String", "int"},					"removeMovie"),
+	GETUSERSGROUPS_JSREQ	(1, 	new String[]{"String"}, 						"getUsersGroups"),
+	ADDUSERTOGROUP_JSREQ	(2,		new String[]{"String", "int"},					"addUserToGroup"),
+	GETUSERSINGROUP_JSREQ	(1,		new String[]{"int"},							"getUsersInGroup"),
 	UNKNOWN_JSREQ			(0, 	new String[]{""}, 								"unrecognized command");
 	
 	
