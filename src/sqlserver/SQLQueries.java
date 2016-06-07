@@ -73,8 +73,8 @@ public class SQLQueries {
 	
 	public static String getUsersInGroup(int group_id) {
 		String query =    "select `username` "
-						+ "from `Member` M"
-						+ "where M.`group_id` = "
+						+ "from `Member`"
+						+ "where `group_id` = "
 						+ group_id
 						+ ";"
 						;
