@@ -29,6 +29,8 @@ public class SQLTools {
 			System.out.println("		Driver registered");
 			
 			//Brian-RP
+			System.out.println("		jdbc:mysql://" + databaseLocation);
+			
 			conn = DriverManager.getConnection("jdbc:mysql://" + databaseLocation, username, password);
 			
 			System.out.println("		Connection retrieved");
