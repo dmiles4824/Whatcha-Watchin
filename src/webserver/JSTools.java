@@ -70,6 +70,10 @@ public class JSTools extends ServerTools {
 		//Determine command
 		command = JSTools.parseJSRequestType(commandString);
 		
+		if(arguments.size() != command.getNumParam()){
+			throw new MalformedJSCommandException("Improper number of arguments");
+		}
+		
 		//Form request
 		request = new JSRequest(command, arguments);
 		
@@ -110,55 +114,70 @@ public class JSTools extends ServerTools {
 
 	public static JSResponse capitalize(JSRequest request){
 		
+		//Declarations
 		JSResponse response;
+		JSRequestType command = request.getCommand();
+		String output;
+		String status;
 		
-		ArrayList<String> args = request.getArguments();
+		//Arguments
+		String input = request.getArguments().get(0);
 		
-		if(args.size() == 1){
-			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
-			String dateString = dateFormat.format(date);
-			
-			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Capitalized: " + args.get(0).toUpperCase());
-		}
-		else{
-			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
-		}
+		//Calculations
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		String dateString = dateFormat.format(date);
+		
+		output = "Received at " + dateString + ". Capitalized: " + input.toUpperCase();
+		status = "OK";
+		
+		response = new JSResponse(command, output, status); 
 		
 		return response;
 	}
 	
 	public static JSResponse echo(JSRequest request){
 		
+		//Declarations
 		JSResponse response;
+		JSRequestType command = request.getCommand();
+		String output;
+		String status;
 		
-		ArrayList<String> args = request.getArguments();
+		//Arguments
+		String input = request.getArguments().get(0);
 		
-		if(args.size() == 1){
-			
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			Date date = new Date();
-			String dateString = dateFormat.format(date);
-			
-			response = new JSResponse(request.getCommand(), "Received at " + dateString + ". Echo: " + args.get(0));
-		}
-		else{
-			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
-		}
+		//Calculations
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		String dateString = dateFormat.format(date);
+		
+		output = "Received at " + dateString + ". Echo: " + input;
+		status = "OK";
+		
+		response = new JSResponse(command, output, status); 
 		
 		return response;
+		
 	}
 	
 	public static JSResponse hello(JSRequest request){
 		
+		//Declarations
 		JSResponse response;
+		JSRequestType command = request.getCommand();
+		String output;
+		String status;
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		//Calculations
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
 		String dateString = dateFormat.format(date);
 		
-		response = new JSResponse(request.getCommand(), "Received at " + dateString + ". You smell nice, client");
+		output = "Received at " + dateString + ". You smell nice, client";
+		status = "OK";
+		
+		response = new JSResponse(command, output, status); 
 		
 		return response;
 	}
@@ -185,67 +204,112 @@ public class JSTools extends ServerTools {
 		}
 		
 		//Format response
-		response = new JSResponse(request.getCommand(), builder.toString());
+		response = new JSResponse(request.getCommand(), builder.toString(), "OK");
 				
 		return response;
 	}
 	
 	public static JSResponse getUsersGroups(JSRequest request) throws SQLException{
 		
+		//Declarations
 		JSResponse response;
-		String stringResponse;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
 		
-		//Arguments
+		//Arguments - assume correct number
 		String username = request.getArguments().get(0);
 		
-		if(request.getArguments().size() == 1){
-			stringResponse = SQLQueryWrapper.getUsersGroups(username);
-			response = new JSResponse(request.getCommand(), stringResponse);
+		//Create wrapper
+		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		
+		//Logic
+		
+		//If user exists
+		if(wrapper.findUser(username)){
+			
+			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
+			
+			if(list.size() == 0){
+				status = "NoGroups";
+			}
+			else {
+				status = "OK";
+				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
+			}
 		}
 		else {
-			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+			status = "NoSuchUser";
 		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
 		
 		return response;
 	}
 	
 	public static JSResponse addUser(JSRequest request) throws SQLException{
 		
+		//Declarations
 		JSResponse response;
-		String stringResponse;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
 		
 		//Arguments
 		String username = request.getArguments().get(0);
 		String password = request.getArguments().get(1);
-		JSRequestType command = request.getCommand();
 		
-		if(request.getArguments().size() == 2){
-			stringResponse = SQLQueryWrapper.addUser(username, password);
-			response = new JSResponse(command, stringResponse);
+		//Build wrapper
+		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		
+		//Logic
+		
+		if(wrapper.findUser(username)){
+			status = "UserAlreadyExists";
 		}
 		else {
-			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+			if(wrapper.addUser(username, password)){
+				status =  "OK";
+				stringResponse = "User " + username + " succesfully added.";
+			}
+			else {
+				status = "AddError";
+			}
 		}
 		
+		response = new JSResponse(command, stringResponse, status);
 		
 		return response;
 	}
 	
 	public static JSResponse removeUser(JSRequest request) throws SQLException{
 		
-		String stringResponse;
+		//Declarations
 		JSResponse response;
-		
-		String username = request.getArguments().get(0);
+		String stringResponse = "";
+		String status = "";
 		JSRequestType command = request.getCommand();
 		
-		if(request.getArguments().size() == 1){
-			stringResponse = SQLQueryWrapper.removeUser(username);
-			response = new JSResponse(command, stringResponse);
+		//Arguments
+		String username = request.getArguments().get(0);
+		
+		//Build wrapper
+		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		
+		//Logic
+		
+		if(!wrapper.findUser(username)){
+			status = "NoSuchUser";
 		}
 		else {
-			response = JSResponse.jsError(request.getCommand(), new MalformedJSCommandException("Improper arguments"));
+			if(wrapper.removeUser(username)){
+				status = "OK";
+				stringResponse = "User " + username + " succesfully removed";
+			}
 		}
+		
+		response = new JSResponse(command, stringResponse, status);
 		
 		return response;
 	}

@@ -5,7 +5,6 @@ package sqlserver;
 
 /*******Imports*******/
 import java.sql.*;
-import java.util.ArrayList;
 
 public class SQLQueries {
 	
@@ -16,7 +15,20 @@ public class SQLQueries {
 	
 	//Queries
 	
-	public static ArrayList<String> getUsersGroups(String username) throws SQLException{
+	public static String findUser(String username) {
+		
+		String query = 	  "select * "
+						+ "from `User` "
+						+ "where `username` = '"
+						+ username
+						+ "'"
+						+ ";"
+						;
+		
+		return query;
+	}
+	
+	public static String getUsersGroups(String username) {
 		
 		//Form query
 		String query = 	"select `group_name` "
@@ -26,7 +38,7 @@ public class SQLQueries {
 						+ ";"
 						;
 		
-		return SQLTools.oneDQuery(query);
+		return query;
 	}
 	
 	
@@ -35,7 +47,7 @@ public class SQLQueries {
 	
 	//	User
 	
-	public static int addUser(String username, String password) throws SQLException{
+	public static String addUser(String username, String password) throws SQLException{
 		
 		String query = "insert into `User` (`username`, `password`) values ('"
 						+ username
@@ -45,10 +57,10 @@ public class SQLQueries {
 						+ ";"
 						;
 		
-		return SQLTools.voidUpdate(query);
+		return query;
 	}
 	
-	public static int removeUser(String username) throws SQLException {
+	public static String removeUser(String username) throws SQLException {
 		
 		String query = 	  "delete from `User` "
 						+ "where `username` = '"
@@ -57,9 +69,22 @@ public class SQLQueries {
 						+ ";"
 						;
 		
-		return SQLTools.voidUpdate(query);
+		return query;
 	}
 	
-	//public static void addGroup(String group_name) throws SQLException
+	//Group
+	
+	public static String addGroup(String group_name) throws SQLException{
+		
+		String query = "insert into `Group` (`group_name`) values ('"
+				+ group_name
+				+ "')"
+				+ ";"
+				;
+				
+		return query;
+		
+	}
+	
 	
 }

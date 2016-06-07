@@ -10,8 +10,14 @@ var parseJSResponse = function(message) {
 	
 	var error = remainder.substring(0, errorIndex);
 	
-	var remainder = remainder.substring(errorIndex+1, remainder.length);
+	remainder = remainder.substring(errorIndex+1, remainder.length);
 	
-	return new JSResponse(command, error, remainder);
+	var statusIndex = remainder.indexOf("\n");
+	
+	var status = remainder.substring(0, statusIndex);
+	
+	remainder = remainder.substring(statusIndex+1, remainder.length);
+	
+	return new JSResponse(command, error, status, remainder);
 
 }

@@ -7,7 +7,13 @@ var writeTextFromServer = function(args) {
 	var response = args[0];
 	var element = args[1];
 	
-	appendText(element, response.message);
+	var output = 	  "Status: " + response.status
+					+ "\n"
+					+ "Response: "
+					+ "\n"
+					+ response.message;
+	
+	appendText(element, output);
 	
 	
 }

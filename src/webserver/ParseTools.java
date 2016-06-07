@@ -409,6 +409,20 @@ public class ParseTools extends ServerTools {
 		return lastName;
 	}
 	
+	public static String breakdownArrayListByLine(ArrayList<String> list){
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for(int i = 0; i < list.size() - 1; i++){
+			builder.append(list.get(i) + "\n");
+		}
+		builder.append(list.get(list.size() - 1));
+		
+		return builder.toString();
+		
+	}
+	
+	
 }
 
 

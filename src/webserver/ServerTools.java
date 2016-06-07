@@ -388,6 +388,7 @@ public class ServerTools {
 			jsResponse = JSResponse.jsError(e.getCommand(), e);
 		}
 		
+		//SHOULDN'T BE CATCHING THESE HERE
 		catch(SQLException e){
 			jsResponse = JSResponse.jsError(JSRequestType.UNKNOWN_JSREQ, new UnderlyingErrorException("SQL Access Error"));
 		}

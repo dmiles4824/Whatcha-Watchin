@@ -11,20 +11,20 @@ public class JSResponse {
 	private String responseString;
 	private JSRequestType command;
 	private JSException error;
+	private String status;
 	
 	
 	/*******Constructors*******/
 	
-	public JSResponse(JSRequestType command, String responseString, JSException error){		
+	public JSResponse(JSRequestType command, String responseString, JSException error, String status){		
 		this.command = command;
 		this.responseString = responseString;
 		this.error = error;
+		this.status = status;
 	}
 	
-	public JSResponse(JSRequestType command, String responseString){		
-		this.command = command;
-		this.responseString = responseString;
-		this.error = new NoErrorException();
+	public JSResponse(JSRequestType command, String responseString, String status){		
+		this(command, responseString, new NoErrorException(), status);
 	}
 	
 	/*******Get/Set methods*******/
@@ -45,7 +45,6 @@ public class JSResponse {
 	public void setCommand(JSRequestType command) {
 		this.command = command;
 	}
-
 	
 	public JSException getError() {
 		return error;
@@ -54,8 +53,16 @@ public class JSResponse {
 	public void setError(JSException error) {
 		this.error = error;
 	}
-	//e
+	
+	public String getStatus() {
+		return status;
+	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	//e
+	
 	/*******Member methods*******/
 	
 	public byte[] getResponseBytes(){
@@ -64,6 +71,7 @@ public class JSResponse {
 		
 		builder.append(this.getCommand().getCommandString() + '\n');
 		builder.append(ParseTools.getLastWordInPackageName(this.getError().getName()) + "\n");
+		builder.append(this.getStatus() + "\n");
 		builder.append(this.getResponseString());
 		
 		String totalString = builder.toString();
@@ -76,7 +84,7 @@ public class JSResponse {
 	/*******Static methods*******/
 	
 	public static JSResponse jsError(JSRequestType command, JSException error){
-		return new JSResponse(command, error.getMessage(), error);
+		return new JSResponse(command, error.getMessage(), error, "error");
 	}
 	
 }
