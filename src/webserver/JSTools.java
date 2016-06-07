@@ -126,12 +126,9 @@ public class JSTools extends ServerTools {
 		String input = request.getArguments().get(0);
 		
 		//Calculations
-		
-		System.out.println("before time");
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
 		String dateString = dateFormat.format(date);
-		System.out.println("after time");
 		
 		output = "Received at " + dateString + ". Capitalized: " + input.toUpperCase();
 		status = "OK";
@@ -224,31 +221,40 @@ public class JSTools extends ServerTools {
 		
 		//Arguments - assume correct number
 		String username = request.getArguments().get(0);
+		System.out.println("Arguments extracted");
 		
 		//Create wrapper
 		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		System.out.println("Wrapper built");
 		
 		//Logic
 		
 		//If user exists
 		if(wrapper.findUser(username)){
 			
+			System.out.println("User found");
+			
 			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
 			
+			System.out.println("query run");
+			
 			if(list.size() == 0){
+				System.out.println("No groups");
 				status = "NoGroups";
 			}
 			else {
+				System.out.println("Success");
 				status = "OK";
 				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
 			}
 		}
 		else {
+			System.out.println("No user found");
 			status = "NoSuchUser";
 		}
 		
 		response = new JSResponse(command, stringResponse, status);
-		
+		System.out.println("response made");
 		
 		return response;
 	}

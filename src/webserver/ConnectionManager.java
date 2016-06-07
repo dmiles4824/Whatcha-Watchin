@@ -86,10 +86,6 @@ public class ConnectionManager implements Runnable{
 						//Checks if number of available bytes exceeds minimum to start parsing an HTTP message, 
 						//because we have to get at least Content-Length to know if we need to keep waiting for a body
 						&& getClientSocket().getInputStream().available() <= 0) {
-				
-				
-				System.out.println("Expected bytes available: " + getClientSocket().getInputStream().available());		
-				System.out.println("Wait Time: " + (System.currentTimeMillis() - startTime));
 				Thread.sleep(100);
 			}
 			//e
@@ -102,12 +98,9 @@ public class ConnectionManager implements Runnable{
 				msgIn = ServerTools.parseHTTPRequest(this.getClientSocket());
 				
 				//View connection info
-				System.out.println("	Client IP: " + this.getClientSocket().getLocalAddress().toString());
-				System.out.println("	First line of request: " + msgIn.getHeaders()[0]);
 				
 				//Identify request type
 				requestType = ServerTools.parseRequestType(msgIn);
-				System.out.println(requestType.toString());
 				
 				//Respond to request. Switch on RequestType
 				switch(requestType){
@@ -119,13 +112,11 @@ public class ConnectionManager implements Runnable{
 				
 				//Send index.html to the client socket
 				case URL_REQ:
-					System.out.println(" URL requested: " + msgIn.getUrl());
 					msgOut = ServerTools.handleHTMLRequest(msgIn, requestType.getTextEncoding());
 					break;
 				
 				//Request is from a client Javascript instance
 				case JS_REQ:
-					System.out.println(" Javascript request");
 					msgOut = ServerTools.handleJSRequest(msgIn, requestType.getTextEncoding());
 					break;
 					
@@ -178,9 +169,7 @@ public class ConnectionManager implements Runnable{
 			getClientSocket().close();
 			
 			//View info
-			System.out.println("Succesful response");
-			System.out.println("	Error?: " + msgOut.isError());
-			System.out.println("	First line of response: " + msgOut.getHeaders()[0]);
+
 		}
 		
 		//These errors can't be resolved with sending a msg to client, because
