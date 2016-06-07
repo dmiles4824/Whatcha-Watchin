@@ -414,6 +414,7 @@ public class ServerTools {
 		
 		//SHOULDN'T BE CATCHING THESE HERE
 		catch(SQLException e){
+			e.printStackTrace();
 			jsResponse = JSResponse.jsError(JSRequestType.UNKNOWN_JSREQ, new UnderlyingErrorException("SQL Access Error"));
 		}
 		
