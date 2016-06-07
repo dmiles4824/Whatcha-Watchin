@@ -25,8 +25,6 @@ public class SQLTools {
 			Class.forName("com.mysql.jdbc.Driver"); 
 			
 			//Brian-RP
-			System.out.println("		jdbc:mysql://" + databaseLocation);
-			
 			conn = DriverManager.getConnection("jdbc:mysql://" + databaseLocation, username, password);
 			
 		}

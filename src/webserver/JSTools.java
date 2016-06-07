@@ -313,7 +313,7 @@ public class JSTools extends ServerTools {
 		
 		if(wrapper.addGroup(group_name)){
 			status =  "OK";
-			stringResponse = "Group" + group_name + " succesfully added.";
+			stringResponse = "Group " + group_name + " succesfully added.";
 		}
 		else {
 			status = "AddError";
