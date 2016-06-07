@@ -126,9 +126,12 @@ public class JSTools extends ServerTools {
 		String input = request.getArguments().get(0);
 		
 		//Calculations
+		
+		System.out.println("before time");
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
 		String dateString = dateFormat.format(date);
+		System.out.println("after time");
 		
 		output = "Received at " + dateString + ". Capitalized: " + input.toUpperCase();
 		status = "OK";
