@@ -410,7 +410,7 @@ public class JSTools extends ServerTools {
 		//Arguments
 		try {
 			String title = request.getArguments().get(0);
-			int year = Integer.parseInt(request.getArguments().get(0));
+			int year = Integer.parseInt(request.getArguments().get(1));
 			
 			//Build wrapper
 			SQLQueryWrapper wrapper = new SQLQueryWrapper();
