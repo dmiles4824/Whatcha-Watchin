@@ -122,6 +122,9 @@ public class JSTools extends ServerTools {
 		else if(command.equalsIgnoreCase("addUserToGroup")){
 			jsRequestType = JSRequestType.ADDUSERTOGROUP_JSREQ;
 		}
+		else if(command.equalsIgnoreCase("removeUserFromGroup")){
+			jsRequestType = JSRequestType.REMOVEUSERFROMGROUP_JSREQ;
+		}
 		else if(command.equalsIgnoreCase("getUsersInGroup")){
 			jsRequestType = JSRequestType.GETUSERSINGROUP_JSREQ;
 		}
