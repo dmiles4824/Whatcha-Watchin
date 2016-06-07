@@ -61,9 +61,11 @@ public class JSTools extends ServerTools {
 			//Read all characters between outer open and close parentheses
 			String args = requestString.substring(firstIndex+1, lastIndex);			
 			
-			//Fancy regex to tokenize as CSV accounting for quotes
-	        String[] tokens = args.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-	        arguments = new ArrayList<String>(Arrays.asList(tokens));
+			if(args.length() != 0) {
+				//Fancy regex to tokenize as CSV accounting for quotes
+				String[] tokens = args.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+				arguments = new ArrayList<String>(Arrays.asList(tokens));
+			}
 			
 		}
 		
