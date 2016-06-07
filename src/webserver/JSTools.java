@@ -554,7 +554,7 @@ public static JSResponse removeUserFromGroup(JSRequest request) throws SQLExcept
 			else {
 				if(wrapper.removeMember(username, group_id)){
 					status = "OK";
-					stringResponse = username + " successfully removed from" + wrapper.getGroupName(group_id);
+					stringResponse = username + " successfully removed from " + wrapper.getGroupName(group_id);
 				}
 				else {
 					status = "AddError";
