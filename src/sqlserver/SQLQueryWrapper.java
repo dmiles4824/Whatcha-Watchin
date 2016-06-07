@@ -12,8 +12,8 @@ public class SQLQueryWrapper {
 	
 	/*******Constants*******/
 	private final static String defaultDatabaseLocation = "localhost:3306/wwschema";
-	private final static String defaultUsername = "root";
-	private final static String defaultPassword = "M05sokker~";
+	private final static String defaultUsername = "javabrianroot";
+	private final static String defaultPassword = "biscotti";
 	
 	/*******Member fields*******/
 	Statement statement;
