@@ -22,6 +22,7 @@ public class SQLQueryWrapper {
 	/*******Contstructors*******/
 	
 	public SQLQueryWrapper(String databaseLocation, String username, String password) throws SQLException{
+		System.out.println("	Entered constructor");
 		this.statement = SQLTools.connector(databaseLocation, username, password);
 	}
 	

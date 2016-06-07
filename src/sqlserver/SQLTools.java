@@ -19,14 +19,19 @@ public class SQLTools {
 	 * @throws SQLException */
 	protected static Statement connector(String databaseLocation, String username, String password) throws SQLException {
 		
+		System.out.println("		Entered connector method");
+		
 		Connection conn = null;
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
 			
+			System.out.println("		Driver registered");
+			
 			//Brian-RP
 			conn = DriverManager.getConnection("jdbc:mysql://" + databaseLocation, username, password);
-			 
+			
+			System.out.println("		Connection retrieved");
 		}
 		
 		catch (SQLException e) {
