@@ -447,46 +447,32 @@ public class JSTools extends ServerTools {
 		String status = "";
 		JSRequestType command = request.getCommand();
 		
-		System.out.println("Declarations made");
-		
 		//Arguments - assume correct number
 		String username = request.getArguments().get(0);
 		
-		System.out.println("arguments made");
-		
 		//Create wrapper
 		SQLQueryWrapper wrapper = new SQLQueryWrapper();
-		
-		System.out.println("wrapper made");
 		
 		//Logic
 		
 		//If user exists
 		if(wrapper.findUser(username)){
 			
-			System.out.println("user found");
-			
 			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
 			
-			System.out.println("query executed");
-			
 			if(list.size() == 0){
-				System.out.println("no groups");
 				status = "NoGroups";
 			}
 			else {
-				System.out.println("groups found");
 				status = "OK";
 				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
 			}
 		}
 		else {
-			System.out.println("no user found");
 			status = "NoSuchUser";
 		}
 		
 		response = new JSResponse(command, stringResponse, status);
-		System.out.println("response made");
 		
 		return response;
 	}
