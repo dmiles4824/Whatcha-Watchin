@@ -83,6 +83,18 @@ public class SQLQueryWrapper {
 		return rs.next();
 	}
 	
+	public boolean findMember(String username, int group_id) throws SQLException {
+		
+		//Build query
+		String query = SQLQueries.findMember(username, group_id);
+		
+		//Run query
+		ResultSet rs = executeQuery(query);
+		
+		//Return results
+		return rs.next();
+	}
+	
 	//
 	
 	public ArrayList<String> getUsersGroups(String username) throws SQLException{

@@ -392,6 +392,10 @@ public class ServerTools {
 				jsResponse = JSTools.addUserToGroup(jsRequest);
 				break;
 				
+			case REMOVEUSERFROMGROUP_JSREQ:
+				jsResponse = JSTools.removeUserFromGroup(jsRequest);
+				break;
+				
 			case GETUSERSINGROUP_JSREQ:
 				jsResponse = JSTools.getUsersInGroup(jsRequest);
 				break;

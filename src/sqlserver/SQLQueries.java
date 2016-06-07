@@ -56,6 +56,19 @@ public class SQLQueries {
 		return query;
 	}
 	
+	public static String findMember(String username, int group_id){
+		String query =    "select * "
+						+ "from `Member` "
+						+ "where `username` = '"
+						+ username
+						+ "' AND `group_id` = "
+						+ group_id
+						+ ";"
+						;
+		
+		return query;
+	}
+	
 	//
 	
 	public static String getUsersGroups(String username) {

@@ -517,7 +517,53 @@ public class JSTools extends ServerTools {
 		}
 		
 		response = new JSResponse(command, stringResponse, status);
-		System.out.println("response made");
+		
+		return response;
+	}
+	
+public static JSResponse removeUserFromGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		try {
+			String username = request.getArguments().get(0);
+			int group_id = Integer.parseInt(request.getArguments().get(1));
+			
+			//Create wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			
+			//Logic
+			
+			if(!wrapper.findUser(username)){
+				status = "NoSuchUser";
+			}
+			else if(!wrapper.findGroup(group_id)){
+				status = "NoSuchGroup";
+			}
+			else if(!wrapper.findMember(username, group_id)){
+				status = "NoSuchUserInGroup";
+			}
+			else {
+				if(wrapper.removeMember(username, group_id)){
+					status = "OK";
+					stringResponse = username + " successfully removed from" + wrapper.getGroupName(group_id);
+				}
+				else {
+					status = "AddError";
+				}
+			}
+			
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
 		
 		return response;
 	}
