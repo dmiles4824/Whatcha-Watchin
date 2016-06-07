@@ -384,6 +384,10 @@ public class ServerTools {
 				jsResponse = JSTools.removeMovie(jsRequest);
 				break;
 				
+			case GETUSERSGROUPS_JSREQ:
+				jsResponse = JSTools.getUsersGroups(jsRequest);
+				break;
+				
 			case ADDUSERTOGROUP_JSREQ:
 				jsResponse = JSTools.addUserToGroup(jsRequest);
 				break;
