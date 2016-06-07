@@ -84,8 +84,8 @@ public class SQLQueries {
 
 	public static String getGroupName(int group_id) {
 		String query =    "select `group_name` "
-						+ "from `Group` as G"
-						+ "where G.`group_id` = "
+						+ "from `Group` "
+						+ "where `group_id` = "
 						+ group_id
 						+ ";"
 						;
