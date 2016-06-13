@@ -17,15 +17,14 @@ Add more documentation
 /webserver/
 
 Way to close down server safely
-Configuration file
+Configuration file 
 Hash map for HTTP headers
 Remove null stuff in ParseTools (change solely to WebExceptions)
 Add login/authentication
-Create Response interface
 
 /webserver/js/
 
-CSV stuff
+CSV stuff (transmit arguments better)
 
 
 /javascript/
