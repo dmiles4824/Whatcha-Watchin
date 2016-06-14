@@ -6,6 +6,7 @@ package sqlserver;
 /*******Imports*******/
 import java.sql.*;
 
+
 public class SQLQueries {
 	
 	
@@ -21,9 +22,7 @@ public class SQLQueries {
 		
 		String query = 	  "select * "
 						+ "from `User` "
-						+ "where `username` = '"
-						+ username
-						+ "'"
+						+ "where `username` = '" + username + "'"
 						+ ";"
 						;
 		
@@ -164,11 +163,7 @@ public class SQLQueries {
 	//	Movie
 	
 	public static String addMovie(String title, int year) {
-		String query =    "insert into `Movie` (`title`, `year`) values ('"
-						+ title
-						+ "', " 
-						+ year
-						+ ")"
+		String query =    "insert into `Movie` (`title`, `year`) values ('" + title + "', " + year + ")"
 						+ ";"
 						;
 		

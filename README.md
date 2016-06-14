@@ -34,3 +34,11 @@ Store buffer of previous responses
 /sqlserver/
 
 Tighten up all the insertions and deletions (less repetition)
+Move SQLQueries calls to JSTools from SQLQueryWrapper
+
+/database/
+
+Admin features
+Link IMDB
+likeInGroup
+Watched

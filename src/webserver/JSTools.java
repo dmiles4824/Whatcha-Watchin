@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import sqlserver.SQLQueries;
 import sqlserver.SQLQueryWrapper;
+import sqlserver.sqlobjects.SQLDatabase;
 
 /**
  * This class extends ServerTools to provide that class with the tools it needs to 
@@ -22,6 +24,11 @@ import sqlserver.SQLQueryWrapper;
  *
  */
 public class JSTools extends ServerTools {
+	
+	/*******Constants*******/
+	private final static String defaultUsername = "javabrianroot";
+	private final static String defaultPassword = "biscotti";
+	
 	
 	public static JSRequest parseJSRequest(String requestString) throws JSException{
 		
@@ -245,15 +252,15 @@ public class JSTools extends ServerTools {
 		String password = request.getArguments().get(1);
 		
 		//Build wrapper
-		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 		
 		//Logic
 		
-		if(wrapper.findUser(username)){
+		if(wrapper.handleFind(SQLQueries.findUser(username))){
 			status = "UserAlreadyExists";
 		}
 		else {
-			if(wrapper.addUser(username, password)){
+			if(wrapper.handleUpdate(SQLQueries.addUser(username, password))){
 				status =  "OK";
 				stringResponse = "User " + username + " succesfully added.";
 			}
@@ -279,15 +286,15 @@ public class JSTools extends ServerTools {
 		String username = request.getArguments().get(0);
 		
 		//Build wrapper
-		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 		
 		//Logic
 		
-		if(!wrapper.findUser(username)){
+		if(!wrapper.handleFind(SQLQueries.findUser(username))){
 			status = "NoSuchUser";
 		}
 		else {
-			if(wrapper.removeUser(username)){
+			if(wrapper.handleUpdate(SQLQueries.removeUser(username))){
 				status = "OK";
 				stringResponse = "User " + username + " succesfully removed";
 			}
@@ -310,11 +317,11 @@ public class JSTools extends ServerTools {
 		String group_name = request.getArguments().get(0);
 		
 		//Build wrapper
-		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 		
 		//Logic
 		
-		if(wrapper.addGroup(group_name)){
+		if(wrapper.handleUpdate(SQLQueries.addGroup(group_name))){
 			status =  "OK";
 			stringResponse = "Group " + group_name + " succesfully added.";
 		}
@@ -340,17 +347,17 @@ public class JSTools extends ServerTools {
 			int group_id = Integer.parseInt(request.getArguments().get(0));
 			
 			//Build wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
 			
-			if(!wrapper.findGroup(group_id)){
+			if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
 				status = "NoSuchUser";
 			}
 			else {
-				if(wrapper.removeGroup(group_id)){
+				if(wrapper.handleUpdate(SQLQueries.removeGroup(group_id))){
 					status = "OK";
-					stringResponse = "Group " + wrapper.getGroupName(group_id) + " succesfully removed.";
+					stringResponse = "Group " + wrapper.handleSingle(SQLQueries.getGroupName(group_id)) + " succesfully removed.";
 				}
 			}
 		}
@@ -377,14 +384,14 @@ public class JSTools extends ServerTools {
 			int year = Integer.parseInt(request.getArguments().get(1));
 			
 			//Build wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
-			if(wrapper.findMovie(title, year)){
+			if(wrapper.handleFind(SQLQueries.findMovie(title, year))){
 				status = "MovieAlreadyExists";
 			}
 			else {
-				if(wrapper.addMovie(title, year)){
+				if(wrapper.handleUpdate(SQLQueries.addMovie(title, year))){
 					status =  "OK";
 					stringResponse = "Movie" + title + ", " + year + " succesfully added.";
 				}
@@ -416,15 +423,15 @@ public class JSTools extends ServerTools {
 			int year = Integer.parseInt(request.getArguments().get(1));
 			
 			//Build wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
 			
-			if(!wrapper.findMovie(title, year)){
+			if(!wrapper.handleFind(SQLQueries.findMovie(title, year))){
 				status = "NoSuchMovie";
 			}
 			else {
-				if(wrapper.removeMovie(title, year)){
+				if(wrapper.handleUpdate(SQLQueries.removeMovie(title, year))){
 					status = "OK";
 					stringResponse = "Movie " + title + ", " + year + " succesfully removed.";
 				}
@@ -454,14 +461,14 @@ public class JSTools extends ServerTools {
 		String username = request.getArguments().get(0);
 		
 		//Create wrapper
-		SQLQueryWrapper wrapper = new SQLQueryWrapper();
+		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 		
 		//Logic
 		
 		//If user exists
-		if(wrapper.findUser(username)){
+		if(wrapper.handleFind(SQLQueries.findUser(username))){
 			
-			ArrayList<String> list = wrapper.getUsersGroups(username);					//Retrieve lists of groups
+			ArrayList<String> list = wrapper.handle1D(SQLQueries.getUsersGroups(username));					//Retrieve lists of groups
 			
 			if(list.size() == 0){
 				status = "NoGroups";
@@ -494,20 +501,20 @@ public class JSTools extends ServerTools {
 			int group_id = Integer.parseInt(request.getArguments().get(1));
 			
 			//Create wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
 			
-			if(!wrapper.findUser(username)){
+			if(!wrapper.handleFind(SQLQueries.findUser(username))){
 				status = "NoSuchUser";
 			}
-			else if(!wrapper.findGroup(group_id)){
+			else if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
 				status = "NoSuchGroup";
 			}
 			else {
-				if(wrapper.addMember(username, group_id)){
+				if(wrapper.handleUpdate(SQLQueries.addMember(username, group_id))){
 					status = "OK";
-					stringResponse = username + " successfully added to " + wrapper.getGroupName(group_id);
+					stringResponse = username + " successfully added to " + wrapper.handleSingle(SQLQueries.getGroupName(group_id));
 				}
 				else {
 					status = "AddError";
@@ -524,7 +531,7 @@ public class JSTools extends ServerTools {
 		return response;
 	}
 	
-public static JSResponse removeUserFromGroup(JSRequest request) throws SQLException{
+	public static JSResponse removeUserFromGroup(JSRequest request) throws SQLException{
 		
 		//Declarations
 		JSResponse response;
@@ -538,23 +545,23 @@ public static JSResponse removeUserFromGroup(JSRequest request) throws SQLExcept
 			int group_id = Integer.parseInt(request.getArguments().get(1));
 			
 			//Create wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
 			
-			if(!wrapper.findUser(username)){
+			if(!wrapper.handleFind(SQLQueries.findUser(username))){
 				status = "NoSuchUser";
 			}
-			else if(!wrapper.findGroup(group_id)){
+			else if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
 				status = "NoSuchGroup";
 			}
-			else if(!wrapper.findMember(username, group_id)){
+			else if(!wrapper.handleFind(SQLQueries.findMember(username, group_id))){
 				status = "NoSuchUserInGroup";
 			}
 			else {
-				if(wrapper.removeMember(username, group_id)){
+				if(wrapper.handleUpdate(SQLQueries.removeMember(username, group_id))){
 					status = "OK";
-					stringResponse = username + " successfully removed from " + wrapper.getGroupName(group_id);
+					stringResponse = username + " successfully removed from " + wrapper.handleSingle(SQLQueries.getGroupName(group_id));
 				}
 				else {
 					status = "AddError";
@@ -584,16 +591,16 @@ public static JSResponse removeUserFromGroup(JSRequest request) throws SQLExcept
 			int group_id = Integer.parseInt(request.getArguments().get(0));
 			
 			//Create wrapper
-			SQLQueryWrapper wrapper = new SQLQueryWrapper();
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 			
 			//Logic
 			
 			
-			if(!wrapper.findGroup(group_id)){
+			if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
 				status = "NoSuchGroup";
 			}
 			else {
-				ArrayList<String> list = wrapper.getUsersInGroup(group_id);				
+				ArrayList<String> list = wrapper.handle1D(SQLQueries.getUsersInGroup(group_id));				
 				if(list.size() == 0){
 					status = "NoUsers";
 				}

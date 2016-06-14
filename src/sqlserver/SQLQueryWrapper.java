@@ -4,6 +4,9 @@ package sqlserver;
 
 /*******Imports*******/
 import java.util.ArrayList;
+
+import sqlserver.sqlobjects.SQLDatabase;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,23 +14,19 @@ import java.sql.Statement;
 public class SQLQueryWrapper {
 	
 	/*******Constants*******/
-	private final static String defaultDatabaseLocation = "localhost:3306/wwschema";
-	private final static String defaultUsername = "javabrianroot";
-	private final static String defaultPassword = "biscotti";
+	
 	
 	/*******Member fields*******/
 	Statement statement;
-	
+	SQLDatabase database;
 	
 	/*******Contstructors*******/
 	
-	public SQLQueryWrapper(String databaseLocation, String username, String password) throws SQLException{
-		this.statement = SQLTools.connector(databaseLocation, username, password);
+	public SQLQueryWrapper(SQLDatabase database, String username, String password) throws SQLException{
+		this.database = database;
+		this.statement = database.createStatement(username, password);
 	}
 	
-	public SQLQueryWrapper() throws SQLException{
-		this(defaultDatabaseLocation, defaultUsername, defaultPassword);
-	}
 	
 	/*******Get/Set Methods*******/
 	
@@ -39,102 +38,59 @@ public class SQLQueryWrapper {
 	public void setStatement(Statement statement) {
 		this.statement = statement;
 	}
-	//e
 	
-	/*******Member methods*******/
-	
-	//Queries
-	
-	//	Find
-	
-	public boolean findUser(String username) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.findUser(username);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		return rs.next();
-	}
-	
-	public boolean findGroup(int group_id) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.findGroup(group_id);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		return rs.next();
-	}
-	
-	public boolean findMovie(String title, int year) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.findMovie(title, year);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		return rs.next();
-	}
-	
-	public boolean findMember(String username, int group_id) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.findMember(username, group_id);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		return rs.next();
-	}
-	
-	//
-	
-	public ArrayList<String> getUsersGroups(String username) throws SQLException{
-		
-		//Build query
-		String query = SQLQueries.getUsersGroups(username);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		ArrayList<String> list = new ArrayList<String>();
-		while(rs.next()){
-			list.add(rs.getString(1));
-		}
-		
-		return list;
-	}
-	
-	public ArrayList<String> getUsersInGroup(int group_id) throws SQLException{
-		
-		//Build query
-		String query = SQLQueries.getUsersInGroup(group_id);
-		
-		//Run query
-		ResultSet rs = executeQuery(query);
-		
-		//Return results
-		ArrayList<String> list = new ArrayList<String>();
-		while(rs.next()){
-			list.add(rs.getString(1));
-		}
-		
-		return list;
+	public SQLDatabase getDatabase() {
+		return database;
 	}
 
-	public String getGroupName(int group_id) throws SQLException{
+
+	public void setDatabase(SQLDatabase database) {
+		this.database = database;
+	}
+	//e
+
+	/*******Member methods*******/
+	
+	//Queries	
+	
+	
+	public boolean handleUpdate(String query) throws SQLException{
 		
-		//Build query
-		String query = SQLQueries.getGroupName(group_id);
+		int numChanged = executeUpdate(query);
+		
+		if(numChanged == 1) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	public boolean handleFind(String query) throws SQLException{
+		
+		//Run query
+		ResultSet rs = executeQuery(query);
+		
+		//Return results
+		return rs.next();
+	}
+	
+	public ArrayList<String> handle1D(String query) throws SQLException{
+		
+		//Run query
+		ResultSet rs = executeQuery(query);
+		
+		//Return results
+		ArrayList<String> list = new ArrayList<String>();
+		while(rs.next()){
+			list.add(rs.getString(1));
+		}
+		
+		return list;
+	}
+	
+	public String handleSingle(String query) throws SQLException{
 		
 		//Run query
 		ResultSet rs = executeQuery(query);
@@ -150,157 +106,81 @@ public class SQLQueryWrapper {
 	}
 	
 	
+	
+	
+	//	Find
+	
+	public boolean findUser(String username) throws SQLException {
+		return handleFind(SQLQueries.findUser(username));
+	}
+	
+	public boolean findGroup(int group_id) throws SQLException {
+		return handleFind(SQLQueries.findGroup(group_id));
+	}
+	
+	public boolean findMovie(String title, int year) throws SQLException {
+		return handleFind(SQLQueries.findMovie(title, year));
+	}
+	
+	public boolean findMember(String username, int group_id) throws SQLException {
+		return handleFind(SQLQueries.findMember(username, group_id));
+	}
+	
+	//
+	
+	public ArrayList<String> getUsersGroups(String username) throws SQLException{
+		return handle1D(SQLQueries.getUsersGroups(username));
+	}
+	
+	public ArrayList<String> getUsersInGroup(int group_id) throws SQLException{
+		return handle1D(SQLQueries.getUsersInGroup(group_id));
+	}
+
+	public String getGroupName(int group_id) throws SQLException{
+		return handleSingle(SQLQueries.getGroupName(group_id));
+	}
+	
+	
 	//Updates
 	
 	//	User
 	
 	public boolean addUser(String username, String password) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.addUser(username, password);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return handleUpdate(SQLQueries.addUser(username, password));
 	}
 	
 	public boolean removeUser(String username) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.removeUser(username);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.removeUser(username));
 	}
 	
 	//	Group
 	
 	public boolean addGroup(String group_name) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.addGroup(group_name);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.addGroup(group_name));
 	}
 	
 	public boolean removeGroup(int group_id) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.removeGroup(group_id);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.removeGroup(group_id));
 	}
 	
 	//	Movie
 	
 	public boolean addMovie(String title, int year) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.addMovie(title, year);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.addMovie(title, year));
 	}
 	
 	public boolean removeMovie(String title, int year) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.removeMovie(title, year);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.removeMovie(title, year));
 	}
 	
 	//	Member
 	
 	public boolean addMember(String username, int group_id) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.addMember(username, group_id);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.addMember(username, group_id));
 	}
 	
 	public boolean removeMember(String username, int group_id) throws SQLException {
-		
-		//Build query
-		String query = SQLQueries.removeMember(username, group_id);
-		
-		//Run query
-		int numChanged = executeUpdate(query);
-		
-		//Return result
-		if(numChanged == 1) {
-			return true;
-		}
-		else {
-			return false;
-		}
-		
+		return handleUpdate(SQLQueries.removeMember(username, group_id));
 	}
 	
 	
@@ -313,7 +193,7 @@ public class SQLQueryWrapper {
 	private int executeUpdate(String query) throws SQLException {
 		return getStatement().executeUpdate(query);
 	}
-	
+
 	/*******Static methods*******/
 	
 	
