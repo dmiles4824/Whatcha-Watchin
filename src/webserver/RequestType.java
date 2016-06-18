@@ -9,7 +9,7 @@ public enum RequestType {
 	/*******Request types*******/
 	
 	INDEX_REQ			("text/html"),
-	URL_REQ				("text/javascript"),
+	URL_REQ				("text/html"),
 	JS_REQ				("text/plain"),
 	UNKNOWN_URL_REQ		("text/plain"),
 	OTHER_REQ			("text/plan");
