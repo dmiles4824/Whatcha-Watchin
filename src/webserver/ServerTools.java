@@ -332,6 +332,8 @@ public class ServerTools {
 	 */
 	public static HTTPResponse handleJSRequest(HTTPRequest request, String textEncoding) throws WebException{
 		
+		System.out.println("handleJSRequest");
+		
 		JSRequest jsRequest;
 		JSResponse jsResponse = null;
 		HTTPResponse response = null;
