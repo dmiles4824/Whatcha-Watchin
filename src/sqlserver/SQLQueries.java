@@ -228,7 +228,7 @@ public class SQLQueries {
 	
 	public static String addLikeInGroup(String username, int group_id, String title, int year) {
 		
-		String query = "insert into `LikeInGroup` (`username`, `group_id`, `title`, `year` values ('" + username + "', " + group_id + ", '" + title  + "', " + year + ");";
+		String query = "insert into `LikeInGroup` (`username`, `group_id`, `title`, `year`) values ('" + username + "', " + group_id + ", '" + title  + "', " + year + ");";
 		return query;
 	}
 	
