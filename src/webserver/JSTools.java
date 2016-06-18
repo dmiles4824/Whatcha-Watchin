@@ -682,7 +682,10 @@ public class JSTools extends ServerTools {
 			}
 			else if(!wrapper.handleFind(SQLQueries.findMovie(title, year))){
 				status = "NoSuchMovie";
-			}			
+			}
+			else if(!wrapper.handleFind(SQLQueries.findMember(username, group_id))){
+				status = "UserNotInGroup";
+			}
 			else {
 				if(wrapper.handleUpdate(SQLQueries.addLikeInGroup(username, group_id, title, year))){
 					status =  "OK";
@@ -766,6 +769,9 @@ public class JSTools extends ServerTools {
 			}
 			else if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
 				status = "NoSuchGroup";
+			}
+			else if(!wrapper.handleFind(SQLQueries.findMember(username, group_id))){
+				status = "UserNotInGroup";
 			}
 			else {
 				ArrayList<ArrayList<String>> list = wrapper.handleMultiple(SQLQueries.getUsersLikesInGroup(username, group_id));				
