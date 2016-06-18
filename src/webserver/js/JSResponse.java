@@ -87,12 +87,12 @@ public class JSResponse {
 		
 		builder.append("Repsonse:" + '\n');
 		builder.append("	Command: " + this.getCommand().toString() + '\n');
-		builder.append("	Error: " + this.getError().toString() + '\n');
+		builder.append("	Error: " + ParseTools.getLastWordInPackageName(this.getError().toString()) + '\n');
 		builder.append("	Status: " + this.getStatus() + '\n');
 		builder.append("	RepsonseString: " + '\n');
-		builder.append(this.getResponseString());
+		builder.append("	" + this.getResponseString());
 		
-		return null;
+		return builder.toString();
 	}
 	
 	/*******Static methods*******/
