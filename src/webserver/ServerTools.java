@@ -387,6 +387,7 @@ public class ServerTools {
 				break;
 				
 			case GETUSERSGROUPS_JSREQ:
+				System.out.println("switch worked");
 				jsResponse = JSTools.getUsersGroups(jsRequest);
 				break;
 				
