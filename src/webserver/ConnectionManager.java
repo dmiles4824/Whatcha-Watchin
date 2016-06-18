@@ -162,6 +162,9 @@ public class ConnectionManager implements Runnable{
 		//Send the message to the client socket
 		//s
 		try {
+			
+			System.out.println(msgOut.toString());
+			
 			//Send message 
 			ServerTools.sendHTTPMessage(msgOut, getClientSocket());
 			
