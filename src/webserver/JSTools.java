@@ -471,8 +471,12 @@ public class JSTools extends ServerTools {
 		String status = "";
 		JSRequestType command = request.getCommand();
 		
+		System.out.println("declarations made");
+		
 		//Arguments - assume correct number
 		String username = request.getArguments().get(0);
+		
+		System.out.println("arguments recorded");
 		
 		//Create wrapper
 		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);

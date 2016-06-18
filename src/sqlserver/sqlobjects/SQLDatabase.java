@@ -81,7 +81,11 @@ public class SQLDatabase {
 	
 	public static SQLDatabase newWWDatabase() {
 		
+		System.out.println("	In newWWDatabase()");
+		
 		String dbLocation = "localhost:3306/wwschema";
+		
+		/*
 		
 	    // create default schema
 	    DbSpec spec = new DbSpec();
@@ -104,7 +108,9 @@ public class SQLDatabase {
 	    memberTable.addColumn("username", "varchar", 32);
 	    memberTable.addColumn("group_id", "int", null);
 	    
-	    return new SQLDatabase(dbLocation, spec);
+	    */
+	    
+	    return new SQLDatabase(dbLocation, null);
 	}
 	
 }
