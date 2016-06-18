@@ -80,6 +80,20 @@ public class JSResponse {
 		return totalBytes;
 	}
 	
+	@Override
+	public String toString(){
+		
+		StringBuilder builder = new StringBuilder();
+		
+		builder.append("Repsonse:" + '\n');
+		builder.append("	Command: " + this.getCommand().toString() + '\n');
+		builder.append("	Error: " + this.getError().toString() + '\n');
+		builder.append("	Status: " + this.getStatus() + '\n');
+		builder.append("	RepsonseString: " + '\n');
+		builder.append(this.getResponseString());
+		
+		return null;
+	}
 	
 	/*******Static methods*******/
 	

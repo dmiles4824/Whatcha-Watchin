@@ -426,8 +426,9 @@ public class ServerTools {
 			default :
 				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;
-			
+				
 			}
+			System.out.println(jsResponse.toString());
 		}
 		
 		//Handle JS specific exceptions. These are treated by the server as valid requests and responses
