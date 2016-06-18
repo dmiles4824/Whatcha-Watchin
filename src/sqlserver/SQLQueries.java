@@ -68,6 +68,19 @@ public class SQLQueries {
 		return query;
 	}
 	
+	public static String findLikeInGroup(String username, int group_id, String title, int year){
+		String query =    "select * "
+						+ "from `LikeInGroup` "
+						+ "where `username` = " + q(username)
+						+ " AND `group_id` = " + group_id
+						+ " AND `title` = " + q(title)
+						+ " AND `year` = " + year
+						+ ";"
+						;
+		
+		return query;
+	}
+	
 	//
 	
 	public static String getUsersGroups(String username) {
@@ -211,5 +224,56 @@ public class SQLQueries {
 		
 	}
 	
+	//	Like in group
 	
+	public static String addLikeInGroup(String username, int group_id, String title, int year) {
+		
+		String query = "insert into `LikeInGroup` (`username`, `group_id`, `title`, `year` values ('" + username + "', " + group_id + ", '" + title  + "', " + year + ");";
+		return query;
+	}
+	
+	public static String removeLikeInGroup(String username, int group_id, String title, int year) {
+		
+		String query =    "delete from `LikeInGroup` "
+						+ "where `username` = " + q(username)
+						+ " AND `group_id` = " + group_id
+						+ " AND `title` = " + q(title)
+						+ " AND `year` = " + year
+						+ ";"
+						;
+		
+		return query;
+						
+	}
+	
+	public static String getUsersLikesInGroup(String username, int group_id) {
+		
+		String query =    "select `title`, `year` "
+						+ "from `LikeInGroup` "
+						+ "where `username` = " + q(username)
+						+ " AND `group_id` = " + group_id
+						+ ";"
+						;
+				
+		return query;
+						
+	}
+	
+	public static String getAllLikesInGroup(int group_id) {
+	
+	String query =    "select distinct `title`, `year` "
+					+ "from `LikeInGroup` "
+					+ "where `group_id` = " + group_id
+					+ ";"
+					;
+			
+	return query;
+					
+}
+	
+	
+	
+	private static String q(String s) {
+		return "'" + s + "'";
+	}
 }

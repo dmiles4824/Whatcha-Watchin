@@ -4,20 +4,41 @@ public enum JSRequestType {
 	
 	/*******JS Request Types*******/
 	
+	//Done
+	
+	//Non-JS
 	CAPITALIZE_JSREQ 			(1, 	new String[]{"String"}, 						"capitalize"),
 	ECHO_JSREQ					(1, 	new String[]{"String"}, 						"echo"),
 	HELP_JSREQ					(0, 	new String[]{""}, 								"help"),
 	HELLO_JSREQ					(0, 	new String[]{""}, 								"hello"),
+	
+	//User
 	ADDUSER_JSREQ				(2, 	new String[]{"String", "String"},				"addUser"),
 	REMOVEUSER_JSREQ			(1, 	new String[]{"String"},							"removeUser"),
+	
+	//Group
 	ADDGROUP_JSREQ				(1,		new String[]{"String"},							"addGroup"),
 	REMOVEGROUP_JSREQ			(1,		new String[]{"int"},							"removeGroup"),
+	
+	//Movie
 	ADDMOVIE_JSREQ				(2,		new String[]{"String", "int"},					"addMovie"),
 	REMOVEMOVIE_JSREQ			(2,		new String[]{"String", "int"},					"removeMovie"),
+	
+	//Usergroup
 	GETUSERSGROUPS_JSREQ		(1, 	new String[]{"String"}, 						"getUsersGroups"),
 	ADDUSERTOGROUP_JSREQ		(2,		new String[]{"String", "int"},					"addUserToGroup"),
 	REMOVEUSERFROMGROUP_JSREQ	(2,		new String[]{"String", "int"},					"removeUserFromGroup"),
 	GETUSERSINGROUP_JSREQ		(1,		new String[]{"int"},							"getUsersInGroup"),
+	
+	//To add next
+	LIKEINGROUP_JSREQ			(4,		new String[]{"String", "int", "String", "int"},	"likeInGroup"),
+	UNLIKEINGROUP_JSREQ			(4,		new String[]{"String", "int", "String", "int"},	"unlikeInGroup"),
+	GETUSERSLIKESINGROUP_JSREQ	(2,		new String[]{"String", "int"},					"getUsersLikesInGroup"),
+	GETALLLIKESINGROUP_JSREQ	(1,		new String[]{"int"},							"getAllLikesInGroup"),
+	
+	//To add
+	
+	
 	UNKNOWN_JSREQ				(0, 	new String[]{""}, 								"unrecognized command");
 	
 	

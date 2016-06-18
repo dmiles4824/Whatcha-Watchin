@@ -1,4 +1,5 @@
 /*******Package*******/
+
 package webserver;
 
 
@@ -16,6 +17,7 @@ import java.util.Date;
 import sqlserver.SQLQueries;
 import sqlserver.SQLQueryWrapper;
 import sqlserver.sqlobjects.SQLDatabase;
+
 
 /**
  * This class extends ServerTools to provide that class with the tools it needs to 
@@ -134,6 +136,18 @@ public class JSTools extends ServerTools {
 		}
 		else if(command.equalsIgnoreCase("getUsersInGroup")){
 			jsRequestType = JSRequestType.GETUSERSINGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("likeInGroup")){
+			jsRequestType = JSRequestType.LIKEINGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("unlikeInGroup")){
+			jsRequestType = JSRequestType.UNLIKEINGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("getUsersLikesInGroup")){
+			jsRequestType = JSRequestType.GETUSERSLIKESINGROUP_JSREQ;
+		}
+		else if(command.equalsIgnoreCase("getAllLikesInGroup")){
+			jsRequestType = JSRequestType.GETALLLIKESINGROUP_JSREQ;
 		}
 		else {
 			jsRequestType = JSRequestType.UNKNOWN_JSREQ;
@@ -619,8 +633,178 @@ public class JSTools extends ServerTools {
 		
 		return response;
 	}
-
-
-
-
+	
+	public static JSResponse likeInGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		try {
+			String username = request.getArguments().get(0);
+			int group_id = Integer.parseInt(request.getArguments().get(1));
+			String title = request.getArguments().get(2);
+			int year = Integer.parseInt(request.getArguments().get(3));
+			
+			//Build wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
+			
+			//Logic
+			if(!wrapper.handleFind(SQLQueries.findUser(username))){
+				status = "NoSuchUser";
+			}
+			else if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
+				status = "NoSuchGroup";
+			}
+			else if(!wrapper.handleFind(SQLQueries.findMovie(title, year))){
+				status = "NoSuchMovie";
+			}			
+			else {
+				if(wrapper.handleUpdate(SQLQueries.addLikeInGroup(username, group_id, title, year))){
+					status =  "OK";
+					stringResponse = username + " now likes (" + title + ", " + year + ") in " + wrapper.handleSingle(SQLQueries.getGroupName(group_id));
+				}
+				else {
+					status = "AddError";
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse unlikeInGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments
+		try {
+			String username = request.getArguments().get(0);
+			int group_id = Integer.parseInt(request.getArguments().get(1));
+			String title = request.getArguments().get(2);
+			int year = Integer.parseInt(request.getArguments().get(3));
+			
+			//Build wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
+			
+			//Logic
+			if(!wrapper.handleFind(SQLQueries.findLikeInGroup(username, group_id, title, year))){
+				status = "NoSuchEntry";
+			}
+			else {
+				if(wrapper.handleUpdate(SQLQueries.removeLikeInGroup(username, group_id, title, year))){
+					status =  "OK";
+					stringResponse = username + " no longer likes (" + title + ", " + year + ") in " + wrapper.handleSingle(SQLQueries.getGroupName(group_id));
+				}
+				else {
+					status = "RemoveError";
+				}
+			}
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse getUsersLikesInGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		try {
+			String username = request.getArguments().get(0);
+			int group_id = Integer.parseInt(request.getArguments().get(1));
+			
+			//Create wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
+			
+			//Logic
+			
+			if(!wrapper.handleFind(SQLQueries.findUser(username))){
+				status = "NoSuchUser";
+			}
+			else if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
+				status = "NoSuchGroup";
+			}
+			else {
+				ArrayList<ArrayList<String>> list = wrapper.handleMultiple(SQLQueries.getUsersLikesInGroup(username, group_id));				
+				if(list.size() == 0){
+					status = "NoLikesInGroup";
+				}
+				else {
+					status = "OK";
+					stringResponse = ParseTools.breakdownDoubleArrayListByLine(list);
+				}
+			}
+			
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
+	
+	public static JSResponse getAllLikesInGroup(JSRequest request) throws SQLException{
+		
+		//Declarations
+		JSResponse response;
+		String stringResponse = "";
+		String status = "";
+		JSRequestType command = request.getCommand();
+		
+		//Arguments - assume correct number
+		try {
+			int group_id = Integer.parseInt(request.getArguments().get(0));
+			
+			//Create wrapper
+			SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
+			
+			//Logic
+			
+			if(!wrapper.handleFind(SQLQueries.findGroup(group_id))){
+				status = "NoSuchGroup";
+			}
+			else {
+				ArrayList<ArrayList<String>> list = wrapper.handleMultiple(SQLQueries.getAllLikesInGroup(group_id));				
+				if(list.size() == 0){
+					status = "NoLikesInGroup";
+				}
+				else {
+					status = "OK";
+					stringResponse = ParseTools.breakdownDoubleArrayListByLine(list);
+				}
+			}
+			
+		}
+		catch(NumberFormatException e){
+			status = "BadArgFormat";
+		}
+		
+		response = new JSResponse(command, stringResponse, status);
+		
+		return response;
+	}
 }

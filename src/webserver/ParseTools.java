@@ -422,6 +422,20 @@ public class ParseTools extends ServerTools {
 		
 	}
 	
+	public static String breakdownDoubleArrayListByLine(ArrayList<ArrayList<String>> list){
+		
+		StringBuilder builder  = new StringBuilder();
+		
+		for(ArrayList<String> alst : list){
+			for(String s : alst){
+				builder.append(s);
+				builder.append('\n');
+			}
+			builder.append('\n');
+		}
+		
+		return builder.toString();
+	}
 	
 }
 

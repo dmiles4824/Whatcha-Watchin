@@ -400,6 +400,22 @@ public class ServerTools {
 				jsResponse = JSTools.getUsersInGroup(jsRequest);
 				break;
 				
+			case LIKEINGROUP_JSREQ:
+				jsResponse = JSTools.likeInGroup(jsRequest);
+				break;
+			
+			case UNLIKEINGROUP_JSREQ:
+				jsResponse = JSTools.unlikeInGroup(jsRequest);
+				break;
+				
+			case GETUSERSLIKESINGROUP_JSREQ:
+				jsResponse = JSTools.getUsersLikesInGroup(jsRequest);
+				break;
+				
+			case GETALLLIKESINGROUP_JSREQ:
+				jsResponse = JSTools.getAllLikesInGroup(jsRequest);
+				break;
+				
 			case UNKNOWN_JSREQ:
 				jsResponse = JSResponse.jsError(jsRequest.getCommand(), new JSException("Unknown JS error"));
 				break;

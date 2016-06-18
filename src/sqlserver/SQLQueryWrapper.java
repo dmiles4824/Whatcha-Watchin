@@ -105,82 +105,27 @@ public class SQLQueryWrapper {
 		
 	}
 	
-	
-	
-	
-	//	Find
-	
-	public boolean findUser(String username) throws SQLException {
-		return handleFind(SQLQueries.findUser(username));
-	}
-	
-	public boolean findGroup(int group_id) throws SQLException {
-		return handleFind(SQLQueries.findGroup(group_id));
-	}
-	
-	public boolean findMovie(String title, int year) throws SQLException {
-		return handleFind(SQLQueries.findMovie(title, year));
-	}
-	
-	public boolean findMember(String username, int group_id) throws SQLException {
-		return handleFind(SQLQueries.findMember(username, group_id));
-	}
-	
-	//
-	
-	public ArrayList<String> getUsersGroups(String username) throws SQLException{
-		return handle1D(SQLQueries.getUsersGroups(username));
-	}
-	
-	public ArrayList<String> getUsersInGroup(int group_id) throws SQLException{
-		return handle1D(SQLQueries.getUsersInGroup(group_id));
-	}
-
-	public String getGroupName(int group_id) throws SQLException{
-		return handleSingle(SQLQueries.getGroupName(group_id));
-	}
-	
-	
-	//Updates
-	
-	//	User
-	
-	public boolean addUser(String username, String password) throws SQLException {
-		return handleUpdate(SQLQueries.addUser(username, password));
-	}
-	
-	public boolean removeUser(String username) throws SQLException {
-		return handleUpdate(SQLQueries.removeUser(username));
-	}
-	
-	//	Group
-	
-	public boolean addGroup(String group_name) throws SQLException {
-		return handleUpdate(SQLQueries.addGroup(group_name));
-	}
-	
-	public boolean removeGroup(int group_id) throws SQLException {
-		return handleUpdate(SQLQueries.removeGroup(group_id));
-	}
-	
-	//	Movie
-	
-	public boolean addMovie(String title, int year) throws SQLException {
-		return handleUpdate(SQLQueries.addMovie(title, year));
-	}
-	
-	public boolean removeMovie(String title, int year) throws SQLException {
-		return handleUpdate(SQLQueries.removeMovie(title, year));
-	}
-	
-	//	Member
-	
-	public boolean addMember(String username, int group_id) throws SQLException {
-		return handleUpdate(SQLQueries.addMember(username, group_id));
-	}
-	
-	public boolean removeMember(String username, int group_id) throws SQLException {
-		return handleUpdate(SQLQueries.removeMember(username, group_id));
+	public ArrayList<ArrayList<String>> handleMultiple(String query) throws SQLException {
+		
+		//run query
+		ResultSet rs = executeQuery(query);
+		
+		//Return results
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		boolean hasReachedEnd = false;
+		for(int i = 0; i < Integer.MAX_VALUE && rs.next(); i++){
+			list.add(new ArrayList<String>());
+			for(int j = 0; j < Integer.MAX_VALUE && !hasReachedEnd; j++){
+				try{
+					list.get(i).add(rs.getString(j));
+				}
+				catch(SQLException e) {
+					hasReachedEnd = true;
+				}
+			}
+		}
+		
+		return list;
 	}
 	
 	
