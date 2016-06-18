@@ -477,22 +477,39 @@ public class JSTools extends ServerTools {
 		//Create wrapper
 		SQLQueryWrapper wrapper = new SQLQueryWrapper(SQLDatabase.newWWDatabase(), defaultUsername, defaultPassword);
 		
+		System.out.println("wrapper made");
+		
 		//Logic
 		
 		//If user exists
 		if(wrapper.handleFind(SQLQueries.findUser(username))){
 			
+			System.out.println("user found");
+			
 			ArrayList<String> list = wrapper.handle1D(SQLQueries.getUsersGroups(username));					//Retrieve lists of groups
 			
+			System.out.println("query run");
+			
 			if(list.size() == 0){
+				
+				System.out.println("no groups");
+				
 				status = "NoGroups";
 			}
 			else {
+				
+				System.out.println("success on execute");
+				
 				status = "OK";
 				stringResponse = ParseTools.breakdownArrayListByLine(list);				//Turn into string form
+				
+				System.out.println("success on format");
 			}
 		}
 		else {
+			
+			System.out.println("no such user");
+			
 			status = "NoSuchUser";
 		}
 		
