@@ -249,7 +249,7 @@ public class SQLQueries {
 	public static String getUsersLikesInGroup(String username, int group_id) {
 		
 		String query =    "select `title`, `year` "
-						+ "from `LikeInGroup` "
+						+ "from `wwschema`.`LikeInGroup` "
 						+ "where `username` = " + q(username)
 						+ " AND `group_id` = " + group_id
 						+ ";"
@@ -262,7 +262,7 @@ public class SQLQueries {
 	public static String getAllLikesInGroup(int group_id) {
 	
 	String query =    "select distinct `title`, `year` "
-					+ "from `LikeInGroup` "
+					+ "from `wwschema`.`LikeInGroup` "
 					+ "where `group_id` = " + group_id
 					+ ";"
 					;

@@ -7,36 +7,44 @@ public enum JSRequestType {
 	//Done
 	
 	//Non-JS
-	CAPITALIZE_JSREQ 			(1, 	new String[]{"String"}, 						"capitalize"),
-	ECHO_JSREQ					(1, 	new String[]{"String"}, 						"echo"),
-	HELP_JSREQ					(0, 	new String[]{""}, 								"help"),
-	HELLO_JSREQ					(0, 	new String[]{""}, 								"hello"),
+	CAPITALIZE_JSREQ 				(1, 	new String[]{"String:any"}, 																"capitalize"),
+	ECHO_JSREQ						(1, 	new String[]{"String:any"}, 																"echo"),
+	HELP_JSREQ						(0, 	new String[]{""}, 																			"help"),
+	HELLO_JSREQ						(0, 	new String[]{""}, 																			"hello"),
 	
 	//User
-	ADDUSER_JSREQ				(2, 	new String[]{"String", "String"},				"addUser"),
-	REMOVEUSER_JSREQ			(1, 	new String[]{"String"},							"removeUser"),
+	ADDUSER_JSREQ					(2, 	new String[]{"String:username", "String:password"},											"addUser"),
+	REMOVEUSER_JSREQ				(1, 	new String[]{"String:username"},															"removeUser"),
 	
 	//Group
-	ADDGROUP_JSREQ				(1,		new String[]{"String"},							"addGroup"),
-	REMOVEGROUP_JSREQ			(1,		new String[]{"int"},							"removeGroup"),
+	ADDGROUP_JSREQ					(1,		new String[]{"String:group_name"},															"addGroup"),
+	REMOVEGROUP_JSREQ				(1,		new String[]{"int:group_id"},																"removeGroup"),
 	
 	//Movie
-	ADDMOVIE_JSREQ				(2,		new String[]{"String", "int"},					"addMovie"),
-	REMOVEMOVIE_JSREQ			(2,		new String[]{"String", "int"},					"removeMovie"),
+	ADDMOVIE_JSREQ					(2,		new String[]{"String:title", "int:year"},													"addMovie"),
+	REMOVEMOVIE_JSREQ				(2,		new String[]{"String:title", "int:year"},													"removeMovie"),
 	
 	//Usergroup
-	GETUSERSGROUPS_JSREQ		(1, 	new String[]{"String"}, 						"getUsersGroups"),
-	ADDUSERTOGROUP_JSREQ		(2,		new String[]{"String", "int"},					"addUserToGroup"),
-	REMOVEUSERFROMGROUP_JSREQ	(2,		new String[]{"String", "int"},					"removeUserFromGroup"),
-	GETUSERSINGROUP_JSREQ		(1,		new String[]{"int"},							"getUsersInGroup"),
+	GETUSERSGROUPS_JSREQ			(1, 	new String[]{"String:username"}, 															"getUsersGroups"),
+	ADDUSERTOGROUP_JSREQ			(2,		new String[]{"String:username", "int:group_id"},											"addUserToGroup"),
+	REMOVEUSERFROMGROUP_JSREQ		(2,		new String[]{"String:username", "int:group_id"},											"removeUserFromGroup"),
+	GETUSERSINGROUP_JSREQ			(1,		new String[]{"int:group_id"},																"getUsersInGroup"),
 	
-	//To add next
-	LIKEINGROUP_JSREQ			(4,		new String[]{"String", "int", "String", "int"},	"likeInGroup"),
-	UNLIKEINGROUP_JSREQ			(4,		new String[]{"String", "int", "String", "int"},	"unlikeInGroup"),
-	GETUSERSLIKESINGROUP_JSREQ	(2,		new String[]{"String", "int"},					"getUsersLikesInGroup"),
-	GETALLLIKESINGROUP_JSREQ	(1,		new String[]{"int"},							"getAllLikesInGroup"),
+	//LikeInGroup
+	LIKEINGROUP_JSREQ				(4,		new String[]{"String:username", "int:group_id", "String:title", "int:year"},				"likeInGroup"),
+	UNLIKEINGROUP_JSREQ				(4,		new String[]{"String:username", "int:group_id", "String:title", "int:year"},				"unlikeInGroup"),
+	GETUSERSLIKESINGROUP_JSREQ		(2,		new String[]{"String:username", "int:group_id"},											"getUsersLikesInGroup"),
+	GETALLLIKESINGROUP_JSREQ		(1,		new String[]{"int:group_id"},																"getAllLikesInGroup"),
+	
+	//Watched
+	WATCHINGROUP_JSREQ				(3,		new String[]{"int:group_id", "String:title", "int:year"},									"watchInGroup"),
+	UNWATCHINGROUP_JSREQ			(3,		new String[]{"int:group_id", "String:title", "int:year"},									"unwatchInGroup"),
+	GETMOVIESWATCHEDINGROUP_JSREQ	(1,		new String[]{"int:group_id"},																"getMoviesWatchedInGroup"),
+	
 	
 	//To add
+	
+	//Interested
 	
 	
 	UNKNOWN_JSREQ				(0, 	new String[]{""}, 								"unrecognized command");

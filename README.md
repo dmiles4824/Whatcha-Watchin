@@ -34,11 +34,11 @@ Store buffer of previous responses
 /sqlserver/
 
 Tighten up all the insertions and deletions (less repetition)
-Move SQLQueries calls to JSTools from SQLQueryWrapper
 
 /database/
 
+Make sure that no \n or other weird characters get in the database
 Admin features
 Link IMDB
-likeInGroup
 Watched
+Interested

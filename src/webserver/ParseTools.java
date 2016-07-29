@@ -23,9 +23,10 @@ public class ParseTools extends ServerTools {
 	/*******Static Methods*******/
 	
 	/**
-	 * Extracts all headers from an input stream holding an HTTP Message
-	 * @param is
-	 * @return
+	 * Extracts all headers from an input stream holding an HTTP Message. 
+	 * 
+	 * @param is the InputStream to be read from. Ideally holding an HTTPMessage
+	 * @return String array of the headers
 	 * @throws WebException
 	 */
 	public static String[] extractHTTPHeaders(InputStream is, byte[] headerBuffer) throws WebException{
@@ -52,6 +53,8 @@ public class ParseTools extends ServerTools {
 	public static boolean endOfHeader(byte[] buffer, int lastValue) {
 		
 		if(lastValue >= 3 && lastValue < buffer.length) {									//If less than four values in buffer, can't have reached end
+			
+			//Will register as end of header iff buffer[lastValue] and preceding three characters match "\r\n\r\n"
 			if(		buffer[lastValue    ] == '\n' &&
 					buffer[lastValue - 1] == '\r' &&
 					buffer[lastValue - 2] == '\n' &&

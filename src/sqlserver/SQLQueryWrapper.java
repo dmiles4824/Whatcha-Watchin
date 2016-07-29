@@ -115,7 +115,7 @@ public class SQLQueryWrapper {
 		boolean hasReachedEnd = false;
 		for(int i = 0; i < Integer.MAX_VALUE && rs.next(); i++){
 			list.add(new ArrayList<String>());
-			for(int j = 0; j < Integer.MAX_VALUE && !hasReachedEnd; j++){
+			for(int j = 1; j < Integer.MAX_VALUE && !hasReachedEnd; j++){
 				try{
 					list.get(i).add(rs.getString(j));
 				}
